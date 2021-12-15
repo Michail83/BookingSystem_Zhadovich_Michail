@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.WEB", "BookingSystem.WEB\BookingSystem.WEB.csproj", "{C22CF758-D41E-4BC1-86D6-C246B4F72ACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingSystem.WEB", "BookingSystem.WEB\BookingSystem.WEB.csproj", "{C22CF758-D41E-4BC1-86D6-C246B4F72ACE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AADAD9FA-2F34-43F7-90B4-299B36CD82B3} = {AADAD9FA-2F34-43F7-90B4-299B36CD82B3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.DataLayer", "BookingSystem.DataLayer\BookingSystem.DataLayer.csproj", "{EEDC7140-1F96-4EA2-8CFF-A9934A892C03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingSystem.DataLayer", "BookingSystem.DataLayer\BookingSystem.DataLayer.csproj", "{EEDC7140-1F96-4EA2-8CFF-A9934A892C03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.BusinessLogic", "BookingSystem.BusinessLogic\BookingSystem.BusinessLogic.csproj", "{AADAD9FA-2F34-43F7-90B4-299B36CD82B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingSystem.BusinessLogic", "BookingSystem.BusinessLogic\BookingSystem.BusinessLogic.csproj", "{AADAD9FA-2F34-43F7-90B4-299B36CD82B3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EEDC7140-1F96-4EA2-8CFF-A9934A892C03} = {EEDC7140-1F96-4EA2-8CFF-A9934A892C03}
 	EndProjectSection
