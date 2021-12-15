@@ -8,6 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookingSystem.BusinessLogic;
+using BookingSystem.BusinessLogic.BusinesLogicModels;
+using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.WEB.Services;
+using BookingSystem.WEB.Models;
 
 namespace BookingSystem.WEB
 {
@@ -24,6 +29,8 @@ namespace BookingSystem.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddBusinessLayerServices(Configuration);
+            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +59,10 @@ namespace BookingSystem.WEB
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
