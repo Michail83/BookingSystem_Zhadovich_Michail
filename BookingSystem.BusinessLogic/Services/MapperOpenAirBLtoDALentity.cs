@@ -16,10 +16,10 @@ namespace BookingSystem.BusinessLogic.Services
             return new OpenAir 
             {
                 Id = incoming.Id, 
-                AmounOfTicket = incoming.AmounOfTicket,
+                AmounOfTicket = incoming.AmountOfTickets,
                 Date = incoming.Date,
                 HeadLiner = incoming.HeadLiner, 
-                IventName = incoming.IventName, 
+                IventName = incoming.EventName, 
                 Place = incoming.Place
             };
         }

@@ -12,10 +12,10 @@ namespace BookingSystem.WEB.StaticClasses
             return new ArtEventViewModel
             {
                 Id = ArtEvent.Id,
-                IventName = ArtEvent.IventName,
+                IventName = ArtEvent.EventName,
                 Date = ArtEvent.Date,
                 Place = ArtEvent.Place,
-                AmounOfTicket = ArtEvent.AmounOfTicket
+                AmounOfTicket = ArtEvent.AmountOfTickets
             };
         }
         public static ArtEventViewModel ConvertFromClassicMusicEventBL(ClassicMusicBL classicMusicBL)

@@ -14,13 +14,16 @@ using Microsoft.EntityFrameworkCore;
 using BookingSystem.WEB.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-
+using Microsoft.AspNetCore.Cors;
+using System.Diagnostics;
+using BookingSystem.DataLayer.Exceptions;
 
 
 namespace BookingSystem.WEB.API
 {
     [Route("apiArtEvents")]
     [ApiController]
+    [EnableCors("LocalForDevelopmentAllowAll")]
     public class ArtEventsController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<ArtEventBL> _artEventBLService;
@@ -29,9 +32,9 @@ namespace BookingSystem.WEB.API
         {
             _artEventBLService = artEventBLService;
             _mapperToViewModel = mapperToViewModel;
+           
         }
-        // GET: api/<ArtEventsController>        
-        //[Produces("application/json")]
+       
         [Route("GetAllArtEvents")]
         [HttpGet]
         public async Task<ActionResult<ArtEventViewModel>> Get([FromQuery] PagesState pageStatus = null)
@@ -42,8 +45,9 @@ namespace BookingSystem.WEB.API
 
             foreach (var item in QueryResult)
             {
-                response.Add(_mapperToViewModel.Map(item));
+                response.Add(_mapperToViewModel.Map(item));    //  add method to mapper???
             }
+            #region maybeEject
             var pageInfo = new
             {
                 QueryResult.TotalItemsCount,
@@ -54,41 +58,42 @@ namespace BookingSystem.WEB.API
                 QueryResult.HasPrevious
             };
             HttpContext.Response.Headers.Add("PageStateInfo", JsonSerializer.Serialize(pageInfo));
+            #endregion maybeEject
             return Ok(response);
-        }
-
-        
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<ArtEventBL>>> Get()
-        //{
-        //    return  await _artEventBLService.GetAll(null); ;
-        //}
-
-        // GET api/<ArtEventsController>/5
-        [HttpGet]
-        [Route("GetArtEvents")]
-        public async Task<ArtEventViewModel> Get(int id)
+        }        
+       
+        [HttpGet]     
+        public async Task<ActionResult<ArtEventViewModel>> Get(int id)
         {
-            return _mapperToViewModel.Map(await _artEventBLService.GetAsync(id));
-        }
+            try
+            {
+                return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
+            }
+            catch (EFCoreDbException ex)
+            {
+                Debug.WriteLine(ex.Message); //   ToDo       - delete after 
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message); //   ToDo       - delete after 
+                return BadRequest();
+            }            
+        }        
 
-        //// POST api/<ArtEventsController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT api/<ArtEventsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        // DELETE api/<ArtEventsController>/5
         [HttpDelete]
-        public async Task Delete([FromQuery]int id)
+        public async Task<ActionResult> Delete([FromQuery]int id)
         {
-           await _artEventBLService.DeleteAsync(id);
+            try
+            {
+                await _artEventBLService.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);//ToDo     change Exception
+                return NotFound();    
+            }
+            return Ok();
         }
     }
 }

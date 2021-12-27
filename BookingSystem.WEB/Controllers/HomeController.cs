@@ -20,7 +20,8 @@ namespace BookingSystem.WEB.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("~/index.html");
+            //return Redirect("~/index.html");
+            return View();
         }
 
         public IActionResult Privacy()

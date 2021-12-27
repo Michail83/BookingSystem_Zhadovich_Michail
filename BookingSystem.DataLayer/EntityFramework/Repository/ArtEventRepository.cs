@@ -22,25 +22,25 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             _dBContext = dBContext;
             _dbSet = _dBContext.Set<ArtEvent>();
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="artEvent"></param>
         /// <returns></returns>
         /// <exception cref="EFCoreDbException"></exception>
-        public async Task CreateAsync(ArtEvent artEvent)
+        public  Task CreateAsync(ArtEvent artEvent)
         {
-            try
-            {
-                await _dbSet.AddAsync(artEvent);
+             throw new Exception("Not supported  -  ArtEventRepository : IRepositoryAsync<ArtEvent>==  CreateAsync ");
+            //try
+            //{
+            //    await _dbSet.AddAsync(artEvent);
 
-            }
-            catch (SqlException sqlEx)
-            {
-
-                throw new EFCoreDbException(sqlEx.Message);
-                // реализовать исключение потому что дольше не надо знать sqlException
-            }
+            //}
+            //catch (SqlException sqlEx)
+            //{
+            //    throw new EFCoreDbException(sqlEx.Message);                
+            //}
 
         }
         /// <summary>
@@ -51,8 +51,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         /// <exception cref="EventNotFoundException"></exception>
         /// <exception cref="EFCoreDbException"></exception>
         public async Task DeleteAsync(int ID)
-        {
-            
+        {            
             try
             {
                 ArtEvent artEventForRemove = await _dbSet.FirstOrDefaultAsync(artEvent =>artEvent.Id == ID);
@@ -70,7 +69,6 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                 throw new EFCoreDbException(sqlEx.Message);
                 // реализовать исключение потому что дольше не надо знать sqlException
             }
-
         }
 
         public IQueryable<ArtEvent> GetAll()
@@ -91,22 +89,22 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                 return await _dbSet.FirstAsync(x=>x.Id ==ID);
 
             }
-            catch (InvalidOperationException Ex)
-            {
+            //catch (ArgumentNullException Ex)     //!!!!!!!!    Ловить в контроллере?!?
+            //{
 
-                throw new EFCoreDbException(Ex.Message+ "Not Found");
-            }
+            //    throw new EFCoreDbException(Ex.Message+ "Not Found");
+            //}
             catch (SqlException sqlEx)
             {
 
                 throw new EFCoreDbException(sqlEx.Message); 
-            }
-           
+            }           
         }
 
-        public Task UpdateAsync(ArtEvent artEvent)
+        public  Task UpdateAsync(ArtEvent artEvent)
         {
-            throw new NotImplementedException();
+             throw new NotImplementedException("Not Supported - ArtEventRepository : IRepositoryAsync<ArtEvent>  == UpdateAsync");
+
         }
     }
 }

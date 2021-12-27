@@ -23,7 +23,7 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public override string ToJsonArtEvent()
         {
             return JsonSerializer.Serialize(
-                new { this.Id, this.IventName, this.Date, this.AmounOfTicket, this.Place, additionInfo = new[] { this.Voice, this.ConcertName } });             
+                new { this.Id, this.EventName, this.Date, this.AmountOfTickets, this.Place, additionInfo = new[] { this.Voice, this.ConcertName } });             
         }
     }
 }

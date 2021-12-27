@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using BookingSystem.WEB.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,6 +22,7 @@ namespace BookingSystem.WEB.API
 {
     [Route("api/openair")]
     [ApiController]
+    [EnableCors("LocalForDevelopmentAllowAll")]
     public class OpenAirControllercs : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<OpenAirBL> _openAirService;
@@ -60,9 +62,11 @@ namespace BookingSystem.WEB.API
 
         // POST api/<OpenAirControllercs>
         [HttpPost]
-        public async Task Post([FromForm] OpenAirBL openAirBL)
+        public IActionResult Post([FromBody] OpenAirBL openAirBL)
         {
-            await _openAirService.CreateAsync(openAirBL);
+            //await _openAirService.CreateAsync(openAirBL);
+            Console.WriteLine(openAirBL.AmountOfTickets);
+            return Ok(openAirBL);
         }
 
         // PUT api/<OpenAirControllercs>/5

@@ -37,6 +37,22 @@ namespace BookingSystem.WEB
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
 
             services.AddMemoryCache();
+
+            services.AddCors(options => 
+            {
+                options.AddPolicy("LocalForDevelopment", builder =>
+                {
+                    builder.WithOrigins("https://localhost:44324");
+                });
+                
+                options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                  
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                    });
+            });
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddReact();
             //services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
@@ -59,6 +75,7 @@ namespace BookingSystem.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 

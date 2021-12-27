@@ -11,8 +11,8 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
     public class ArtEventBL
     {
         public int Id { get; set; }
-        public string IventName { get; set; }
-        public int AmounOfTicket { get; set; }
+        public string EventName { get; set; }
+        public int AmountOfTickets { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
 
@@ -22,8 +22,8 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public ArtEventBL(ArtEvent ivent)
         {
             this.Id = ivent.Id;
-            this.IventName = ivent.IventName;
-            this.AmounOfTicket = ivent.AmounOfTicket;
+            this.EventName = ivent.IventName;
+            this.AmountOfTickets = ivent.AmounOfTicket;
             this.Date = ivent.Date;
             this.Place = ivent.Place;
         }
