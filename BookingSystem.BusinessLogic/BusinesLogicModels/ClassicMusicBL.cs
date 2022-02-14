@@ -13,6 +13,8 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
     {
         public string Voice { get; set; }
         public string ConcertName { get; set; }
+        public ClassicMusicBL() : base()
+        { }
 
         public ClassicMusicBL(ClassicMusic classicMusic) : base(classicMusic)
         {
@@ -20,10 +22,6 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
             this.ConcertName = classicMusic.ConcertName;
         }
 
-        public override string ToJsonArtEvent()
-        {
-            return JsonSerializer.Serialize(
-                new { this.Id, this.EventName, this.Date, this.AmountOfTickets, this.Place, additionInfo = new[] { this.Voice, this.ConcertName } });             
-        }
+        
     }
 }

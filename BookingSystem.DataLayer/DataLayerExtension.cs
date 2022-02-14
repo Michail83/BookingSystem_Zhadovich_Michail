@@ -22,8 +22,17 @@ namespace BookingSystem.DataLayer
             service.AddDbContext<BookingSystemDBContext>(option =>
             option.UseSqlServer(configuration.GetConnectionString("defaultLocalConnection")));
 
-            service.AddScoped<IRepositoryAsync<OpenAir>,OpenAirRepository>();
+            
+
             service.AddScoped<IRepositoryAsync<ArtEvent>, ArtEventRepository>();
+
+            service.AddScoped<IRepositoryAsync<OpenAir>, OpenAirRepository>();   // ToDo  Change to generic
+
+            service.AddScoped<IRepositoryAsync<Party>, GenericConcreteRepository<Party>>();
+            service.AddScoped<IRepositoryAsync<ClassicMusic>, GenericConcreteRepository<ClassicMusic>>();
+            
+
+
 
             return service;
         }
