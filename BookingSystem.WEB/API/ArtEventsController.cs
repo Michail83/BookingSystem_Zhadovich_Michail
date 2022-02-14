@@ -21,7 +21,7 @@ using BookingSystem.DataLayer.Exceptions;
 
 namespace BookingSystem.WEB.API
 {
-    [Route("apiArtEvents")]
+    [Route("ArtEvents")]
     [ApiController]
     [EnableCors("LocalForDevelopmentAllowAll")]
     public class ArtEventsController : ControllerBase
@@ -35,39 +35,51 @@ namespace BookingSystem.WEB.API
            
         }
        
-        [Route("GetAllArtEvents")]
+        //[Route("GetAll")]
         [HttpGet]
         public async Task<ActionResult<ArtEventViewModel>> Get([FromQuery] PagesState pageStatus = null)
         {
-            PagesState _artEventBLPagesStatus = pageStatus ?? new PagesState();
-            var QueryResult = await _artEventBLService.GetAllAsync(_artEventBLPagesStatus);
-            List<ArtEventViewModel> response = new();
+            try
+            {
+                PagesState _artEventBLPagesStatus = pageStatus ?? new PagesState();
+                var QueryResult = await _artEventBLService.GetAllAsync(_artEventBLPagesStatus);
 
-            foreach (var item in QueryResult)
-            {
-                response.Add(_mapperToViewModel.Map(item));    //  add method to mapper???
+                List<ArtEventViewModel> response = new();
+                foreach (var item in QueryResult)
+                {
+                    response.Add(_mapperToViewModel.Map(item));    //  add method to mapper???
+                }
+                #region AddPageStateInfoToHeader
+                var pageInfo = new
+                {
+                    QueryResult.TotalItemsCount,
+                    QueryResult.PageSize,
+                    QueryResult.CurrentPage,
+                    QueryResult.TotalPages,
+                    QueryResult.HasNext,
+                    QueryResult.HasPrevious
+                };
+                HttpContext.Response.Headers.Add("PageStateInfo", JsonSerializer.Serialize(pageInfo));
+                #endregion AddPageStateInfoToHeader
+                return Ok(response);
             }
-            #region maybeEject
-            var pageInfo = new
+            catch (Exception ex)
             {
-                QueryResult.TotalItemsCount,
-                QueryResult.PageSize,
-                QueryResult.CurrentPage,
-                QueryResult.TotalPages,
-                QueryResult.HasNext,
-                QueryResult.HasPrevious
-            };
-            HttpContext.Response.Headers.Add("PageStateInfo", JsonSerializer.Serialize(pageInfo));
-            #endregion maybeEject
-            return Ok(response);
+                System.Diagnostics.Debug.WriteLine(GetType()+"      " +ex.Message);
+                return BadRequest();
+            }            
         }        
        
-        [HttpGet]     
+        [HttpGet("{id}")]     
         public async Task<ActionResult<ArtEventViewModel>> Get(int id)
         {
             try
             {
                 return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
+            }
+            catch (EventNotFoundException) 
+            {
+                return NotFound($"ArtEvent { id}  not found");
             }
             catch (EFCoreDbException ex)
             {
@@ -80,20 +92,24 @@ namespace BookingSystem.WEB.API
                 return BadRequest();
             }            
         }        
-
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromQuery]int id)
+        //[ActionName("Del")]  ////////////
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 await _artEventBLService.DeleteAsync(id);
+                return Ok(id);
+            }
+            catch (EventNotFoundException) 
+            {
+                return NotFound(id);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);//ToDo     change Exception
-                return NotFound();    
-            }
-            return Ok();
+                Debug.WriteLine(GetType() + ex.Message);//ToDo     change Exception
+                return BadRequest();
+            }            
         }
     }
 }

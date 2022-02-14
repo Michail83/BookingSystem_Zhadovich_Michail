@@ -13,15 +13,11 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
     {
         public string HeadLiner { get; set; }
 
-        public OpenAirBL():base()
+        public OpenAirBL():base()  
         { }
         public OpenAirBL(OpenAir openAir) : base(openAir)
         {
             this.HeadLiner = openAir.HeadLiner;
-        }
-        public override string ToJsonArtEvent()
-        {
-            return  JsonSerializer.Serialize(this);
-        }
+        }        
     }
 }

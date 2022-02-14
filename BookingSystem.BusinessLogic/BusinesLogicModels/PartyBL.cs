@@ -12,14 +12,13 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
     public class PartyBL : ArtEventBL
     {
         public int AgeLimitation { get; set; }
+        public PartyBL() : base()
+        { }
 
         public PartyBL(Party party) : base(party)
         {
             this.AgeLimitation = party.AgeLimitation;
         }
-        public override string ToJsonArtEvent()
-        {
-            return  JsonSerializer.Serialize(new { this.Id, this.EventName, this.Date, this.AmountOfTickets, this.Place, additionInfo = new[] { this.AgeLimitation } });
-        }
+        
     }
 }
