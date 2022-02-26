@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingSystem.BusinessLogic
 		{EEDC7140-1F96-4EA2-8CFF-A9934A892C03} = {EEDC7140-1F96-4EA2-8CFF-A9934A892C03}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.Infrastructure", "BookingSystem.Infrastructure\BookingSystem.Infrastructure.csproj", "{A3D53D68-6715-477F-9CCD-45B6F748282F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AADAD9FA-2F34-43F7-90B4-299B36CD82B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AADAD9FA-2F34-43F7-90B4-299B36CD82B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AADAD9FA-2F34-43F7-90B4-299B36CD82B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D53D68-6715-477F-9CCD-45B6F748282F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D53D68-6715-477F-9CCD-45B6F748282F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D53D68-6715-477F-9CCD-45B6F748282F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D53D68-6715-477F-9CCD-45B6F748282F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

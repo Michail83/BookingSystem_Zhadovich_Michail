@@ -4,16 +4,26 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Google
+
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.WEB.Services;
 using BookingSystem.WEB.Models;
-using Microsoft.AspNetCore.Http;
+using BookingSystem.Infrastructure.Authentication;
+
+using BookingSystem.Infrastructure.JWT;
+
 using React.AspNet;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
@@ -32,8 +42,34 @@ namespace BookingSystem.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            //extract
+            var secret = Configuration.GetSection("JwtConfig").GetSection("secret").Value;
+
+            var key = Encoding.ASCII.GetBytes(secret);
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = Configuration.GetSection("JwtConfig").GetSection("issuer").Value,
+                    ValidAudience = Configuration.GetSection("JwtConfig").GetSection("audience").Value
+                };
+            });
+
             services.AddControllersWithViews();
-            services.AddBusinessLayerServices(Configuration);
+            services.AddBusinessLayerAndDataLayerServices(Configuration);
+            services.ADDInfrastructureServices(Configuration);
+
+
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
 
             services.AddMemoryCache();
@@ -75,10 +111,10 @@ namespace BookingSystem.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors();
             //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapControllerRoute(
