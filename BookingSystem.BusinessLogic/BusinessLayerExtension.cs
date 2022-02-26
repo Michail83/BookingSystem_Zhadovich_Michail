@@ -16,7 +16,7 @@ namespace BookingSystem.BusinessLogic
 {
     public static class BusinessLayerExtension
     {
-        public static IServiceCollection AddBusinessLayerServices(this IServiceCollection servises, IConfiguration configuration)
+        public static IServiceCollection AddBusinessLayerAndDataLayerServices(this IServiceCollection servises, IConfiguration configuration)
         {
             servises.AddDataLayerService(configuration);
 
