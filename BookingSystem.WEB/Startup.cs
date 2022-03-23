@@ -1,13 +1,21 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.Google
+
+//using Google.Apis.Auth.AspNetCore3;
+
 
 using System;
 using System.Text;
@@ -24,9 +32,8 @@ using BookingSystem.Infrastructure.Authentication;
 
 using BookingSystem.Infrastructure.JWT;
 
-using React.AspNet;
-using JavaScriptEngineSwitcher.ChakraCore;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+
+
 
 namespace BookingSystem.WEB
 {
@@ -42,36 +49,30 @@ namespace BookingSystem.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-            //extract
-            var secret = Configuration.GetSection("JwtConfig").GetSection("secret").Value;
-
-            var key = Encoding.ASCII.GetBytes(secret);
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.TokenValidationParameters = new TokenValidationParameters
+            services.ADDInfrastructureServices(Configuration);            
+            services.AddAuthentication()
+                .AddGoogle("google",options => 
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = Configuration.GetSection("JwtConfig").GetSection("issuer").Value,
-                    ValidAudience = Configuration.GetSection("JwtConfig").GetSection("audience").Value
-                };
-            });
+                    var authData = Configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = authData ["ClientId"];
+                    options.ClientSecret = authData["ClientSecret"];
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                })
+                .AddFacebook("facebook", options=>
+                {
+                    var authData = Configuration.GetSection("Authentication:Facebook");
+
+                    options.ClientId = authData["ClientId"];
+                    options.ClientSecret = authData["ClientSecret"];
+                    options.SignInScheme = IdentityConstants.ExternalScheme;                             
+                });
 
             services.AddControllersWithViews();
-            services.AddBusinessLayerAndDataLayerServices(Configuration);
-            services.ADDInfrastructureServices(Configuration);
 
+            services.AddBusinessLayerAndDataLayerServices(Configuration);            
 
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
-
             services.AddMemoryCache();
 
             services.AddCors(options => 
@@ -79,22 +80,16 @@ namespace BookingSystem.WEB
                 options.AddPolicy("LocalForDevelopment", builder =>
                 {
                     builder.WithOrigins("https://localhost:44324");
-                });
-                
+                });                
                 options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
-                  
+                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */               
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                     });
-            });
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddReact();
-            //services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
+            });            
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
