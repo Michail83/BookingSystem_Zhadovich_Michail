@@ -35,6 +35,8 @@ namespace BookingSystem.BusinessLogic
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<OpenAirBL>, OpenAirBLService>();
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<PartyBL>, PartyBLService>();
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<ClassicMusicBL>, ClassicMusicBLService>();
+            
+            servises.AddScoped<CheckCartItemService>();
 
 
 
