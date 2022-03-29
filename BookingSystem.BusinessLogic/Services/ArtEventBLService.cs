@@ -75,5 +75,18 @@ namespace BookingSystem.BusinessLogic.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<List<ArtEventBL>> GetListOfArtEvent(IEnumerable<int> incomingIDs)
+        {
+
+            var artEventList = await _repository.GetAll().Where(artEvent => incomingIDs.Contains(artEvent.Id)).ToListAsync();
+
+            List<ArtEventBL> artEventListBL = new(); 
+            foreach (var item in artEventList)
+            {
+                artEventListBL.Add(_mapperToBL.Map(item));
+            }
+
+            return artEventListBL;
+        }
     }
 }
