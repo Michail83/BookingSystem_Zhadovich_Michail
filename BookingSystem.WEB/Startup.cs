@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.IdentityModel.Tokens;
 
 //using Google.Apis.Auth.AspNetCore3;
@@ -28,12 +29,9 @@ using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.WEB.Services;
 using BookingSystem.WEB.Models;
-using BookingSystem.Infrastructure.Authentication;
 
 using BookingSystem.Infrastructure.JWT;
-
-
-
+using BookingSystem.Infrastructure;
 
 namespace BookingSystem.WEB
 {
@@ -73,6 +71,7 @@ namespace BookingSystem.WEB
             services.AddBusinessLayerAndDataLayerServices(Configuration);            
 
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
+
             services.AddMemoryCache();
 
             services.AddCors(options => 
@@ -83,11 +82,16 @@ namespace BookingSystem.WEB
                 });                
                 options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */               
+                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */   
+                    //.AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                     });
-            });            
+            });
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -119,6 +123,15 @@ namespace BookingSystem.WEB
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

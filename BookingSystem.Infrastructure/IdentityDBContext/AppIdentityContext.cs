@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using BookingSystem.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookingSystem.Infrastructure.Authentication.IdentityDBContext
+namespace BookingSystem.Infrastructure.IdentityDBContext
 {
     public class AppIdentityContext : IdentityDbContext<User>
     {
-        public AppIdentityContext(DbContextOptions<AppIdentityContext> options) :base(options)
+        public AppIdentityContext(DbContextOptions<AppIdentityContext> options) : base(options)
         { }
     }
 }

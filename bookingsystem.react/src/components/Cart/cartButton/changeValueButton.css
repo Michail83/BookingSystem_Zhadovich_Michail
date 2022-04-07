@@ -1,0 +1,10 @@
+.changeValueButtonGroup button,input{
+    display: inline-flex;
+}
+.changeValueButtonGroup{
+    border-radius: 2px;
+    width: 72%;
+}
+.changeValueButtonGroup input{
+    width: 45%;
+}

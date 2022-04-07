@@ -5,8 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\src\NewFolder1\**" />
+    <Content Remove="ClientApp\src\NewFolder1\**" />
+    <EmbeddedResource Remove="ClientApp\src\NewFolder1\**" />
+    <None Remove="ClientApp\src\NewFolder1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\BookingSystem.BusinessLogic\BookingSystem.BusinessLogic.csproj" />
     <ProjectReference Include="..\BookingSystem.Infrastructure\BookingSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\components\NewFolder\" />
   </ItemGroup>
 
 </Project>
