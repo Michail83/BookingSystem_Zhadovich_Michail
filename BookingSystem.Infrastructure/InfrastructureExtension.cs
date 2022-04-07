@@ -11,15 +11,12 @@ using Microsoft.AspNetCore.Identity;
 
 
 using Microsoft.AspNetCore.Authentication.Google;
-
-
-using BookingSystem.Infrastructure.Authentication.IdentityDBContext;
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.Infrastructure.Interfaces;
 using BookingSystem.Infrastructure.Services;
+using BookingSystem.Infrastructure.IdentityDBContext;
 
-
-namespace BookingSystem.Infrastructure.Authentication
+namespace BookingSystem.Infrastructure
 {
     public static class InfrastructureExtension
     {

@@ -1,0 +1,15 @@
+.active{
+    background-color: aquamarine;
+    border-bottom: 0px;
+}
+#tabs{
+    width: 60vw;
+    margin: auto;
+    
+}
+#tabs div{
+    display: inline-block;
+    font-size: 16px;
+    width: 15em;
+    border: 1px solid black;
+}

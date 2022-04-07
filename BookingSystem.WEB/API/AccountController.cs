@@ -81,7 +81,7 @@ namespace BookingSystem.WEB.API
         //}
 
         [Route("externallogincallback")]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "http://localhost:3000/")
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "http://localhost:5001/")
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
             var email = info?.Principal?.FindFirstValue(ClaimTypes.Email);
@@ -96,8 +96,8 @@ namespace BookingSystem.WEB.API
             if (signInResult.Succeeded)
             {
                 User user =  await _userManager.FindByEmailAsync(email);
-
-                return Redirect(GetUrlWithJWTToken(user))/* Ok($"Succeeded,   signIn result=  {info.LoginProvider} ")*/;
+                return Redirect("https://localhost:5001/");
+                //return Redirect(GetUrlWithJWTToken(user))/* Ok($"Succeeded,   signIn result=  {info.LoginProvider} ")*/;
             }
 
             if (signInResult.IsLockedOut)
@@ -122,7 +122,8 @@ namespace BookingSystem.WEB.API
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect(GetUrlWithJWTToken(user));
+                        return Redirect("https://localhost:5001/");
+                        //return Redirect(GetUrlWithJWTToken(user));
                     }
                 }
                 
@@ -142,7 +143,8 @@ namespace BookingSystem.WEB.API
                         {
                             //TODO: Send an emal for the email confirmation and add a default role as in the Register action
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                            return Redirect(GetUrlWithJWTToken(user));
+                            return Redirect("https://localhost:5001/");
+                            //return Redirect(GetUrlWithJWTToken(user));
                         }
                     }
                 }                
