@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react"
 import { connect } from "react-redux";
 import actionCreator from "../../Store/ActionsCreators/actionCreator"
 
-function LogoutBtn({ setAuthenticatedFalse }) {
+function LogoutBtn({ setAuthFalse }) {
    const  logout= async ()=>{
        try {
            const logoutresult = await axios.get(urls.logout());           
-           if (logoutresult) {
-               console.log(`logout status ${logoutresult.status}`);
-               setAuthenticatedFalse();
+           if (logoutresult.status == 200) {
+               console.log(`logout status  ok`);
+               setAuthFalse();
            }           
        } catch (error) {
            console.log(error)           
@@ -21,12 +21,14 @@ function LogoutBtn({ setAuthenticatedFalse }) {
     );
 }
 
-//const mapStateToProps = (state) => ({
-//    isAuthenticated: state.isAuthenticated
-//});
 const mapDispatchToProps = dispatch => (
     {
-        setAuthenticatedFalse: () => dispatch(actionCreator.setIsAuthenticated(false))
+        setAuthFalse: () => dispatch(actionCreator.setAuth({
+            isAuthenticated: false,
+            userName: "",
+            userEmail: "",
+            isAdmin: false
+        }))
     });
 
 let LogoutBtn_ReduxWrapped = connect(null, mapDispatchToProps)(LogoutBtn);

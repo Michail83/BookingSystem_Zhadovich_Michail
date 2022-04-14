@@ -18,7 +18,7 @@ const AddButton =({id, active, submitHandler})=>{
 }
 
 const mapStateToProps=(state, ownProps)=> ({
-    active: state.cartMap.has(ownProps.id)
+    active: state.cart.cartMap.has(ownProps.id)
  }); 
 const mapDispatchToProps=dispatch=> (
 {        

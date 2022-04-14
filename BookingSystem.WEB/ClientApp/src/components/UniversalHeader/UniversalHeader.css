@@ -1,12 +1,30 @@
-.main-header{
-   
+/* .main-universal-header{
+    width: 90%;
+} */
+.nav-bar{   
     height: 100px;
-    background-color: greenyellow;
+    background-color: aquamarine;
      text-align: center; 
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
 }
-.nav-block{
-    display: inline-block !important;
-    margin: 5px;
-    border: 1px solid black;
-    border-radius: 2px;
+.userNameField{
+    margin: 1vw 1vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items:flex-start 
 }
+    
+    .nav-block {
+        /*display: inline-block !important;*/
+        margin: 5px;
+        padding: 2px;
+        border: 1px solid black;
+        border-radius: 3px;
+        font-size: 2em;
+        background-color: silver;
+        /*margin-left:auto;*/
+    }

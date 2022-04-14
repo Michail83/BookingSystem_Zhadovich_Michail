@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom"
+import "../../UniversalHeader/UniversalHeader"
 
 
 //import urls from "../../API_URL"
@@ -11,10 +12,10 @@ import { connect } from "react-redux";
 const LinkToCartFromHeader= ({cartMap}) => {
    
 
-    let element = <div >Nothing in Cart</div>;
+    let element = <div>Nothing in Cart</div>;
     
        if (!cartMap.size == 0) {   
-        element = <div ><Link to="/cart">Cart</Link></div>
+           element = <Link to="/cart">Cart</Link>
         } 
        return element;
    
@@ -22,7 +23,7 @@ const LinkToCartFromHeader= ({cartMap}) => {
 
 }
 const mapStateToProps=state=> ({    
-    cartMap: state.cartMap        
+    cartMap: state.cart.cartMap
 });
 
 const mapDispatchToProps=dispatch=> (

@@ -159,14 +159,16 @@ namespace BookingSystem.WEB.API
             await _signInManager.SignOutAsync();            
             return Ok();
         }
-        [EnableCors("LocalForDevelopmentAllowAll")]
-        //[Authorize]
+        //[EnableCors("LocalForDevelopmentAllowAll")]
+        [Authorize]
         [Route("loginfo")]
         public  IActionResult LogInfo()
         {
-           var email=   HttpContext.User.FindFirstValue(ClaimTypes.Email);
-           var name = HttpContext.User.FindFirstValue(ClaimTypes.Name);
-           return Ok(new {email, name });
+           var userEmail =   HttpContext.User.FindFirstValue(ClaimTypes.Email);
+           var userName = HttpContext.User.FindFirstValue(ClaimTypes.Name);
+           var isAdmin = HttpContext.User.IsInRole("admin");
+           var isAuthenticated = true;
+           return Ok(new { isAuthenticated, userEmail, userName, isAdmin });
         }
 
         private string GetUrlWithJWTToken(User user, string urlRedirect = null)

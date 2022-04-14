@@ -17,6 +17,9 @@ import actionCreator from "../Store/ActionsCreators/actionCreator";
 import ButtonWith from "../components/Cart/cartButton/AddButton"
 import urls from "../API_URL"
 
+/*import parseMapFromJson from "../function/parseMapFromJson"*/
+import { parseMapFromJson } from "../function/getCartMapFromLocalStorage"
+
 
 
 
@@ -24,9 +27,10 @@ import urls from "../API_URL"
 const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, changeCart, iSmodalLoginWindowActive }) => {
     const [name, setName] = useState("NoAnswer");
     const [logInfo, setlogInfo] = useState("NoLog");
+    /*const [storage, setStorage] = useState("None");*/
 
-    console.log("ReRender TestPage");
-    console.log(state);
+    //console.log("ReRender TestPage");
+    //console.log(state);
     // console.log(actionCreator.setIsAuthenticated(true));
     //let element = allCart.map((cart)=><p key={cart.id}>ID  {cart.id} =  {cart.quantity} </p>)
 
@@ -52,7 +56,13 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
         }
     }
 
+    const logLocalStorage = () => {
+        let json_cartMap = localStorage.getItem("cart");
 
+        console.log(json_cartMap);
+        let cartMap = parseMapFromJson(json_cartMap);
+        console.log(cartMap);
+    }
 
     return (
         <div>
@@ -60,6 +70,9 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
 
             <button type="button" onClick={onClickTrue}> true </button>
             <button type="button" onClick={onClickFalse}> false </button>
+            <button type="button" onClick={logLocalStorage}> getStorage </button>
+                        
+
             {/*{element}*/}
             <ButtonWith id={2} />
 
@@ -72,16 +85,20 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
 }
 
 const mapStateToProps = state => ({
-    IsAuthenticated: state.isAuthenticated,
-    /*allCart:  state.cartMap,*/
-    state: state,
+    IsAuthenticated: state.auth.isAuthenticated,
+    
     iSmodalLoginWindowActive: state.iSmodalLoginWindowActive
 });
 
 const mapDispatchToProps = dispatch => (
     {
-        onClickTrue: () => dispatch(actionCreator.setIsAuthenticated(true)),
-        onClickFalse: () => dispatch(actionCreator.setIsAuthenticated(false)),
+        onClickTrue: () => dispatch(actionCreator.setAuth({
+            isAuthenticated: true,
+        })),
+        onClickFalse: () => dispatch(actionCreator.setAuth({
+            isAuthenticated: false,
+        }
+        )),
         // changeCart: ()=> dispatch(
         //     actionCreator.addToCart({id:11, quantity:100}))
     });

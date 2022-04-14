@@ -5,25 +5,30 @@ import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCart
 import "./Cart.css"
 import urls from "../../API_URL"
 import RowInMainTable from "../RowInMainTable/RowInMainTable";    
+import actionCreator from "../../Store/ActionsCreators/actionCreator";
 
-const Cart =({cartMap})=>{
+const Cart = ({ cartMap, fullCartArray, setFullCartArray})=>{
 
     const [isLoading, setIsLoading] = useState(true);  
-    const [fullCartMap, setFullCartMap] = useState(null);
+                /*const [fullCartMap, setFullCartMap] = useState(null);*/
     const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(async ()=>{
         try {
-            
-            let arrayOfKeys = Array.from(cartMap.keys(), (key)=>key);
-            const result =await axios.get(urls.getFullCheckedListForCart(arrayOfKeys));            
-            setFullCartMap(result.data);
-            setIsLoading(false); 
+            if (cartMap === undefined || cartMap.size === 0) {
+                return;
+            }
+            setIsLoading(true);
+            let arrayOfKeys = Array.from(cartMap.keys(), (key) => key);            
+            const result = await axios.get(urls.getFullCheckedListForCart(arrayOfKeys));
+            setFullCartArray(result.data);            
 
-        } catch (error) {
+        } catch (error) {            
+            setErrorMessage(error);
+        }
+        finally {
             setIsLoading(false);
-            setErrorMessage(error);            
-        }        
+        }
     },[]);
 
     let elemenList=[];
@@ -32,13 +37,13 @@ const Cart =({cartMap})=>{
     if (isLoading) {
         elemenList = <div>Loading....</div>        
     } else {
-         if (errorMessage) {
+         if (    errorMessage   ) {
         elemenList="fail";        
         } else{
             if (cartMap === undefined || cartMap.size=== 0) {    
                 elemenList = <div>Your cart is empty</div>    
             } else {
-                let itemsInTable = fullCartMap.map((item) => (<RowInMainTable key={item.id} item={item} buttonType={"changebutton"}/>));
+                let itemsInTable = fullCartArray.map((item) => (<RowInMainTable key={item.id} item={item} buttonType={"changebutton"}/>));
                 elemenList = <table>
                     <colgroup>
                     <col width="5%"></col>
@@ -63,11 +68,12 @@ const Cart =({cartMap})=>{
     )
 }
 const mapStateToProps=(state)=> ({ 
-    cartMap: state.cartMap
+    cartMap: state.cart.cartMap,
+    fullCartArray: state.cart.fullCartArray
+
 }); 
-const mapDispatchToProps=dispatch=> (
-{        
-  // submitHandler: (id, input) => dispatch(actionCreator.addToCart({id:id, quantity: Number(input)})),    
+const mapDispatchToProps = dispatch => ({
+    setFullCartArray: (fullCartArray) => dispatch(actionCreator.setFullCartArray(fullCartArray))
 });
 
 let Cart_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,6 +1,17 @@
-const initialState = {
-    iSmodalLoginWindowActive: false,
-    isAuthenticated: false,
-    cartMap: new Map()
+import { getCartMapFromLocalStorage } from '../function/getCartMapFromLocalStorage';
+
+export const initialAuth =  () => {
+    return {
+        isAuthenticated: null,
+        userName: "",
+        userEmail: "",
+        isAdmin: false
+    }    
 }
-export default initialState
+export const initialCart = {    
+    cartMap: getCartMapFromLocalStorage(),
+    fullCartArray: []
+}
+export const initialState = {
+    iSmodalLoginWindowActive: false
+}
