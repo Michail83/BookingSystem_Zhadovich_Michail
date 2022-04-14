@@ -1,6 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
+
+import axios from "axios";
+import urls from "../src/API_URL";
+import actionsCreator from "../src/Store/ActionsCreators/actionCreator"
+
+
+
 
 import store from './Store/store'
 
@@ -15,6 +22,22 @@ import CartPage from "./Pages/CartPage/Index"
 
 
 function App() {
+    useEffect(() => {
+        tryLoadAuthData()
+    }, [])
+
+    const tryLoadAuthData = async () => {
+        try {
+            const result = await axios.get(urls.getLoginInfo());
+            if (result.status == 200) {
+                store.dispatch(actionsCreator.setAuth(result.data));
+            }           
+        } catch (e) {
+            console.log(`APP -    tryLoadAuthData    ${e}`)
+        }
+    }
+
+
     return (
         // <Fragment>
         <Provider store={store}>

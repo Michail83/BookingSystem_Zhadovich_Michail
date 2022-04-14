@@ -7,7 +7,7 @@ import ExternalLoginList from "../ExternalLogin/ExternalLoginList"
 
 const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
     return (
-        <div className={isActive ? "modal active" : "modal" } onClick={setNoActive} >
+        <div className={isActive?"modal active":"modal"  } onClick={setNoActive} >
             <div className="modalcontent" onClick={(e) => e.stopPropagation()} >
                 <ExternalLoginList/>
             </div>
@@ -16,9 +16,8 @@ const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
 }
 
 const mapStateToProps = state => ({
-    IsAuthenticated: state.isAuthenticated,
-    state: state,
-    isActive: state.iSmodalLoginWindowActive
+    IsAuthenticated: state.auth.isAuthenticated,    
+    isActive: state.state.iSmodalLoginWindowActive
 });
 
 const mapDispatchToProps = dispatch => (

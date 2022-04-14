@@ -15,39 +15,26 @@ import actionsCreator from "../../Store/ActionsCreators/actionCreator"
 
 
 
-const LogInOutManager = ({ isAuthenticated }) => {
-    // const [loginData, SetloginData] = useState(null);
-    // useEffect(()=>{
-    //     // loadLogInfo();
-    // },[]);
+const LogInOutManager = ({ auth }) => {
 
-    // const loadLogInfo = async ()=>{
-    //     try {
-    //         let result = await axios.get(urls.getLoginInfo()) 
-    //         SetloginData(result.data);
-
-    //     } catch (error) {
-    //         console.log("LoginOutManager line 20 =  "+error)
-
-    //     }
-    // }
     const showButton = () => {
-        let element;
-        //      this.props.isAuthenticated
-        // console.log("LoginOutManager   = " + isAuthenticated);
-        if (isAuthenticated) {
-            element = <LogoutBtn />
+        let element;        
+        if (auth.isAuthenticated) {
+            element =   
+                            <LogoutBtn />
+                        
         } else {
-            element = <button onClick={() => store.dispatch(actionsCreator.setModalWindowForLoginActive(true))} > Login </button>
-            /*<div className="nav-block"><Link to="/login">Login</Link></div>*/
+            element =
+                
+                    <button onClick={() => store.dispatch(actionsCreator.setModalWindowForLoginActive(true))} > Login </button>
+                           
         }
         return element;
     }
     return showButton();
-
 }
 const mapStateToProps = state => ({
-    isAuthenticated: state.isAuthenticated
+    auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => (
@@ -57,7 +44,6 @@ const mapDispatchToProps = dispatch => (
 
 var LogInOutManager_connected = connect(mapStateToProps, mapDispatchToProps)(LogInOutManager);
 
-// export default LogInOutManager;
 export default LogInOutManager_connected;
 
 
