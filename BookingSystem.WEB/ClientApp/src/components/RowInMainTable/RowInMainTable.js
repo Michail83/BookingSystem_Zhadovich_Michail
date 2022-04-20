@@ -12,13 +12,11 @@ function RowInMainTable(props) {
         if (!e.target.closest('FORM') ) {
             // console.log(e.target.tagName)
             navigate(`/details/${props.item.id}`)  
-        }      
-        
+        }
       }
 
-
     function setButton(){
-        let button;
+        // let button;
         switch (props.buttonType) {
 
             case "addbutton":                
@@ -26,6 +24,8 @@ function RowInMainTable(props) {
 
             case "changebutton":                
                 return <ChangeValueInCartButton_ReduxWrapped id={props.item.id} maxValue={props.item.amounOfTicket}/>
+            case "noButton" :
+                return <p></p>
         
             default:
                 return "error setButton RowInMainTable";

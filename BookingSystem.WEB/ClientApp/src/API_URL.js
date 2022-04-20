@@ -46,5 +46,11 @@
             }    
         },"?id=");
         return this.base_api +"/checkcartitem/GetCurrentListOfArtEvent"+queryString
-    }
+    },
+    createOrder: function (){
+        return this.base_api+ "/api/Order/Create"
+    },
+    getOrders : function (){
+        return this.base_api+ "/api/Order/GetAsync"
+    }  
 }

@@ -4,19 +4,11 @@ export default {
     setIdToken: (token) => ({
         type: actionTypeList.SetIDToken,
         token: token
-    }),
-    //setIsAuthenticated: (isAuthenticated)=>({
-    //    type:actionTypeList.SetIsAuthenticated,
-    //    isAuthenticated
-    //}),
+    }),    
      addToCart: (id) => ({
          type: actionTypeList.addToCart,
          id
-     }),
-     //deleteValueFromCart: (cart)=>({
-     //    type: actionTypeList.deleteValueFromCart,
-     //    cart
-     //}),
+     }),     
      deleteFromCart : (id)=>({
          type: actionTypeList.deleteFromCart,
          id
@@ -28,19 +20,7 @@ export default {
     setModalWindowForLoginActive: (iSmodalLoginWindowActive) => ({
         type: actionTypeList.iSmodalLoginWindowActive,
         iSmodalLoginWindowActive
-    }),
-    //setUserName: (userName) => ({
-    //    type: actionTypeList.setUserName,
-    //    userName
-    //}),
-    //setUserEmail: (userEmail) => ({
-    //    type: actionTypeList.setUserEmail,
-    //    userEmail
-    //}),
-    //setIsAdmin: (isAdmin) => ({
-    //    type: actionTypeList.setIsAdmin,
-    //    isAdmin
-    //}),
+    }),    
     setFullCartArray: (fullCartArray) => ({
         type: actionTypeList.setFullCartArray,
         fullCartArray
@@ -53,4 +33,7 @@ export default {
         type: actionTypeList.setAuth,
         authData
     }),
+    clearCart: ()=>({
+        type: actionTypeList.clearCart
+    })
 }

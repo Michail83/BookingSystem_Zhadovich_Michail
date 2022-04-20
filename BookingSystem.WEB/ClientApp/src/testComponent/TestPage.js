@@ -17,6 +17,9 @@ import actionCreator from "../Store/ActionsCreators/actionCreator";
 import ButtonWith from "../components/Cart/cartButton/AddButton"
 import urls from "../API_URL"
 
+import * as keys from "../CONST/KeysForLocalStorage"
+
+
 /*import parseMapFromJson from "../function/parseMapFromJson"*/
 import { parseMapFromJson } from "../function/getCartMapFromLocalStorage"
 
@@ -80,6 +83,8 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
             <p onClick={load} >Name from {name}</p>
             <p onClick={loadLogInfo} >logInfo     {logInfo}</p>
 
+            <button onClick={()=>localStorage.removeItem(keys.localStorage_cartMap)}>Clear Storage</button>
+
         </div>
     )
 }
@@ -112,6 +117,18 @@ export default Testpageauth;
 
 
 
+// export const setCartMapToLocalStorage = (cartMap) => {
+//     if (cartMap.size) {
+//         let cart_obj = Object.fromEntries(cartMap.entries());
+//         localStorage.setItem(keys.localStorage_cartMap, JSON.stringify(cart_obj));
+//     } else {
+//         localStorage.removeItem(keys.localStorage_cartMap);
+//     }
+
+    
+
+// }
+ 
 
 
 

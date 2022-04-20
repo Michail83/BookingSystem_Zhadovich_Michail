@@ -10,7 +10,8 @@ function cartReducer(state = initialCart, action) {
         case actionTypeList.changeCartItemValue:    return {...state, cartMap: changeCartItemValue(state.cartMap, action.cart) };
         case actionTypeList.deleteFromCart:         return { ...state, cartMap: deleteFromCart(state.cartMap, action.id) };
         case actionTypeList.setFullCartArray:       return { ...state, fullCartArray: action.fullCartArray };
-        case actionTypeList.deleteFromCartArray:    return { ...state, fullCartArray: deleteFromCartArrayById(state.fullCartArray, action.id) }
+        case actionTypeList.deleteFromCartArray:    return { ...state, fullCartArray: deleteFromCartArrayById(state.fullCartArray, action.id) };
+        case actionTypeList.clearCart:              return { ...state, cartMap:new Map()}
         
         default: return state;
     }

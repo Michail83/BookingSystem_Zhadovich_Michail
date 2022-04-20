@@ -7,14 +7,12 @@ using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.DataLayer.Interfaces
 {
-    public interface IRepositoryAsync<T> where T : ArtEvent
+    public interface IOrderRepositoryAsync
     {
-        public IQueryable<T> GetAll();
-        public Task<T> GetAsync(int ID);
-        public Task UpdateAsync(T item);
-        public Task CreateAsync(T item);
+        public IQueryable<Order> GetAll(string email);
+        public Task<Order> GetAsync(int ID, string email);
+        public Task UpdateAsync(Order order);
+        public Task CreateAsync(Order order);
         public Task DeleteAsync(int ID);
-
-
     }
 }

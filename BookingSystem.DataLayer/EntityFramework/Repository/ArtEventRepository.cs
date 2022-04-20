@@ -14,8 +14,8 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
 {
     public class ArtEventRepository : IRepositoryAsync<ArtEvent>
     {
-        private DbContext _dBContext;
-        private DbSet<ArtEvent> _dbSet;
+        private readonly DbContext _dBContext;
+        private readonly DbSet<ArtEvent> _dbSet;
 
         public ArtEventRepository(BookingSystemDBContext dBContext)
         {

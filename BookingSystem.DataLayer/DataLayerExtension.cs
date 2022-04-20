@@ -30,6 +30,7 @@ namespace BookingSystem.DataLayer
 
             service.AddScoped<IRepositoryAsync<Party>, GenericConcreteRepository<Party>>();
             service.AddScoped<IRepositoryAsync<ClassicMusic>, GenericConcreteRepository<ClassicMusic>>();
+            service.AddScoped<IOrderRepositoryAsync, OrderRepository >();
             
 
 

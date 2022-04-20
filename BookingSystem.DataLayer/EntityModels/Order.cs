@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingSystem.DataLayer.EntityModels
 {
-    public class ArtEvent
+
+    public class Order
     {
         public int Id { get; set; }
-        public string IventName { get; set; }
-        public int AmounOfTicket { get; set; }
-        public DateTime Date { get; set; }
-        public string Place { get; set; }
+        public string UserEmail { get; set; }
+        public DateTime TimeOfCreation { get; set; }
 
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<ArtEvent> ArtEvents { get; set; } = new List<ArtEvent>();
         public List<OrderAndArtEvent> OrderAndArtEvents { get; set; } = new List<OrderAndArtEvent>();
-
     }
 }

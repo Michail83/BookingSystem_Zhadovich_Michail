@@ -19,6 +19,7 @@ import UniversalHeader from './components/UniversalHeader/UniversalHeader.js';
 import LoginPage from './Pages/Login/index'
 import LoginCallback from './Pages/LoginCallback/index'
 import CartPage from "./Pages/CartPage/Index"
+import OrderPage from "./Pages/OrderPage/index"
 
 
 function App() {
@@ -49,7 +50,9 @@ function App() {
             <Route path="/test"                 element={<Testpageauth/>}>     </Route>
             <Route path="/login"                element={<LoginPage/>}>     </Route>
             <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>  
-            <Route path ="/cart"                element={<CartPage/>}> </Route>                 
+            <Route path ="/cart"                element={<CartPage/>}> </Route>
+            <Route path ="/orders"                element={<OrderPage/>}> </Route>      
+
         </Routes>
         </Provider>
         // </Fragment>

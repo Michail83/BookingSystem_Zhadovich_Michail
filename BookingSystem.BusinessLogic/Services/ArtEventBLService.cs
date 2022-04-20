@@ -54,15 +54,7 @@ namespace BookingSystem.BusinessLogic.Services
             artEventsQuery = _sorter.SortBy(artEventsQuery, pagesStatus);
 
             var pagedArtEvents = await PagedList<ArtEvent>.TakePagedListAsync(artEventsQuery, pagesStatus.PageNumber, pagesStatus.PageSize);
-            //List<ArtEventBL> ArtEventBL = new(); 
-
-            //foreach (var item in pagedArtEvents)
-            //{
-            //    ArtEventBL.Add(_mapperToBL.Map(item));
-            //}
-
-            //var result = new PagedList<ArtEventBL>(ArtEventBL, pagedArtEvents.TotalItemsCount, pagedArtEvents.CurrentPage, pagedArtEvents.PageSize);
-
+            
             return pagedArtEvents.MapTo(_mapperToBL);
             }
 

@@ -20,7 +20,9 @@ const UniversalHeader = () => {
                 <div className="nav-block"><Link to="/">Home</Link></div>
                 <div className="nav-block"><LinkToCart /></div>
                 <div className="nav-block"><Link to="/test">TestPage</Link></div>
+                <div className="nav-block"><Link to="/orders">Orders</Link></div>
                 <div className="nav-block" style={{ marginLeft: "auto" }}><LogInOutManager_connected /></div>
+
             </div >
         </div>
         )
