@@ -14,13 +14,45 @@ namespace BookingSystem.DataLayer.EntityFramework
         {
             //Database.EnsureCreated();
         }
-        public DbSet<ArtEvent> ArtEvent { get; set; }
+        public DbSet<ArtEvent> ArtEvents { get; set; }
         public DbSet<ClassicMusic> ClassicMusics { get; set; }
         public DbSet<OpenAir> OpenAirs { get; set; }
         public DbSet<Party> Parties { get; set; }
+        //public DbSet<OrderAndArtEvent> OrderAndArtEvents { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Party>().HasData(
+            //modelBuilder.Entity<ArtEvent>().HasCheckConstraint("AmounOfTicket", "AmounOfTicket >= 0");
+
+            modelBuilder.Entity<OrderAndArtEvent>().HasKey(key => new { key.OrderId, key.ArtEventId });
+            modelBuilder.Entity<OrderAndArtEvent>().HasIndex(index=> index.OrderId).IsUnique(false);
+            modelBuilder.Entity<OrderAndArtEvent>().HasIndex(index => index.ArtEventId).IsUnique(false);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(order => order.ArtEvents)
+                .WithMany(artEvent => artEvent.Orders)
+                .UsingEntity<OrderAndArtEvent>(
+                j => j
+                .HasOne(a => a.ArtEvent)
+                .WithMany(b => b.OrderAndArtEvents)
+                .HasForeignKey(c=>c.ArtEventId),
+
+                j=>j
+                .HasOne(a=>a.Order)
+                .WithMany(b=>b.OrderAndArtEvents)
+                .HasForeignKey(c=>c.OrderId),
+
+                j => {
+                    j.Property(prop=>prop.NumberOfBookedTicket).HasDefaultValue(0);
+                    j.HasKey(t => new { t.OrderId, t.ArtEventId });
+                    j.ToTable("OrderAndArtEvents");
+                    j.HasIndex(t => t.OrderId).IsUnique(false);
+                    j.HasIndex(t => t.ArtEventId).IsUnique(false);
+                });
+
+
+            
+        
+        modelBuilder.Entity<Party>().HasData(
                 new Party
                 {
                     Id = 6,

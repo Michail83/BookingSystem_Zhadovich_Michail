@@ -31,6 +31,11 @@ namespace BookingSystem.BusinessLogic
             servises.AddScoped<IMapper<ClassicMusicBL, ClassicMusic>, MapperClassicMusicBLtoDALentity>();
             servises.AddScoped<IMapper<ClassicMusic, ClassicMusicBL>, MapperClassicMusicToBusinessLayer>();
 
+            servises.AddScoped<IMapper<Order, OrderBL>, MapperOrdertoOrderBL>();
+            servises.AddScoped<IMapper<OrderBL, Order>, MapperOrderBLtoOrderDAL>();
+            servises.AddScoped<OrderBLService>();
+
+
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<ArtEventBL>, ArtEventBLService>();
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<OpenAirBL>, OpenAirBLService>();
             servises.AddScoped<IBusinessLayerCRUDServiceAsync<PartyBL>, PartyBLService>();

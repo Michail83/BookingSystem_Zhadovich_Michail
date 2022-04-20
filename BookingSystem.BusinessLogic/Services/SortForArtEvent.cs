@@ -18,7 +18,7 @@ namespace BookingSystem.BusinessLogic.Services
 			IQueryable<T> result;
 			if (string.IsNullOrWhiteSpace(pagesState.SortBy))
 			{
-				return result = source;     //.OrderBy(x => x.IventName)		
+				return result = source.OrderBy("Id");     //.OrderBy(x => x.IventName)		
 			}
 
 			var artEventParams = pagesState.SortBy.Trim().Split(',');

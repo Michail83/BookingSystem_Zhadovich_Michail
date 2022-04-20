@@ -70,7 +70,7 @@ namespace BookingSystem.WEB
 
             services.AddBusinessLayerAndDataLayerServices(Configuration);            
 
-            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventToArtEventViewModel>();
+            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventBLToArtEventViewModel>();
 
             services.AddMemoryCache();
 
