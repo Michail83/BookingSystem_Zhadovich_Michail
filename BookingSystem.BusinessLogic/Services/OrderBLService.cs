@@ -21,6 +21,7 @@ namespace BookingSystem.BusinessLogic.Services
         IOrderRepositoryAsync _orderRepository;
         IMapper<Order, OrderBL> _mapperOrderToOrderBL;
         IMapper<OrderBL, Order> _mapperOrderBL_toOrder;
+        IEmailService _mailService;
 
 
         public OrderBLService
@@ -28,13 +29,15 @@ namespace BookingSystem.BusinessLogic.Services
             IOrderRepositoryAsync repository, 
             IRepositoryAsync<ArtEvent> artEventRepository, 
             IMapper<Order, OrderBL> mapperOrderToOrderBL,
-            IMapper<OrderBL, Order> mapperOrderBL_toOrder
+            IMapper<OrderBL, Order> mapperOrderBL_toOrder,
+            IEmailService mailService
             )
         {
             _orderRepository = repository;
             _artEventRepository = artEventRepository;
             _mapperOrderToOrderBL = mapperOrderToOrderBL;
             _mapperOrderBL_toOrder = mapperOrderBL_toOrder;
+            _mailService = mailService;
         }        
 
         public async Task DeleteAsync(int id)
@@ -66,8 +69,23 @@ namespace BookingSystem.BusinessLogic.Services
 
         public async Task CreateAsync(OrderBL orderBL)
         {
-            Order order = _mapperOrderBL_toOrder.Map(orderBL);
-            await _orderRepository.CreateAsync(order);
+            try
+            {                
+                await _orderRepository.CreateAsync(_mapperOrderBL_toOrder.Map(orderBL));
+                MailRequest mailRequest = new MailRequest 
+                {
+                    ToEmail = orderBL.UserEmail,
+                    Body = "Test mail bode", 
+                    Subject = "subject Test" 
+                };
+
+                await _mailService.SendEmailAsync(mailRequest);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
 
         private async Task<bool> UpdateOrderAsync(OrderBL order)

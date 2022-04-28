@@ -10,44 +10,46 @@ using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.BusinessLogic.Services;
 using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
+using BookingSystem.BusinessLogic.Services.MailService;
+
 
 
 namespace BookingSystem.BusinessLogic
 {
     public static class BusinessLayerExtension
     {
-        public static IServiceCollection AddBusinessLayerAndDataLayerServices(this IServiceCollection servises, IConfiguration configuration)
+        public static IServiceCollection AddBusinessLayerAndDataLayerServices(this IServiceCollection services, IConfiguration configuration)
         {
-            servises.AddDataLayerService(configuration);
+            services.AddDataLayerService(configuration);
 
-            servises.AddScoped<IMapper<ArtEvent, ArtEventBL>, MapperArtEventToBusinesLayer>();
+            services.AddScoped<IMapper<ArtEvent, ArtEventBL>, MapperArtEventToBusinesLayer>();
 
-            servises.AddScoped<IMapper<OpenAir, OpenAirBL>, MapperOpenAirToBusinessLayer>();
-            servises.AddScoped<IMapper<OpenAirBL, OpenAir>, MapperOpenAirBLtoDALentity>();
+            services.AddScoped<IMapper<OpenAir, OpenAirBL>, MapperOpenAirToBusinessLayer>();
+            services.AddScoped<IMapper<OpenAirBL, OpenAir>, MapperOpenAirBLtoDALentity>();
 
-            servises.AddScoped<IMapper<Party, PartyBL>, MapperPartyToBusinessLayer>();
-            servises.AddScoped<IMapper<PartyBL, Party>, MapperPartyBLtoDALentity>();
+            services.AddScoped<IMapper<Party, PartyBL>, MapperPartyToBusinessLayer>();
+            services.AddScoped<IMapper<PartyBL, Party>, MapperPartyBLtoDALentity>();
 
-            servises.AddScoped<IMapper<ClassicMusicBL, ClassicMusic>, MapperClassicMusicBLtoDALentity>();
-            servises.AddScoped<IMapper<ClassicMusic, ClassicMusicBL>, MapperClassicMusicToBusinessLayer>();
+            services.AddScoped<IMapper<ClassicMusicBL, ClassicMusic>, MapperClassicMusicBLtoDALentity>();
+            services.AddScoped<IMapper<ClassicMusic, ClassicMusicBL>, MapperClassicMusicToBusinessLayer>();
 
-            servises.AddScoped<IMapper<Order, OrderBL>, MapperOrdertoOrderBL>();
-            servises.AddScoped<IMapper<OrderBL, Order>, MapperOrderBLtoOrderDAL>();
-            servises.AddScoped<OrderBLService>();
+            services.AddScoped<IMapper<Order, OrderBL>, MapperOrdertoOrderBL>();
+            services.AddScoped<IMapper<OrderBL, Order>, MapperOrderBLtoOrderDAL>();
+            services.AddScoped<OrderBLService>();
 
 
-            servises.AddScoped<IBusinessLayerCRUDServiceAsync<ArtEventBL>, ArtEventBLService>();
-            servises.AddScoped<IBusinessLayerCRUDServiceAsync<OpenAirBL>, OpenAirBLService>();
-            servises.AddScoped<IBusinessLayerCRUDServiceAsync<PartyBL>, PartyBLService>();
-            servises.AddScoped<IBusinessLayerCRUDServiceAsync<ClassicMusicBL>, ClassicMusicBLService>();
+            services.AddScoped<IBusinessLayerCRUDServiceAsync<ArtEventBL>, ArtEventBLService>();
+            services.AddScoped<IBusinessLayerCRUDServiceAsync<OpenAirBL>, OpenAirBLService>();
+            services.AddScoped<IBusinessLayerCRUDServiceAsync<PartyBL>, PartyBLService>();
+            services.AddScoped<IBusinessLayerCRUDServiceAsync<ClassicMusicBL>, ClassicMusicBLService>();
+
+            services.AddScoped<IEmailService, SendEmailService>();
             
-            servises.AddScoped<CheckCartItemService>();
+            services.AddScoped<CheckCartItemService>();
 
-
-
-
-            servises.AddScoped<IArtEventFilter<ArtEvent>, FilterForArtEvent>();
-            servises.AddScoped<IArtEventSort<ArtEvent>, SortForArtEvent<ArtEvent>>();
+            services.AddScoped<IArtEventFilter<ArtEvent>, FilterForArtEvent>();
+            services.AddScoped<IArtEventSort<ArtEvent>, SortForArtEvent<ArtEvent>>();
+            
             
 
 
@@ -56,9 +58,9 @@ namespace BookingSystem.BusinessLogic
 
 
 
-            servises.AddScoped<IDataService_TEST<ArtEventBL>, ArtEventBLService_TEST_NOASYNC>();
+            services.AddScoped<IDataService_TEST<ArtEventBL>, ArtEventBLService_TEST_NOASYNC>();
 
-            return servises;
+            return services;
         }
     }
 }
