@@ -15,15 +15,6 @@ using Microsoft.AspNetCore.SpaServices;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.IdentityModel.Tokens;
 
-//using Google.Apis.Auth.AspNetCore3;
-
-
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
@@ -43,10 +34,11 @@ namespace BookingSystem.WEB
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+                
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
+
             services.ADDInfrastructureServices(Configuration);            
             services.AddAuthentication()
                 .AddGoogle("google",options => 
