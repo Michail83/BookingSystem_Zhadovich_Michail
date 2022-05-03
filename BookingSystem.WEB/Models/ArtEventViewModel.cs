@@ -9,6 +9,8 @@ namespace BookingSystem.WEB.Models
         public int AmounOfTicket { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
         public string TypeOfArtEvent { get; set; }
         public string[] AdditionalInfo { get; set; }
     }

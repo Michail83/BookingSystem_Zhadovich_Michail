@@ -49,67 +49,84 @@ namespace BookingSystem.DataLayer.EntityFramework
                     j.HasIndex(t => t.ArtEventId).IsUnique(false);
                 });
 
+            modelBuilder.Entity<ArtEvent>().Property(artEvent => artEvent.Latitude).HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<ArtEvent>().Property(artEvent => artEvent.Longitude).HasColumnType("decimal(9,6)");
 
-            
-        
-        modelBuilder.Entity<Party>().HasData(
+
+
+
+            modelBuilder.Entity<Party>().HasData(
                 new Party
                 {
                     Id = 6,
-                    IventName = "SuperParty",
+                    IventName = "Fake TNT Party",
                     AgeLimitation = 18,
-                    AmounOfTicket = 100,
-                    Date = new DateTime(2021, 12, 31),
-                    Place = "InResearch"
+                    AmounOfTicket = 1500,
+                    Date = new DateTime(2022, 10, 31, 19,0,0),
+                    Place = "Беларусь, Минск, Революционная улица, 9А",
+                    Latitude = 53.902375271214524m,
+                    Longitude= 27.55158689814755m
                 },
                 new Party
                 {
                     Id = 1,
-                    IventName = "MegaParty",
+                    IventName = " Fake Макс party",
                     AgeLimitation = 21,
-                    AmounOfTicket = 10,
-                    Date = new DateTime(2021, 12, 31),
-                    Place = "InResearchToo"
+                    AmounOfTicket = 300,
+                    Date = new DateTime(2022, 09, 25, 22,0,0),
+                    Place = "Беларусь, Минск, проспект Независимости, 73",
+                    Latitude = 53.92206511236228m,
+                    Longitude = 27.59704956223782m
                 });
             modelBuilder.Entity<OpenAir>().HasData(
                 new OpenAir
                 {
-                    Id = 2,
-                    IventName = "BeerFest",
-                    AmounOfTicket = 2000,
-                    Date = new DateTime(2021, 12, 25),
-                    HeadLiner = "aassddffgg",
-                    Place = "stillInReserch"
+                    Id = 3,
+                    IventName = "Fake Gorky Party",                    
+                    AmounOfTicket = 1500,
+                    Date = new DateTime(2022, 12, 31, 15, 0, 0),
+                    Place = "Беларусь, Минск, Первомайская улица, 3А",
+                    Latitude = 53.90222207800099m,
+                    Longitude = 27.57284678552759m,
+                    HeadLiner = "The Best Headliner",
+                    
                 },
                  new OpenAir
                  {
-                     Id = 3,
-                     IventName = "BeeeerFast",
-                     AmounOfTicket = 9000,
-                     Date = new DateTime(2021, 12, 23),
-                     HeadLiner = "ggffddssaa",
-                     Place = "stillInReserchToo"
+                     Id = 2,
+                     IventName = "Fake Avia Party",                     
+                     AmounOfTicket = 100,
+                     Date = new DateTime(2022, 07, 25, 19, 0, 0),
+                     Place = "Беларусь, Минский район, Боровлянский сельсовет, деревня Копище",
+                     Latitude = 53.96147426906447m,
+                     Longitude = 27.65091340326826m,
+                     HeadLiner = "The Best Headliner2",
+                    
                  });
             modelBuilder.Entity<ClassicMusic>().HasData(
                 new ClassicMusic
                 {
                     Id = 4,
-                    IventName = "music1",
-                    ConcertName = "Bah",
+                    IventName = "Fake classic musik  1",
+                    ConcertName = "classic musik  1",
                     AmounOfTicket = 200,
-                    Date = new DateTime(2021, 12, 23),
+                    Date = new DateTime(2022, 07, 23,16,0,0),
                     Voice = "tenor",
-                    Place = "unknown"
+                    Place = "Беларусь, Минск, проспект Независимости, 50",
+                    Latitude = 53.91486434449279m,
+                    Longitude = 27.584181354972173m,
                 },
                 new ClassicMusic
                 {
                     Id = 5,
-                    IventName = "music2",
-                    ConcertName = "Babah",
-                    AmounOfTicket = 200,
-                    Date = new DateTime(2021, 12, 23),
+                    IventName = "Fake classic musik  2",
+                    ConcertName = "classic musik  2",
+                    AmounOfTicket = 250,
+                    Date = new DateTime(2022, 08, 14, 17, 0, 0),
                     Voice = "bas",
-                    Place = "unknown"
+                    Place = "Беларусь, Минск, проспект Независимости, 50",
+                    Latitude = 53.91486434449279m,
+                    Longitude = 27.584181354972173m,
                 });
             base.OnModelCreating(modelBuilder);
         }

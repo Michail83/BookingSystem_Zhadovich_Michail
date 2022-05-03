@@ -15,7 +15,9 @@ namespace BookingSystem.WEB.StaticClasses
                 IventName = ArtEvent.EventName,
                 Date = ArtEvent.Date,
                 Place = ArtEvent.Place,
-                AmounOfTicket = ArtEvent.AmountOfTickets
+                AmounOfTicket = ArtEvent.AmountOfTickets,
+                Latitude = ArtEvent.Latitude,
+                Longitude = ArtEvent.Longitude
             };
         }
         public static ArtEventViewModel ConvertFromClassicMusicEventBL(ClassicMusicBL classicMusicBL)

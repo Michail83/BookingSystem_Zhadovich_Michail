@@ -13,7 +13,7 @@
     basePath: function myfunction() {
         return this.base_api;
     },
-    artEvents : function (id) {
+    getArtEvents : function (id) {
         return this.base_api+'/ArtEvents'+this.setid(id);        
     },
     parties: function (id) {

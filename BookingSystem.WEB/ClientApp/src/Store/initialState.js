@@ -13,5 +13,6 @@ export const initialCart = {
     fullCartArray: []
 }
 export const initialState = {
-    iSmodalLoginWindowActive: false
+    iSmodalLoginWindowActive: false,
+    artEventItems: []
 }
