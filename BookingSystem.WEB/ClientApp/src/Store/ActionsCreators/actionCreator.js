@@ -35,5 +35,9 @@ export default {
     }),
     clearCart: ()=>({
         type: actionTypeList.clearCart
+    }),
+    SetArtEventItems: (artEventItems)=>({
+        type: actionTypeList.SetArtEventItems,
+        artEventItems
     })
 }

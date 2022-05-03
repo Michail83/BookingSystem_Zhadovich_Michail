@@ -4,14 +4,16 @@ using BookingSystem.DataLayer.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingSystem.DataLayer.Migrations
 {
     [DbContext(typeof(BookingSystemDBContext))]
-    partial class BookingSystemDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220503090612_addGeoCoord")]
+    partial class addGeoCoord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

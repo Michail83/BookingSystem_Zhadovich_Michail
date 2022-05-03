@@ -15,6 +15,8 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public int AmountOfTickets { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
 
         public ArtEventBL()
         {            
@@ -26,6 +28,8 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
             this.AmountOfTickets = ivent.AmounOfTicket;
             this.Date = ivent.Date;
             this.Place = ivent.Place;
+            this.Latitude = ivent.Latitude; 
+            this.Longitude = ivent.Longitude;
         }
 
         public virtual string ToJsonArtEvent()

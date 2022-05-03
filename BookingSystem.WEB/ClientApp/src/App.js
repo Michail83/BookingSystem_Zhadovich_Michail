@@ -51,7 +51,8 @@ function App() {
             <Route path="/login"                element={<LoginPage/>}>     </Route>
             <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>  
             <Route path ="/cart"                element={<CartPage/>}> </Route>
-            <Route path ="/orders"                element={<OrderPage/>}> </Route>      
+            <Route path ="/orders"                element={<OrderPage/>}> </Route>  
+            <Route path='*'                       element={<HomePage/>}> </Route>    
 
         </Routes>
         </Provider>
