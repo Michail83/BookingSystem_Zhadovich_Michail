@@ -1,5 +1,6 @@
 import React from "react"; 
-import './OpenAirCreateForm.css'
+import './OpenAirCreateForm.css';
+import urls from "../../API_URL";
 
 class PartiesCreateForm extends React.Component {
     constructor(props){
@@ -26,7 +27,7 @@ class PartiesCreateForm extends React.Component {
         event.preventDefault();
               
         const {eventName, date,amountOfTickets, place, ageLimitation} = this.state;     
-        let url2 = 'https://localhost:44324/parties';
+        let url2 = urls.parties();;
         
         // console.log(JSON.stringify({eventName, date,amountOfTickets, place, headLiner}));
         
@@ -50,7 +51,7 @@ class PartiesCreateForm extends React.Component {
         return(           
                 <form  onSubmit={this.handleSubmit}>
                     <div > <label>Name<input             name="eventName"        type="text"     onChange={this.handleChangeName}></input></label> </div>
-                    <div> <label>Date<input              name="date"             type="date"     onChange={this.handleChangeName}></input></label> </div>
+                    <div> <label>Date<input              name="date"             type="datetime-local"     onChange={this.handleChangeName}></input></label> </div>
                     <div><label>amount Of Ticket<input   name="amountOfTickets"  type="number"   onChange={this.handleChangeName}></input></label> </div>
                     <div> <label>Place<input             name="place"            type="text"     onChange={this.handleChangeName}></input></label> </div>
                     <div><label>ageLimitation<input      name="ageLimitation"    type="text"     onChange={this.handleChangeName}></input></label> </div>

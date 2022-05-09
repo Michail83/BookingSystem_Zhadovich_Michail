@@ -14,13 +14,14 @@ namespace BookingSystem.BusinessLogic.Services
         public IQueryable<ArtEvent> FilterBy(IQueryable<ArtEvent> source, PagesState pagesState)
         {
             var result = source;
+            var filter = (pagesState.TypeForFilter ?? String.Empty).ToLower();
 
-            switch ((pagesState.TypeForFilter ?? String.Empty).ToLower())
+            switch (filter)
             {
-                case "classicMusic":
+                case "classicmusic":
                     result= result.OfType<ClassicMusic>();
                     break;
-                case "openAir":
+                case "openair":
                     result = result.OfType<OpenAir>();
                     break;
                 case "party":

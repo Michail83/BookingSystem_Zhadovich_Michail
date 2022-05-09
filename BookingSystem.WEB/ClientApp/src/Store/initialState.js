@@ -14,5 +14,10 @@ export const initialCart = {
 }
 export const initialState = {
     iSmodalLoginWindowActive: false,
-    artEventItems: []
+    artEventItems: [],
+    filteringData: {
+        sortBy:'AmounOfTicket',
+        nameForFilter:'',
+        typeForFilter:''
+    }
 }

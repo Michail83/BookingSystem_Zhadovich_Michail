@@ -39,5 +39,9 @@ export default {
     SetArtEventItems: (artEventItems)=>({
         type: actionTypeList.SetArtEventItems,
         artEventItems
+    }),
+    setFilteringData: (filteringData)=>({
+        type: actionTypeList.setFilteringData,
+        filteringData
     })
 }

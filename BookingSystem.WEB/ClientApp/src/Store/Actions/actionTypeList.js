@@ -14,3 +14,4 @@ export const setAuth = "setAuth";
 export const setFullCartArray = "setFullCartArray";
 export const deleteFromCartArray = "deleteFromCartArray";
 export const clearCart = "clearCart";
+export const setFilteringData = "setFilteringData";
