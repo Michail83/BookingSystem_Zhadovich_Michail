@@ -79,7 +79,7 @@ namespace BookingSystem.WEB.API
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] OpenAirBL openAirBL)
+        public async Task<IActionResult> Post([FromBody] OpenAirBL openAirBL)
         {
             try
             {

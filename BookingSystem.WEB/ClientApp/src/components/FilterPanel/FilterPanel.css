@@ -1,0 +1,15 @@
+.mainFilterPanel{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 0.5%;
+    margin: 0.5% 0 ;
+}
+/* .mainFilterPanel div{
+    height: 50px;
+} */
+.filterElementSize{
+    height: 20px;
+}

@@ -1,5 +1,6 @@
 import React from "react"; 
-import './OpenAirCreateForm.css'
+import './OpenAirCreateForm.css';
+import urls from "../../API_URL";
 
 
 class OpenAirCreateForm extends React.Component {
@@ -12,7 +13,9 @@ class OpenAirCreateForm extends React.Component {
             place: "",
             // from props?
             typeOfArtEvent: "OpenAir",
-            headLiner: ""
+            headLiner: "",
+            longitude: null,
+            latitude: null
         };
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleSubmit =          this.handleSubmit.bind(this);
@@ -30,7 +33,7 @@ class OpenAirCreateForm extends React.Component {
         event.preventDefault();
               
         const {eventName, date,amountOfTickets, place, headLiner} = this.state;     
-        let url2 = 'https://localhost:44324/openair';
+        let url2 = urls.openairs();
         
         // console.log(JSON.stringify({eventName, date,amountOfTickets, place, headLiner}));
         
@@ -54,10 +57,17 @@ class OpenAirCreateForm extends React.Component {
         return(           
                 <form  onSubmit={this.handleSubmit}>
                     <div > <label>Name<input             name="eventName"        type="text"     onChange={this.handleChangeName}></input></label> </div>
-                    <div> <label>Date<input              name="date"             type="date"     onChange={this.handleChangeName}></input></label> </div>
+                    <div> <label>Date<input              name="date"             type="datetime-local"     onChange={this.handleChangeName}></input></label> </div>
                     <div><label>amount Of Ticket<input   name="amountOfTickets"  type="number"   onChange={this.handleChangeName}></input></label> </div>
                     <div> <label>Place<input             name="place"            type="text"     onChange={this.handleChangeName}></input></label> </div>
                     <div><label>HeadLiner<input          name="headLiner"        type="text"     onChange={this.handleChangeName}></input></label> </div>
+
+                    <div>
+                        <label>Сoordinates
+                            <input        name="longitude"  placeholder="longitude"      type="number"     onChange={this.handleChangeName}></input>
+                            <input        name="latitude"   placeholder="latitude"      type="number"     onChange={this.handleChangeName}></input>
+                        </label> 
+                    </div>
 
                 <label><input             type="submit"  value="Create" ></input></label>
             </form>            

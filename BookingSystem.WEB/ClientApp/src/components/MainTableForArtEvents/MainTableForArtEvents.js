@@ -4,23 +4,18 @@ import './MainTableForArtEvents.css';
 import urls from  '../../API_URL'
 import axios from "axios";
 import { connect } from "react-redux";
-import actionCreator from "../../Store/ActionsCreators/actionCreator.js"
-
-
-
-// for debug
+import actionCreator from "../../Store/ActionsCreators/actionCreator.js";
+import FilterPanel_ReduxWrapped from "../FilterPanel/FilterPanel";
 
 // import works from "../../works";
-// import { useEffect } from 'react';
-// import API_URL from "../../API_URL";
 
-const MainTableForArtEvents = ({artEventItems, setArtEventItems })=>{
+const MainTableForArtEvents = ({artEventItems, setArtEventItems,filteringData})=>{
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(undefined);
 
-    const loadArtEvents = async ()=>{
+    const loadArtEvents = async (filteringData)=>{
         try {
-            let result = await axios.get(urls.getArtEvents());
+            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));            
             setArtEventItems(result.data);
             setLoading(false);            
         } catch (err) {
@@ -32,10 +27,11 @@ const MainTableForArtEvents = ({artEventItems, setArtEventItems })=>{
     }
 
     useEffect(()=>{
-        loadArtEvents();
+        loadArtEvents(filteringData);
+        console.log("loadArtEvents");
+        console.log(urls.getArtEventWithFilterQuery(filteringData));
 
-    },[]);
-    
+    },[filteringData]);    
 
     const createComponent = ()=>{
         if (loading) {
@@ -49,6 +45,7 @@ const MainTableForArtEvents = ({artEventItems, setArtEventItems })=>{
 
         return (
             <div className="main-div">
+                <FilterPanel_ReduxWrapped/>
                 <table style={{border: "1px solid black", borderCollapse: "collapse", width:"100%"}} className="main-table" id="main-table">
                     <colgroup>
                         <col width="20%"></col>
@@ -63,81 +60,29 @@ const MainTableForArtEvents = ({artEventItems, setArtEventItems })=>{
                 </tbody>
                 </table>        
             </div>
-            )
-        }
-
-
+        )}
 
     return (        
         createComponent()
     )
 }
 
+const mapStateToProps = state => ({    
+    artEventItems: state.state.artEventItems,    
+    filteringData: state.state.filteringData
+});
 
-// class MainTableForArtEvents111 extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             error: null,
-//             isLoaded: false,
-//             // false,           
-//             items: null
-//         };
-//     }
-//     componentDidMount() {
-//         let url2 = urls.artEvents();
-        
-//         fetch(url2)
-//             .then(res => res.json())
-//             .then(
-//                 (result) => {                    
-//                     this.setState({
-//                         isLoaded: true,
-//                         items: result
-//                     });
-//                     console.log(result);
-//                 }, 
-//                 (error) => {
-//                     this.setState({
-//                         isLoaded: true,
-//                         error
-//                     });
-//                 }
-//         )        
+const mapDispatchToProps = dispatch => (
+    {
+        setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
+    });
 
-//         // console.log(this.state.items);        
-//     }
-    
-//     render() {
-//         const { error, isLoaded, items } = this.state;        
-//         if (error) {
-//             return <div>Ошибка: {error.message}</div>;
-//         } else if (!isLoaded) {
-//             return <div>Загрузка...</div>;
-//         } else {
-//             // console.log("before return", items);
-//             let itemsInTable = items.map((item) => (<RowInMainTable key={item.id} item={item} buttonType={"addbutton"}/>               
-//                 ));
-//             return (<div className="main-div">
-//                 <table style={
-//                     {border: "1px solid black", borderCollapse: "collapse", width:"100%"}} className="main-table" id="main-table">
-//                     <colgroup>
-//                         <col width="20%"></col>
-//                         <col width="10%"></col>
-//                         <col width="15%"></col>
-//                         <col width="17%"></col>
-//                         <col width="17%"></col>
-//                         <col width="21%"></col>
-//                     </colgroup>
-//                     <tbody>
-//                         {/* {console.log("inside tbody", items) } */}
-//                         {itemsInTable }
-//                     </tbody>
-//                 </table>
-//             </div>);
-//         }
-//     }
-// }
+var MainTableForArtEvents_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(MainTableForArtEvents);
+
+export default MainTableForArtEvents_ReduxWrapped;
+
+
+
 // const testData= [
 //     {
 //         "id": 15,
@@ -196,20 +141,3 @@ const MainTableForArtEvents = ({artEventItems, setArtEventItems })=>{
 //         ]
 //     }
 // ]
-
-
-
-const mapStateToProps = state => ({
-    artEventItems: state.state.artEventItems,    
-    // isActive: state.state.iSmodalLoginWindowActive
-});
-
-const mapDispatchToProps = dispatch => (
-    {
-        setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
-    });
-
-var MainTableForArtEvents_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(MainTableForArtEvents);
-
-export default MainTableForArtEvents_ReduxWrapped;
-
