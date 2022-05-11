@@ -79,7 +79,7 @@ namespace BookingSystem.WEB.API
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] PartyBL partyBL)
+        public async Task<IActionResult> Post([FromBody] PartyBL partyBL)
         {
             try
             {

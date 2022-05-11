@@ -13,7 +13,7 @@ import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetail
     let params = useParams();
     const [eventType, setEventType] = useState("");
     let id = parseInt(params.eventid);     //  string or number
-    let url = new URL(urls.artEvents(id));
+    let url = new URL(urls.getArtEvents(id));
 
     useEffect(async ()=>{
         // error handling
@@ -30,7 +30,7 @@ import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetail
         return(<PartyDetails id={id} url= {urls.parties(id)} />);
 
         case "ClassicMusic":
-        return(<ClassicMusicDetails id={id} url= {urls.classicmusic(id)} />);
+        return(<ClassicMusicDetails id={id} url= {urls.classicmusics(id)} />);
 
         default: 
         return(

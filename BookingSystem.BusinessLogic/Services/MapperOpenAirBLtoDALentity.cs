@@ -20,7 +20,9 @@ namespace BookingSystem.BusinessLogic.Services
                 Date = incoming.Date,
                 HeadLiner = incoming.HeadLiner, 
                 IventName = incoming.EventName, 
-                Place = incoming.Place
+                Place = incoming.Place,
+                Longitude = incoming.Longitude,
+                Latitude = incoming.Latitude
             };
         }
     }
