@@ -81,7 +81,7 @@ namespace BookingSystem.WEB.API
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] ClassicMusicBL classicMusicBL)
+        public async Task<IActionResult> Post([FromBody] ClassicMusicBL classicMusicBL)
         {
             try
             {

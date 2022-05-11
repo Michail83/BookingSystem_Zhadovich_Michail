@@ -21,7 +21,9 @@ namespace BookingSystem.BusinessLogic.Services
                 Voice = incoming.Voice,
                 IventName = incoming.EventName, 
                 Place = incoming.Place,
-                ConcertName = incoming.ConcertName
+                ConcertName = incoming.ConcertName,
+                Longitude = incoming.Longitude,
+                Latitude = incoming.Latitude
             };
         }
     }
