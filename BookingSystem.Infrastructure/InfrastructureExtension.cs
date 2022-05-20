@@ -32,6 +32,9 @@ namespace BookingSystem.Infrastructure
                         options.Password.RequireNonAlphanumeric = false;
                         options.Password.RequireUppercase = false;
                         options.Password.RequireDigit = true;
+
+                        options.SignIn.RequireConfirmedEmail = true;
+                        options.User.RequireUniqueEmail = true;
                     })
                     .AddEntityFrameworkStores<AppIdentityContext>()
                     .AddDefaultTokenProviders();

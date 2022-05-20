@@ -41,7 +41,8 @@ namespace BookingSystem.WEB
             {
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                await AdminInitializer.InitializeAdmin(userManager, roleManager);
+                var config = services.GetRequiredService<IConfiguration>();
+                await AdminInitializer.InitializeAdmin(userManager, roleManager, config);
             }
             catch (Exception ex)
             {

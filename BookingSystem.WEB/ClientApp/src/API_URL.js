@@ -64,5 +64,11 @@
     },
     getOrders : function (){
         return this.base_api+ "/api/Order/GetAsync"
-    }  
+    }  ,
+    login : function () {
+        return this.base_api+ "/account/Login"
+    }, 
+    register : function(){
+        return this.base_api + "/account/Register"
+    }
 }
