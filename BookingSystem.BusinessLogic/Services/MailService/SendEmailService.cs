@@ -42,7 +42,10 @@ namespace BookingSystem.BusinessLogic.Services.MailService
                 
 
                 using var smtp = new SmtpClient();
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.Auto);
+
+                smtp.ServerCertificateValidationCallback = (sender, certificate, chain, sslpolisyError) => true;
+
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.SslOnConnect);
                 //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.Auto);
                 //smtp.AuthenticationMechanisms.Remove("XOAUTH2");
                 

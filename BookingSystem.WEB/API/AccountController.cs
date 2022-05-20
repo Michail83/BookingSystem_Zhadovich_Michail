@@ -1,26 +1,26 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
-using System.Security.Claims;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Cors;
 
-
-using Microsoft.AspNetCore.Authorization;
-
-using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.Infrastructure.Interfaces;
+using BookingSystem.WEB.Models;
+using BookingSystem.BusinessLogic.Services;
+using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.BusinessLogic.BusinesLogicModels;
 
 
 namespace BookingSystem.WEB.API
@@ -34,21 +34,107 @@ namespace BookingSystem.WEB.API
         public AccountController([FromServices] IJWTTokenProvider jwtTokenProvider,
                                  [FromServices] IConfiguration configuration,
                                  SignInManager<User> signInManager, 
-                                 UserManager<User> userManager
+                                 UserManager<User> userManager,
+                                 IEmailService emailService
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _jwtTokenProvider = jwtTokenProvider;
             _configuration = configuration;
-
-
+            _emailService = emailService;
         }
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IJWTTokenProvider _jwtTokenProvider;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
+        [HttpPost]
+        [Route("Register")]
+        public async Task<ActionResult> Register(RegisterLoginViewModel regModel)
+        {            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values);
+            }
+            
+            User user = new User {UserName = regModel.UserName, Email = regModel.Email};
+            var creationResult = await _userManager.CreateAsync(user, regModel.Password);
+            
+            if (!creationResult.Succeeded)
+            {
+                return BadRequest(creationResult.Errors);
+            }
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var emailConfirmationLink = 
+                Url.Action("ConfirmEmail", "account", 
+                new { token, email = user.Email}, Request.Scheme);
+            var mailRequest = new MailRequest {ToEmail = user.Email, Body=emailConfirmationLink, Subject= " test Booking system Email confirmation" };
+
+            try
+            {
+                await _emailService.SendEmailAsync(mailRequest);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(503);                
+            }
+            return Ok("email with confirmation link was sended");
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail")]
+        public async Task<ActionResult> ConfirmEmail(string token, string email) 
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user==null)
+            {
+                return NotFound("User not found");
+            }
+            var confirmResult = await _userManager.ConfirmEmailAsync(user, token);            
+
+            return Ok(confirmResult);
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> Login(LoginViewModel loginViewModel)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values);
+            }
+
+            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if (user==null)
+            {
+                return NotFound("email or password wrong");
+            }
+
+            if (await _userManager.IsEmailConfirmedAsync(user))
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return Ok("Login success");
+                }
+                else {
+                    return NotFound("email or password wrong");
+                }
+            }
+            else {
+                var notConfirmed = new[] { new {code = "", description= "Please, confirm your email" } };
+                return BadRequest(notConfirmed);
+
+            }
+
+            
+            
+
+            return NotFound("email or password wrong");
+        }
 
 
         [HttpGet]
@@ -69,16 +155,7 @@ namespace BookingSystem.WEB.API
             var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
             return Challenge(prop, provider);
-        }
-        //public IActionResult ExternalLogin([FromForm] string provider, string returnUrl = null)
-        //{
-
-        //    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "account", new { returnUrl });
-        //    // вызов с передачей имени провайдера
-        //    var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-
-        //    return Challenge(prop, provider);
-        //}
+        }        
 
         [Route("externallogincallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "http://localhost:5001/")
@@ -95,7 +172,7 @@ namespace BookingSystem.WEB.API
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent:false, bypassTwoFactor:false);
             if (signInResult.Succeeded)
             {
-                User user =  await _userManager.FindByEmailAsync(email);
+                //User user =  await _userManager.FindByEmailAsync(email);
                 return Redirect("https://localhost:5001/");
                 //return Redirect(GetUrlWithJWTToken(user))/* Ok($"Succeeded,   signIn result=  {info.LoginProvider} ")*/;
             }
@@ -132,7 +209,8 @@ namespace BookingSystem.WEB.API
                     user = new User 
                     {
                         Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                        UserName = info.Principal.FindFirst(ClaimTypes.GivenName).Value.Trim(new char[] {'\"' })                        
+                        UserName = info.Principal.FindFirst(ClaimTypes.GivenName).Value.Trim(new char[] {'\"' }),
+                        EmailConfirmed = true,
                     };                    
 
                     result = await _userManager.CreateAsync(user);
@@ -160,6 +238,7 @@ namespace BookingSystem.WEB.API
             return Ok();
         }
         //[EnableCors("LocalForDevelopmentAllowAll")]
+        
         [Authorize]
         [Route("loginfo")]
         public  IActionResult LogInfo()

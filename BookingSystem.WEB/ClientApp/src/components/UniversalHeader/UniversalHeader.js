@@ -6,23 +6,23 @@ import LinkToCart from '../Cart/cartButton/LinkToCartFromHeader'
 import ModalWindowForLogin_ReduxWrapped from "../ModalWindowForLogin/ModalWindowForLogin";
 import DisplayUserName_ReduxWrapped from "../DisplayUserName/DisplayUserName";
 
-const UniversalHeader = () => {
+const UniversalHeader = ({isAdmin}) => {
 
     return (
         <div className="main-universal-header">
             <div className="userNameField">
-            <ModalWindowForLogin_ReduxWrapped />
+            <ModalWindowForLogin_ReduxWrapped/>
             <DisplayUserName_ReduxWrapped/>
-            </div>           
-
+            </div>
             <div className="nav-bar">
-                <div className="nav-block" style={{ marginLeft:"auto" }}><Link to="/Create">Create Event</Link></div>
+                {isAdmin?<div className="nav-block" style={{ marginLeft:"auto" }}><Link to="/Create">Create Event</Link></div>:""}
+                {/* <div className="nav-block" style={{ marginLeft:"auto" }}><Link to="/Create">Create Event</Link></div> */}
                 <div className="nav-block"><Link to="/">Home</Link></div>
                 <div className="nav-block"><LinkToCart /></div>
-                <div className="nav-block"><Link to="/test">TestPage</Link></div>
+                {isAdmin?<div className="nav-block"><Link to="/test">TestPage</Link></div>:""}
+                
                 <div className="nav-block"><Link to="/orders">Orders</Link></div>
                 <div className="nav-block" style={{ marginLeft: "auto" }}><LogInOutManager_connected /></div>
-
             </div >
         </div>
         )

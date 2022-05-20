@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
-import "./ModalWindowForLogin.css"
-import ExternalLoginList from "../ExternalLogin/ExternalLoginList"
+import "./ModalWindowForLogin.css";
+import ExternalLoginList from "../ExternalLogin/ExternalLoginList";
+import { Link, useNavigate } from "react-router-dom";
+import OwnLogin from "../OwnLogin/OwnLogin";
 
 
 const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
@@ -10,7 +12,14 @@ const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
         <div className={isActive?"modal active":"modal"  } onClick={setNoActive} >
             <div className="modalcontent" onClick={(e) => e.stopPropagation()} >
                 <ExternalLoginList/>
+                <OwnLogin/>
+                <div>
+                    <Link to={"/Registration"}>Registration</Link>
+                </div>
+
             </div>
+            
+            
         </div>
     )
 }
@@ -19,7 +28,6 @@ const mapStateToProps = state => ({
     IsAuthenticated: state.auth.isAuthenticated,    
     isActive: state.state.iSmodalLoginWindowActive
 });
-
 const mapDispatchToProps = dispatch => (
     {
         setNoActive:()=> dispatch(actionCreator.setModalWindowForLoginActive(false))        
