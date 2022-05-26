@@ -1,7 +1,23 @@
-.common-block div{
-    margin: 3px;
+.mainDetails{
+    margin-top: 20px;
+    display: flex;
+
+}
+.mainDetails div{    
     padding: 1px;
     border: 1px solid black;
-    display: inline-block;
     
+}
+.dataBlock{    
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+.mapBlock{
+    width: auto;
+    background-color: deepskyblue;
+    display: inline-block;
+
 }

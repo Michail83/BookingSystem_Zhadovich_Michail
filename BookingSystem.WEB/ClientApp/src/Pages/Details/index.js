@@ -8,8 +8,8 @@ import OpenAirDetails from '../../components/DetailsList/OpenAirDetails'
 import PartyDetails from '../../components/DetailsList/PartyDetails'
 import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetails'
 
- function DetailsPage() {
-
+ function DetailsPage({deleteButton}) {
+console.log(deleteButton);
     let params = useParams();
     const [eventType, setEventType] = useState("");
     let id = parseInt(params.eventid);     //  string or number
@@ -24,13 +24,13 @@ import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetail
     switch (eventType) {
         
         case "OpenAir":
-        return(<OpenAirDetails id={id} url= {urls.openairs(id)} />);
+        return(<OpenAirDetails id={id} url= {urls.openairs(id)} deleteButton={deleteButton} />);
 
         case "Party": 
-        return(<PartyDetails id={id} url= {urls.parties(id)} />);
+        return(<PartyDetails id={id} url= {urls.parties(id)} deleteButton={deleteButton}/>);
 
         case "ClassicMusic":
-        return(<ClassicMusicDetails id={id} url= {urls.classicmusics(id)} />);
+        return(<ClassicMusicDetails id={id} url= {urls.classicmusics(id)} deleteButton={deleteButton} />);
 
         default: 
         return(
