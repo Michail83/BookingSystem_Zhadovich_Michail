@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import RowInMainTable from '../RowInMainTable/RowInMainTable';
+import HomeArtEventView from '../HomeArtEventView/HomeArtEventView';
 import './MainTableForArtEvents.css';
 import urls from  '../../API_URL'
 import axios from "axios";
@@ -41,24 +41,15 @@ const MainTableForArtEvents = ({artEventItems, setArtEventItems,filteringData})=
                 return <div>ERROR =  {error} </div> 
             }
         }
-        let itemsInTable = artEventItems.map((item) => (<RowInMainTable key={item.id} item={item} buttonType={"addbutton"}/> ));
+
+        let itemsInTable = artEventItems.map((item) => (<HomeArtEventView key={item.id} item={item} /> ));
 
         return (
             <div className="main-div">
                 <FilterPanel_ReduxWrapped/>
-                <table style={{border: "1px solid black", borderCollapse: "collapse", width:"100%"}} className="main-table" id="main-table">
-                    <colgroup>
-                        <col width="20%"></col>
-                        <col width="10%"></col>
-                        <col width="15%"></col>
-                        <col width="17%"></col>
-                        <col width="17%"></col>
-                        <col width="21%"></col>                
-                    </colgroup>            
-                <tbody>                
-                    {itemsInTable }
-                </tbody>
-                </table>        
+                <div className="flexblock1">
+                    {itemsInTable}
+                </div>
             </div>
         )}
 
@@ -141,3 +132,32 @@ export default MainTableForArtEvents_ReduxWrapped;
 //         ]
 //     }
 // ]
+
+
+
+
+
+
+
+
+
+
+
+// return (
+//     <div className="main-div">
+//         <FilterPanel_ReduxWrapped/>
+//         <table style={{border: "1px solid black", borderCollapse: "collapse", width:"100%"}} className="main-table" id="main-table">
+//             <colgroup>
+//                 <col width="20%"></col>
+//                 <col width="10%"></col>
+//                 <col width="15%"></col>
+//                 <col width="17%"></col>
+//                 <col width="17%"></col>
+//                 <col width="21%"></col>                
+//             </colgroup>            
+//         <tbody>                
+//             {itemsInTable }
+//         </tbody>
+//         </table>        
+//     </div>
+// )}

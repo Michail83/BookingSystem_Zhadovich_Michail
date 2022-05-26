@@ -5,7 +5,7 @@ import { YandMap } from "../YandMAP/YandMAP";
 import './DetailsList.css'
 
 import loadData from './Functions/LoadData';
-import deleteFunc from './Functions/deleteArtEvent'
+// import deleteFunc from './Functions/deleteArtEvent'
 
 function ClassicMusicDetails(props) {
     const [classicMusicData, setpartclassicMusic] =  useState("");

@@ -9,7 +9,7 @@ import PartyDetails from '../../components/DetailsList/PartyDetails'
 import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetails'
 
  function DetailsPage({deleteButton}) {
-console.log(deleteButton);
+// console.log(deleteButton);
     let params = useParams();
     const [eventType, setEventType] = useState("");
     let id = parseInt(params.eventid);     //  string or number
