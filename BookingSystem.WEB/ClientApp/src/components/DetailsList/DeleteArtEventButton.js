@@ -1,5 +1,5 @@
 import React from "react";
-import {deleteArtEvent} from "./Functions/deleteArtEvent";
+import {deleteArtEvent} from "./Functions/DeleteArtEvent.js";
 
 export const DeleteArtEventButton =({id})=>{
 

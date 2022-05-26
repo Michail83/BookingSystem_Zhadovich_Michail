@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { YandMap } from "../YandMAP/YandMAP";
 
 import loadData from "./Functions/LoadData";
-import deleteArtEvent from "./Functions/deleteArtEvent";
+
 
 import './DetailsList.css'
 
@@ -23,7 +23,7 @@ function OpenAirDetails(props) {
                 <div>{openAirData?.date}</div>
                 <div>{openAirData?.place}</div>
                 <div>{openAirData?.headLiner}</div>
-                {props.deleteButton ? <props.deleteButton /> : ""}                
+                {/* {props.deleteButton ? <props.deleteButton /> : ""}                 */}
             </div>
             <div className="mapBlock">
                 {openAirData ? <YandMap artEventItems={[openAirData]} /> : ""}

@@ -9,11 +9,8 @@ import actionCreator from "../../../Store/ActionsCreators/actionCreator";
 const AddButton =({id, active, submitHandler})=>{
     // let input;
 
-    return (
-        <form>
-            {/* <input type= "number" min='0' max='100' defaultValue={1}  ref={node => input = node}/> */}                                                    
-            <button disabled={active} onClick={()=>{submitHandler(id)}} type="button">ADD</button>
-        </form>
+    return (                                                                      
+            <button disabled={active} onClick={()=>{submitHandler(id)}} type="button">ADD</button>       
     )
 }
 
