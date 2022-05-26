@@ -14,7 +14,7 @@ import {tryLoadAuthData} from "./function/tryLoadAuthData";
 
 
 
-
+import { DeleteArtEventButton } from './components/DetailsList/DeleteArtEventButton';
 
 import HomePage from './Pages/Home/Index';
 import CreateEvent from './Pages/Create/Index';
@@ -51,7 +51,7 @@ function App({authData}) {
     <Routes>
         <Route path="/"                     element={<HomePage/>}>      </Route> 
         <Route path="/Create"               element={<CreateEvent/>}>   </Route> 
-        <Route path ="/details/:eventid"    element={<DetailsPage/>}>   </Route> 
+        <Route path ="/details/:eventid"    element={<DetailsPage deleteButton={DeleteArtEventButton}/>}>   </Route> 
         <Route path="/test"                 element={<Testpageauth/>}>     </Route>
         <Route path="/login"                element={<LoginPage/>}>     </Route>
         {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
