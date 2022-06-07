@@ -6,45 +6,82 @@ import {ListOfArtEventType} from "../../CONST/ListOfArtEventType";
 import {ListOfSortOptions} from "../../CONST/ListOfSortOptions";
 import actionsCreator from "../../Store/ActionsCreators/actionCreator";
 import "./FilterPanel.css";
+import styled from "styled-components";
 
+const MainFilterPanelWrapped =styled.div`
+    box-sizing: border-box;
+    position: fixed;
+    top: 13vh;
+    width: 100%;
+    background-color: white;
+`;
+const MainFilterPanel =styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(30, 117, 204, 0.877);    
+    padding: 0.5%;
+    margin: -5px 0 0 0 ;
+    /* background-color: white; */
+    height: 40px;     
+    & select,input[type="text"],button {
+        box-sizing: border-box;
+        
+        margin: 0.5rem 1%;
+    }
+    & select{
+        padding-right: 25px;
+        background-image: url("../../icons/icons8-drop-down24.png");
+        background-size: 14%;
+        background-repeat: no-repeat;
+        background-position-y: center;
+        background-position-x: calc(100% - 5px);
+    }
+    & button {
+        width: 9%;
+    }
+    & select,
+  input[type="text"] {
+    width: auto;
+    padding: 2px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    -webkit-appearance: none;
+  }
+`;
 
-
-const FilterPanel = ({filteringData, setfilteringData})=>{
+    const FilterPanel = ({filteringData, setfilteringData})=>{
     const [nameFilter, setNameFilter] = useState(filteringData.nameForFilter);
     const [typeFilter, setTypeFilter] = useState(filteringData.typeForFilter);
     const [sort, setSort] = useState(filteringData.sortBy);
-
-    console.log(filteringData);
-    console.log(nameFilter);
-    console.log(typeFilter);
-    console.log(sort);
-
-
     const createTypeFilterOptions = (listOfArtEventType)=> listOfArtEventType.map((eventType)=><option key={eventType.value} value={eventType.value}> {eventType.name}</option>);
     const createSortOptions = (sortOptions)=>sortOptions.map((sortby)=><option key={sortby.value} value={sortby.value}> {sortby.name}</option>);    
 
     return (
-        <div className="mainFilterPanel">
-            <div className="nameFilter">
-                <input className="filterElementSize" placeholder="Event's name..." type="text" value={nameFilter} onChange={(event)=>(setNameFilter(event.target.value))} ></input>
+        <MainFilterPanelWrapped>
+            <MainFilterPanel>
 
-            </div>
-            <div className="typeFilter">
-                <select className="filterElementSize"  value={typeFilter} onChange={(event)=>setTypeFilter(event.target.value)}>
+                <input className="filterElementSize" placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))} ></input>
+
+
+
+                <select className="filterElementSize" value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                     {createTypeFilterOptions(ListOfArtEventType)}
                 </select>
 
-            </div>
-            <div className="SortBy">
-            <select className="filterElementSize" value={sort} onChange={(event)=>setSort(event.target.value)}>
+
+
+                <select className="filterElementSize" value={sort} onChange={(event) => setSort(event.target.value)}>
                     {createSortOptions(ListOfSortOptions)}
                 </select>
 
-            </div>
-            <div className="SubmitButton" >
-                <button  type="button" onClick={()=>setfilteringData(nameFilter,typeFilter,sort)} >Use</button>
-            </div>
-        </div>
+
+
+                <button type="button" onClick={() => setfilteringData(nameFilter, typeFilter, sort)} >Apply</button>
+
+            </MainFilterPanel>
+        </MainFilterPanelWrapped>
     )
 }
 

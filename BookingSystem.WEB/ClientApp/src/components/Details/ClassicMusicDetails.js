@@ -22,6 +22,9 @@ function ClassicMusicDetails(props) {
                 <div>{classicMusicData?.amountOfTickets}</div>
                 <div>{classicMusicData?.date}</div>
                 <div>{classicMusicData?.place}</div>
+
+
+
                 <div>{classicMusicData?.voice}</div>
                 <div>{classicMusicData?.concertName}</div> 
                 {props.deleteButton?<props.deleteButton/>:""} 
@@ -35,4 +38,4 @@ function ClassicMusicDetails(props) {
         </div>
     );    
 }
-export default ClassicMusicDetails;
+// export default ClassicMusicDetails;

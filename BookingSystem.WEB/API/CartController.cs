@@ -30,6 +30,8 @@ namespace BookingSystem.WEB.API
             var result = await _checkCartItemService.CheckCartItem(cartItem);
             return Ok(result);
         }
+
+
         [Route(nameof(GetCurrentListOfArtEvent))]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery]IEnumerable<int> id) 

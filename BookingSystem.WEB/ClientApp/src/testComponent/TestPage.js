@@ -71,7 +71,47 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
     // }
 
     return (
-        <YandMap_ReduxWrapped/>   
+        <div>
+            <YMaps>                
+                <div>
+                    My awesome application with maps!
+                    <Map defaultState={{ 
+                        center: [53.89364559280405,27.567232262565565], 
+                        zoom: 9,
+                        controls: ['zoomControl', 'fullscreenControl'],
+                        }}
+                        modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
+                    >
+                        <Placemark
+                        modules={['geoObject.addon.balloon']}
+                        defaultGeometry={[53.89364559280405,27.567232262565565]}
+                        properties= {{
+                            balloonContentHeader: "1balloonContentHeader",
+                            balloonContentBody: "test balloonContentBody",
+                            balloonContentFooter: "balloonContentFooter",
+                            hintContent: "test hintContent"
+                        }}
+                        options ={{
+                            preset : 'islands#redIcon',                            
+                        }}
+                        />
+                         <Placemark
+                        modules={['geoObject.addon.balloon']}
+                        defaultGeometry={[53.902575777784925,27.561308296096712]}
+                        properties= {{
+                            balloonContentHeader: "ПРА!!!",
+                            balloonContentBody: "ПЛО!!!!!!",
+                            balloonContentFooter: "ЗАВ!!!!",
+                            hintContent: "HINT"
+                        }}
+                        options ={{
+                            preset : 'islands#icon',                        
+                        }}
+                        />
+                        </Map>
+                </div>
+            </YMaps>
+        </div> 
     )
 }
 
@@ -97,44 +137,3 @@ const mapDispatchToProps = dispatch => (
 var Testpageauth = connect(mapStateToProps, mapDispatchToProps)(TestPage);
 export default Testpageauth;
 
-// <div>
-        //     <YMaps>                
-        //         <div>
-        //             My awesome application with maps!
-        //             <Map defaultState={{ 
-        //                 center: [53.89364559280405,27.567232262565565], 
-        //                 zoom: 9,
-        //                 controls: ['zoomControl', 'fullscreenControl'],
-        //                 }}
-        //                 modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
-        //             >
-        //                 <Placemark
-        //                 modules={['geoObject.addon.balloon']}
-        //                 defaultGeometry={[53.89364559280405,27.567232262565565]}
-        //                 properties= {{
-        //                     balloonContentHeader: "1balloonContentHeader",
-        //                     balloonContentBody: "test balloonContentBody",
-        //                     balloonContentFooter: "balloonContentFooter",
-        //                     hintContent: "test hintContent"
-        //                 }}
-        //                 options ={{
-        //                     preset : 'islands#redIcon',                            
-        //                 }}
-        //                 />
-        //                  <Placemark
-        //                 modules={['geoObject.addon.balloon']}
-        //                 defaultGeometry={[53.902575777784925,27.561308296096712]}
-        //                 properties= {{
-        //                     balloonContentHeader: "ПРА!!!",
-        //                     balloonContentBody: "ПЛО!!!!!!",
-        //                     balloonContentFooter: "ЗАВ!!!!",
-        //                     hintContent: "HINT"
-        //                 }}
-        //                 options ={{
-        //                     preset : 'islands#icon',                        
-        //                 }}
-        //                 />
-        //                 </Map>
-        //         </div>
-        //     </YMaps>
-        // </div>

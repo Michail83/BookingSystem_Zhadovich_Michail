@@ -17,7 +17,7 @@
         return this.base_api+'/ArtEvents'+this.setid(id);        
     },
     getArtEventWithFilterQuery: function (filteringData){
-        console.log(filteringData);
+        // console.log(filteringData);
         // const nameFilter= filteringData.nameForFilter??'';
         // const typeForFilter = filteringData.typeForFilter??'';  
         // const sortBy = filteringData.sortBy??'id';
