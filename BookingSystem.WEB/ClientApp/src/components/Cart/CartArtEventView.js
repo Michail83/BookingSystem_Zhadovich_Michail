@@ -1,18 +1,18 @@
 
 import { Link, useNavigate } from "react-router-dom"
 // import AddButton_ReduxWrapped from "../Cart/cartButton/AddButton"
-import "./HomeArtEventView.css"
+// import "./HomeArtEventView.css"
 // import ChangeValueInCartButton_ReduxWrapped from "../Cart/cartButton/changeValueInCartButton";
 import ArtEventView from "../ArtEventView/ArtEventView";
-import HomeArtEventButtonBlock from "./HomeArtEventButtonBlock"; 
+import CartArtEventViewButtonBlock from "./CartArtEventViewButtonBlock"; 
 
 
-function HomeArtEventView(props) { 
+function CartArtEventView(props) { 
     // console.log(props);  
-    let newProps ={...props,buttonBlock: HomeArtEventButtonBlock } 
+    let newProps ={...props,buttonBlock: CartArtEventViewButtonBlock } 
 
     return (
         <ArtEventView {...newProps}/>
     )
 }
-export default HomeArtEventView;
+export default CartArtEventView;

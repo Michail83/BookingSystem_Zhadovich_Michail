@@ -14,7 +14,7 @@ import {tryLoadAuthData} from "./function/tryLoadAuthData";
 
 
 
-import { DeleteArtEventButton } from './components/DetailsList/DeleteArtEventButton';
+import { DeleteArtEventButton } from './components/Details/DeleteArtEventButton';
 
 import HomePage from './Pages/Home/Index';
 import CreateEvent from './Pages/Create/Index';
@@ -22,14 +22,15 @@ import DetailsPage from './Pages/Details/index'
 import Testpageauth from './testComponent/TestPage';
 import UniversalHeader from './components/UniversalHeader/UniversalHeader.js';
 import LoginPage from './Pages/Login/index'
-import LoginCallback from './Pages/LoginCallback/index'
+// import LoginCallback from './Pages/LoginCallback/index'
 import CartPage from "./Pages/CartPage/Index"
-import OrderPage from "./Pages/OrderPage/index"
+// import OrderPage from "./Pages/OrderPage/index"
 import Registration from './components/OwnLogin/Registration';
 
 
-function App({authData}) {
+function App({ authData }) {
     useEffect(() => {
+        // localStorage.clear();
         tryLoadAuthData()
     }, [])
 
@@ -45,58 +46,50 @@ function App({authData}) {
     // }
     let routes;
     if (authData.isAuthenticated && authData.isAdmin) {
-        console.log("Admin routes");
-         routes = (<Fragment>      
-    <UniversalHeader isAdmin={authData.isAdmin}/>
-    <Routes>
-        <Route path="/"                     element={<HomePage/>}>      </Route> 
-        <Route path="/Create"               element={<CreateEvent/>}>   </Route> 
-        <Route path ="/details/:eventid"    element={<DetailsPage deleteButton={DeleteArtEventButton}/>}>   </Route> 
-        <Route path="/test"                 element={<Testpageauth/>}>     </Route>
-        <Route path="/login"                element={<LoginPage/>}>     </Route>
-        {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
-        <Route path ="/cart"                element={<CartPage/>}> </Route>
-        <Route path ="/orders"                element={<OrderPage/>}> </Route>  
-        <Route path='registration'            element={<Registration/>}  />   
-        <Route path='*'                       element={<HomePage/>}> </Route> 
-        
+        // console.log("Admin routes");
+        routes = (<Fragment>
+            <UniversalHeader isAdmin={authData.isAdmin} />
+            <Routes>
+                <Route path="/" element={<HomePage />}>      </Route>
+                {/* <Route path="/Create"               element={<CreateEvent/>}>   </Route>  */}
+            <Route path ="/details/:eventid"    element={<DetailsPage deleteButton={DeleteArtEventButton}/>}>   </Route> 
+            <Route path="/test"                 element={<Testpageauth/>}>     </Route>
+                <Route path="/login" element={<LoginPage />}>     </Route>
+                {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
+                <Route path ="/cart"                element={<CartPage/>}> </Route>
+        {/* <Route path ="/orders"                element={<OrderPage/>}> </Route>   */}
+                <Route path='registration' element={<Registration />} />
+                <Route path='*' element={<HomePage />}> </Route>
 
-    </Routes>
-    </Fragment>);
-        
-    } else  
-    {
-        console.log("User routes");
+
+            </Routes>
+        </Fragment>);
+
+    } else {
+        // console.log("User routes");
         routes = (
-            <Fragment>      
-    <UniversalHeader/>
-    <Routes>
-        <Route path="/"                     element={<HomePage/>}>      </Route> 
-        {/* <Route path="/Create"               element={<CreateEvent/>}>   </Route>  */}
-        <Route path ="/details/:eventid"    element={<DetailsPage/>}>   </Route> 
-        {/* <Route path="/test"                 element={<Testpageauth/>}>     </Route> */}
-        <Route path="/login"                element={<LoginPage/>}>     </Route>
-        {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
-        <Route path ="/cart"                element={<CartPage/>}> </Route>
-        <Route path ="/orders"                element={<OrderPage/>}> </Route>  
-        <Route path='registration'            element={<Registration/>}  />   
-        <Route path='*'                       element={<HomePage/>}> </Route> 
-        
-
-    </Routes>
-    </Fragment>
+            <Fragment>
+                <UniversalHeader />
+                <Routes>
+                    <Route path="/" element={<HomePage />}>      </Route>
+                    {/* <Route path="/Create"               element={<CreateEvent/>}>   </Route>  */}
+                    <Route path ="/details/:eventid"    element={<DetailsPage/>}>   </Route> 
+                    <Route path="/test"                 element={<Testpageauth/>}>     </Route>
+                    <Route path="/login" element={<LoginPage />}>     </Route>
+                    {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
+                    <Route path ="/cart"                element={<CartPage/>}> </Route>
+                    {/* <Route path ="/orders"                element={<OrderPage/>}> </Route>   */}
+                    <Route path='registration' element={<Registration />} />
+                    <Route path='*' element={<HomePage />}> </Route>
+                </Routes>
+            </Fragment>
         )
-
     }
-    
-
-
-
     return (
         <Fragment>
             {routes}
         </Fragment>
-         
+
     );
 }
 // export default App;
@@ -111,3 +104,4 @@ const mapDispatchToProps = dispatch => (
     });
 var App_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(App);
 export default App_ReduxWrapped;
+

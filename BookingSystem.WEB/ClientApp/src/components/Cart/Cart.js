@@ -4,16 +4,28 @@ import axios from "axios";
 import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCartButton"
 import "./Cart.css"
 import urls from "../../API_URL"
-import RowInMainTable from "../RowInMainTable/RowInMainTable";    
+// import RowInMainTable from "../RowInMainTable/RowInMainTable";    
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import { mapToOrderData } from "../../function/mapToOrderData";
+import CartArtEventView from "./CartArtEventView";
+import styled from "styled-components";
+
 
 import { Link, useNavigate } from "react-router-dom"
+
+const Flexblock = styled.div`
+ box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 16vh;
+    /* background-color: rgba(87, 169, 252, 0.822); */
+`;
 
 const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated})=>{
 
     const [isLoading, setIsLoading] = useState(true);                
     const [errorMessage, setErrorMessage] = useState(null);
+    
     const CreateOrderHandler = async ()=>{
         try {
             console.log(mapToOrderData(cartMap));
@@ -62,30 +74,17 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated})=>{
             if (cartMap === undefined || cartMap.size=== 0) {    
                 elemenList = <div>Your cart is empty</div>    
             } else {
-                let itemsInTable = fullCartArray.map((item) => (<RowInMainTable key={item.id} item={item} buttonType={"changebutton"}/>));
-                elemenList = <table>
-                    <colgroup>
-                    <col width="5%"></col>
-                    <col width="10%"></col>
-                    <col width="15%"></col>
-                    <col width="18%"></col>
-                    <col width="18%"></col>
-                    <col width="20%"></col>
-                    <col width="15%"></col>
-                    </colgroup>
-                        <tbody>
-                            {itemsInTable}
-                        </tbody>
-                    </table>           
+                elemenList = fullCartArray.map((item) => (<CartArtEventView key={item.id} item={item}/>));
+                                         
             }
         }            
     }
         return(
-            <div className="mainCart">            
+            <Flexblock>            
             {elemenList}   
             {button}
 
-            </div>
+            </Flexblock>
     )
 }
 const mapStateToProps=(state)=> ({ 

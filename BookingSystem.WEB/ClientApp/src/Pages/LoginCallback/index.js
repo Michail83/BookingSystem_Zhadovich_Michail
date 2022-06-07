@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 // import  LoadCustomArtEvent from "../../components/DetailsList/LoadCustomArtEvent";
 
 import urls from '../../API_URL'
-import OpenAirDetails from '../../components/DetailsList/OpenAirDetails'
-import PartyDetails from '../../components/DetailsList/PartyDetails'
-import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetails'
+// import OpenAirDetails from '../../components/DetailsList/OpenAirDetails'
+// import PartyDetails from '../../components/DetailsList/PartyDetails'
+// import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetails'
 
  function LoginCallback() {
 

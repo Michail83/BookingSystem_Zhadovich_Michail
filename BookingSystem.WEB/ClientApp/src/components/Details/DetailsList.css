@@ -1,6 +1,8 @@
 .mainDetails{
-    margin-top: 20px;
+    margin-top: 13vh;
     display: flex;
+    box-sizing: border-box;
+    padding: 1rem 1rem;
 
 }
 .mainDetails div{    

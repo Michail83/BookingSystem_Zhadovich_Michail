@@ -3,10 +3,12 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 // import  LoadCustomArtEvent from "../../components/DetailsList/LoadCustomArtEvent";
 
-import urls from '../../API_URL'
-import OpenAirDetails from '../../components/DetailsList/OpenAirDetails'
-import PartyDetails from '../../components/DetailsList/PartyDetails'
-import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetails'
+import urls from '../../API_URL';
+// import OpenAirDetails from '../../components/Details/OpenAirDetails'
+import PartyDetails from '../../components/Details/PartyDetails'
+// import ClassicMusicDetails from '../../components/Details/ClassicMusicDetails'
+
+import ClassicMusicDetails from '../../components/Details/ClassicMusicDetailsNEW';
 
  function DetailsPage({deleteButton}) {
 // console.log(deleteButton);
@@ -23,8 +25,8 @@ import ClassicMusicDetails from '../../components/DetailsList/ClassicMusicDetail
 
     switch (eventType) {
         
-        case "OpenAir":
-        return(<OpenAirDetails id={id} url= {urls.openairs(id)} deleteButton={deleteButton} />);
+        // case "OpenAir":
+        // return(<OpenAirDetails id={id} url= {urls.openairs(id)} deleteButton={deleteButton} />);
 
         case "Party": 
         return(<PartyDetails id={id} url= {urls.parties(id)} deleteButton={deleteButton}/>);

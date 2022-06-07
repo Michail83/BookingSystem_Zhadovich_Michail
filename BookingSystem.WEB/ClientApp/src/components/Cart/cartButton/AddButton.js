@@ -4,13 +4,25 @@ import { connect } from "react-redux";
 
 import actionCreator from "../../../Store/ActionsCreators/actionCreator";
 
+import { BlueButton } from "../../StyledComponent/Button/BlueButton";
+import styled from "styled-components";
 
+
+const BlueToGrayButton = styled(BlueButton)`
+&:hover{background-color:red};
+`;
 
 const AddButton =({id, active, submitHandler})=>{
-    // let input;
+    // console.log(id);
+        // let input;
 
     return (                                                                      
-            <button disabled={active} onClick={()=>{submitHandler(id)}} type="button">ADD</button>       
+            <BlueButton 
+            disabled={active} 
+             style={active?{backgroundColor:"lightgray"}:{}} 
+             onClick={()=>{submitHandler(id)}} 
+             type="button"
+             >Add to cart</BlueButton>       
     )
 }
 

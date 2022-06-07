@@ -12,8 +12,8 @@ import actionCreator from "../../../Store/ActionsCreators/actionCreator";
 
 
 
-const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, deleteFromCart, deleteFromCartArray, id, maxValue})=>{
-   
+const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, deleteFromCart, deleteFromCartArray, id, amounOfTicket})=>{
+//    console.log(id, amounOfTicket);
     
     function onFormClick(event, id) { 
         // let test = event;
@@ -23,7 +23,7 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, delet
         switch (event.target.id) {
             case "increment":{
                 // проверка значения на сервере
-                if (curentReduxValue<maxValue) {
+                if (curentReduxValue<amounOfTicket) {
                     setCurrentReduxValue(id,curentReduxValue+1)
                 }                
             }                
@@ -46,7 +46,7 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, delet
     function onInputHandler(event, id ) {
             let newValue =  Number.parseInt(event.target.value, 10 );
         
-            if (Number.isNaN(newValue) || newValue>maxValue || newValue<1 ) {
+            if (Number.isNaN(newValue) || newValue>amounOfTicket || newValue<1 ) {
                 console.log("catch   !!!NaN!!!!   or invalid number")
             } else{
                 setCurrentReduxValue(id, newValue)
@@ -71,7 +71,7 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, delet
             <form className="changeValueButtonGroup" onClick={(event) => onFormClick(event, id)}>
                 <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
                 <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
-                <button id="increment" disabled={curentReduxValue > maxValue - 1} type="button">+</button>
+                <button id="increment" disabled={curentReduxValue > amounOfTicket - 1} type="button">+</button>
             </form>
             <button id="deletefromcart" onClick={() => { deleteFromCart(id); deleteFromCartArray(id);  }}>delete </button>
         </Fragment>

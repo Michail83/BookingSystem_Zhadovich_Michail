@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import HomeArtEventView from '../HomeArtEventView/HomeArtEventView';
 import './MainTableForArtEvents.css';
 import urls from  '../../API_URL'
@@ -6,54 +6,71 @@ import axios from "axios";
 import { connect } from "react-redux";
 import actionCreator from "../../Store/ActionsCreators/actionCreator.js";
 import FilterPanel_ReduxWrapped from "../FilterPanel/FilterPanel";
+import styled from "styled-components";
 
-// import works from "../../works";
+const Flexblock = styled.div`
+ box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 19vh;
+    /* background-color: rgba(87, 169, 252, 0.822); */
+`;
+const NoResult = styled.div`
+    padding: 1vh 1vw;
+    font-size: 4rem;
+    font-weight: bold;
+`;
 
-const MainTableForArtEvents = ({artEventItems, setArtEventItems,filteringData})=>{
+const MainTableForArtEvents = ({ artEventItems, setArtEventItems, filteringData }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(undefined);
 
-    const loadArtEvents = async (filteringData)=>{
+    const loadArtEvents = async (filteringData) => {
         try {
-            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));            
+            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));
             setArtEventItems(result.data);
-            setLoading(false);            
+            setLoading(false);
         } catch (err) {
             console.log("error in MainTableForArtEvents => loadArtEvents  " + err);
             setArtEventItems([]);
             setLoading(false);
-            setError(err);        
+            setError(err);
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         loadArtEvents(filteringData);
-        console.log("loadArtEvents");
-        console.log(urls.getArtEventWithFilterQuery(filteringData));
+        // console.log("loadArtEvents");
+        // console.log(urls.getArtEventWithFilterQuery(filteringData));
 
-    },[filteringData]);    
+    }, [filteringData]);
 
-    const createComponent = ()=>{
+    const createComponent = () => {
+        let content = <NoResult>No result</NoResult>;
         if (loading) {
-            return <div>Loading...</div>            
-        } else{
-            if (error!=undefined) {
-                return <div>ERROR =  {error} </div> 
+            return <div>Loading...</div>
+        } else {
+            if (error != undefined) {
+                console.log(error);
+                return content;
             }
         }
-
-        let itemsInTable = artEventItems.map((item) => (<HomeArtEventView key={item.id} item={item} /> ));
-
+        
+        if (artEventItems.length) {
+            content = artEventItems.map((item) => (<HomeArtEventView key={item.id} item={item} />));
+        }
+        
         return (
-            <div className="main-div">
-                <FilterPanel_ReduxWrapped/>
-                <div className="flexblock1">
-                    {itemsInTable}
-                </div>
-            </div>
-        )}
+            <Fragment>
+                <FilterPanel_ReduxWrapped />
+                <Flexblock>
+                    {content}
+                </Flexblock>
+            </Fragment>
+        )
+    }
 
-    return (        
+    return (
         createComponent()
     )
 }

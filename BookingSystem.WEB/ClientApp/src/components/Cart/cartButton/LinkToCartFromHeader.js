@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 const LinkToCartFromHeader= ({cartMap}) => {
    
 
-    let element = <div>Nothing in Cart</div>;
+    let element = <div>Empty cart</div>;
     
        if (!cartMap.size == 0) {   
            element = <Link to="/cart">Cart</Link>
