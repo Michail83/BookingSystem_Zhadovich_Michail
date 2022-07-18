@@ -14,7 +14,7 @@ const CartArtEventViewButtonBlock = (props) => {
 //    console.log(props);
     // const navigate = useNavigate();
     return <Fragment>
-        <ChangeValueInCartButton_ReduxWrapped {...props.item}/>
+        <ChangeValueInCartButton_ReduxWrapped {...props}/>
     </Fragment>
 }
 export default CartArtEventViewButtonBlock;

@@ -1,6 +1,8 @@
 import React, {useEffect, useState, Fragment} from "react";
+import { useStateIfMounted } from "use-state-if-mounted";
+
 import HomeArtEventView from '../HomeArtEventView/HomeArtEventView';
-import './MainTableForArtEvents.css';
+// import './MainTableForArtEvents.css';
 import urls from  '../../API_URL'
 import axios from "axios";
 import { connect } from "react-redux";
@@ -22,31 +24,30 @@ const NoResult = styled.div`
 `;
 
 const MainTableForArtEvents = ({ artEventItems, setArtEventItems, filteringData }) => {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(undefined);
+    const [loading, setLoading] = useStateIfMounted(true);
+    const [error, setError] = useStateIfMounted(undefined);
 
     const loadArtEvents = async (filteringData) => {
         try {
-            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));
+            setLoading(true);
+            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));            
             setArtEventItems(result.data);
-            setLoading(false);
+            
         } catch (err) {
-            console.log("error in MainTableForArtEvents => loadArtEvents  " + err);
-            setArtEventItems([]);
-            setLoading(false);
+            console.log("error in MainTableForArtEvents => loadArtEvents  " + err);            
             setError(err);
+            setArtEventItems([]);
+        } finally{
+            setLoading(false);
         }
     }
 
     useEffect(() => {
-        loadArtEvents(filteringData);
-        // console.log("loadArtEvents");
-        // console.log(urls.getArtEventWithFilterQuery(filteringData));
-
+        loadArtEvents(filteringData);        
     }, [filteringData]);
 
     const createComponent = () => {
-        let content = <NoResult>No result</NoResult>;
+        let content= "NOOOOO" ;
         if (loading) {
             return <div>Loading...</div>
         } else {
@@ -54,24 +55,22 @@ const MainTableForArtEvents = ({ artEventItems, setArtEventItems, filteringData 
                 console.log(error);
                 return content;
             }
-        }
-        
+        }        
         if (artEventItems.length) {
-            content = artEventItems.map((item) => (<HomeArtEventView key={item.id} item={item} />));
-        }
-        
-        return (
-            <Fragment>
-                <FilterPanel_ReduxWrapped />
-                <Flexblock>
-                    {content}
-                </Flexblock>
-            </Fragment>
-        )
+            content = artEventItems.map((item) => (<HomeArtEventView key={item.id} {...item} />));
+        } else{
+            content = <NoResult>No result</NoResult>;
+        }        
+        return  content;
     }
 
     return (
-        createComponent()
+        <Fragment>
+                <FilterPanel_ReduxWrapped />
+                <Flexblock>
+                    {createComponent()}
+                </Flexblock>
+            </Fragment>
     )
 }
 
@@ -150,31 +149,3 @@ export default MainTableForArtEvents_ReduxWrapped;
 //     }
 // ]
 
-
-
-
-
-
-
-
-
-
-
-// return (
-//     <div className="main-div">
-//         <FilterPanel_ReduxWrapped/>
-//         <table style={{border: "1px solid black", borderCollapse: "collapse", width:"100%"}} className="main-table" id="main-table">
-//             <colgroup>
-//                 <col width="20%"></col>
-//                 <col width="10%"></col>
-//                 <col width="15%"></col>
-//                 <col width="17%"></col>
-//                 <col width="17%"></col>
-//                 <col width="21%"></col>                
-//             </colgroup>            
-//         <tbody>                
-//             {itemsInTable }
-//         </tbody>
-//         </table>        
-//     </div>
-// )}

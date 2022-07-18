@@ -1,7 +1,7 @@
 import React from "react";
 // import { Link, useNavigate } from "react-router-dom"
 // import AddButton_ReduxWrapped from "../Cart/cartButton/AddButton"
-import "./ArtEventView.css"
+// import "./ArtEventView.css"
 // import ChangeValueInCartButton_ReduxWrapped from "../Cart/cartButton/changeValueInCartButton";
 import styled from "styled-components";
 
@@ -41,12 +41,12 @@ function ArtEventView(props) {
 
             </ArtEventViewImage>
             <AboutArtEvent>
-                <h3>{props.item.iventName}</h3>
-                <p>{props.item.typeOfArtEvent}</p>
-                <div>{props.item.additionalInfo.map((info, index) => <p key={index} >{info }</p>)}</div>
-                <p>{props.item.date}</p>
-                <h5>{props.item.amounOfTicket}</h5>
-                <p>{props.item.place}</p>
+                <h3>{props.iventName}</h3>
+                <p>{props.typeOfArtEvent}</p>
+                <div>{props.additionalInfo.map((info, index) => <p key={index} >{info }</p>)}</div>
+                <p>{new Date(props.date).toLocaleString()}</p>                
+                <h5>{props.amounOfTicket}</h5>
+                <p>{props.place}</p>
 
             </AboutArtEvent>
             <ButtonBlock >

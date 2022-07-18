@@ -14,4 +14,14 @@ export const setAuth = "setAuth";
 export const setFullCartArray = "setFullCartArray";
 export const deleteFromCartArray = "deleteFromCartArray";
 export const clearCart = "clearCart";
+
 export const setFilteringData = "setFilteringData";
+export const setFilteringDataToDefault = "setFilteringDataToDefault";
+
+export const setDeleteArtEventButton = "DeleteArtEventButton";
+export const clearAdmins = "clearAdmins"; 
+
+export const setBaseCreatingData ="setBaseCreatingData";
+export const ClearALLCreatingData ="ClearALLCreatingData";
+
+export const setAdditionalOpenAirCreatingData = "setAdditionalOpenAirCreatingData"; 

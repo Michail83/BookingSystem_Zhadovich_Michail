@@ -24,40 +24,32 @@ import UniversalHeader from './components/UniversalHeader/UniversalHeader.js';
 import LoginPage from './Pages/Login/index'
 // import LoginCallback from './Pages/LoginCallback/index'
 import CartPage from "./Pages/CartPage/Index"
-// import OrderPage from "./Pages/OrderPage/index"
+import OrderPage from "./Pages/OrderPage/index"
 import Registration from './components/OwnLogin/Registration';
 
 
-function App({ authData }) {
+function App({ authData, addDeleteArtEventButtonToState }) {
     useEffect(() => {
         // localStorage.clear();
         tryLoadAuthData()
     }, [])
-
-    // const tryLoadAuthData = async () => {
-    //     try {
-    //         const result = await axios.get(urls.getLoginInfo());
-    //         if (result.status == 200) {
-    //             store.dispatch(actionsCreator.setAuth(result.data));
-    //         }           
-    //     } catch (e) {
-    //         console.log(`APP -    tryLoadAuthData    ${e}`)
-    //     }
-    // }
+    
     let routes;
     if (authData.isAuthenticated && authData.isAdmin) {
-        // console.log("Admin routes");
+        
+        addDeleteArtEventButtonToState();
         routes = (<Fragment>
-            <UniversalHeader isAdmin={authData.isAdmin} />
+            <UniversalHeader isAdmin={authData.isAdmin} />    {/* Redux??? */}  
+            
             <Routes>
                 <Route path="/" element={<HomePage />}>      </Route>
-                {/* <Route path="/Create"               element={<CreateEvent/>}>   </Route>  */}
-            <Route path ="/details/:eventid"    element={<DetailsPage deleteButton={DeleteArtEventButton}/>}>   </Route> 
+                <Route path="/Create"               element={<CreateEvent/>}>   </Route> 
+            <Route path ="/details/:eventid"    element={<DetailsPage/>}>   </Route> 
             <Route path="/test"                 element={<Testpageauth/>}>     </Route>
                 <Route path="/login" element={<LoginPage />}>     </Route>
                 {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
                 <Route path ="/cart"                element={<CartPage/>}> </Route>
-        {/* <Route path ="/orders"                element={<OrderPage/>}> </Route>   */}
+        <Route path ="/orders"                element={<OrderPage/>}> </Route>  
                 <Route path='registration' element={<Registration />} />
                 <Route path='*' element={<HomePage />}> </Route>
 
@@ -72,13 +64,13 @@ function App({ authData }) {
                 <UniversalHeader />
                 <Routes>
                     <Route path="/" element={<HomePage />}>      </Route>
-                    {/* <Route path="/Create"               element={<CreateEvent/>}>   </Route>  */}
+                    <Route path="/Create"               element={<CreateEvent/>}>   </Route> 
                     <Route path ="/details/:eventid"    element={<DetailsPage/>}>   </Route> 
                     <Route path="/test"                 element={<Testpageauth/>}>     </Route>
                     <Route path="/login" element={<LoginPage />}>     </Route>
                     {/* <Route path ="/logincallback/:string" element={<LoginCallback/>}>   </Route>   */}
                     <Route path ="/cart"                element={<CartPage/>}> </Route>
-                    {/* <Route path ="/orders"                element={<OrderPage/>}> </Route>   */}
+                    <Route path ="/orders"                element={<OrderPage/>}> </Route>  
                     <Route path='registration' element={<Registration />} />
                     <Route path='*' element={<HomePage />}> </Route>
                 </Routes>
@@ -100,6 +92,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => (
     {
+        addDeleteArtEventButtonToState:()=>dispatch(actionsCreator.setDeleteArtEventButton(DeleteArtEventButton))
         // setNoActive:()=> dispatch(actionCreator.setModalWindowForLoginActive(false))        
     });
 var App_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(App);

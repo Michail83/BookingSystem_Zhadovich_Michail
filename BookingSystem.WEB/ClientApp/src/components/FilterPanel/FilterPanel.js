@@ -1,12 +1,15 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import _ from "lodash";
 
 
 import {ListOfArtEventType} from "../../CONST/ListOfArtEventType";
 import {ListOfSortOptions} from "../../CONST/ListOfSortOptions";
+import { partOfInitialState_FilteringData } from "../../Store/initialState";
 import actionsCreator from "../../Store/ActionsCreators/actionCreator";
-import "./FilterPanel.css";
+// import "./FilterPanel.css";
 import styled from "styled-components";
+
 
 const MainFilterPanelWrapped =styled.div`
     box-sizing: border-box;
@@ -37,6 +40,7 @@ const MainFilterPanel =styled.div`
         background-repeat: no-repeat;
         background-position-y: center;
         background-position-x: calc(100% - 5px);
+        cursor:pointer;
     }
     & button {
         width: 9%;
@@ -51,12 +55,13 @@ const MainFilterPanel =styled.div`
   }
 `;
 
-    const FilterPanel = ({filteringData, setfilteringData})=>{
+const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefault }) => {
+
     const [nameFilter, setNameFilter] = useState(filteringData.nameForFilter);
     const [typeFilter, setTypeFilter] = useState(filteringData.typeForFilter);
     const [sort, setSort] = useState(filteringData.sortBy);
-    const createTypeFilterOptions = (listOfArtEventType)=> listOfArtEventType.map((eventType)=><option key={eventType.value} value={eventType.value}> {eventType.name}</option>);
-    const createSortOptions = (sortOptions)=>sortOptions.map((sortby)=><option key={sortby.value} value={sortby.value}> {sortby.name}</option>);    
+    const createTypeFilterOptions = (listOfArtEventType) => listOfArtEventType.map((eventType) => <option key={eventType.value} value={eventType.value}> {eventType.name}</option>);
+    const createSortOptions = (sortOptions) => sortOptions.map((sortby) => <option key={sortby.value} value={sortby.value}> {sortby.name}</option>);
 
     return (
         <MainFilterPanelWrapped>
@@ -64,21 +69,16 @@ const MainFilterPanel =styled.div`
 
                 <input className="filterElementSize" placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))} ></input>
 
-
-
                 <select className="filterElementSize" value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                     {createTypeFilterOptions(ListOfArtEventType)}
                 </select>
 
-
-
                 <select className="filterElementSize" value={sort} onChange={(event) => setSort(event.target.value)}>
                     {createSortOptions(ListOfSortOptions)}
                 </select>
-
-
-
                 <button type="button" onClick={() => setfilteringData(nameFilter, typeFilter, sort)} >Apply</button>
+
+                <button type="button" disabled={_.isEqual(filteringData, partOfInitialState_FilteringData)} onClick={() => setfilteringDataToDefault()}>Reset</button>
 
             </MainFilterPanel>
         </MainFilterPanelWrapped>
@@ -94,7 +94,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
     {
-        setfilteringData:(nameFilter,typeFilter,sort)=> dispatch(actionsCreator.setFilteringData({nameForFilter:nameFilter, typeForFilter:typeFilter, sortBy:sort}))        
+        setfilteringData:(nameFilter,typeFilter,sort)=> dispatch(actionsCreator.setFilteringData({nameForFilter:nameFilter, typeForFilter:typeFilter, sortBy:sort})), 
+        setfilteringDataToDefault:()=>dispatch(actionsCreator.setFilteringDataToDefault())     
     });
 
 var FilterPanel_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(FilterPanel);

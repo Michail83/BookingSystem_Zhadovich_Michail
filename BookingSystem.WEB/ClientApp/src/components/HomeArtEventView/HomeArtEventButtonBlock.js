@@ -19,11 +19,11 @@ import { BlueButton } from "../StyledComponent/Button/BlueButton";
 
 
 const HomeArtEventButtonBlock = (props) => {
-    // console.log(props);
+
     const navigate = useNavigate();
     return <Fragment>
-        <AddButton_ReduxWrapped id={props.item.id}  />
-        <BlueButton onClick={() => navigate(`/details/${props.item.id}`)}>Details</BlueButton>
+        <AddButton_ReduxWrapped id={props.id}  />
+        <BlueButton onClick={() => navigate(`/details/${props.id}`)}>Details</BlueButton>
     </Fragment>
 }
 export default HomeArtEventButtonBlock;

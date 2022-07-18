@@ -27,7 +27,8 @@ const Navbar = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 60px;    
+    height: 60px;  
+    border-radius: 3px;  
 
     & div {    
     margin: 5px;
@@ -54,12 +55,13 @@ const UserNameField = styled.div`
 
 const NavBarItem = styled.div`
     width: 13%;
+    cursor: pointer;
     & :first-child{
         padding:1%;
         margin:0;
     }
     background-color:lightblue;
-    background-color: ${({navPath, currentPath})=>navPath==currentPath?"royalblue!important":"inherit"};
+    background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue!important" : "inherit"};
     &:hover{
         background-color:royalblue
     }
@@ -67,6 +69,8 @@ const NavBarItem = styled.div`
 
 const UniversalHeader = ({ isAdmin }) => {
     const location = useLocation();
+    const navigate = useNavigate();
+
     /* console.log(location);
     console.log(location.pathname=="/"); */
 
@@ -78,12 +82,12 @@ const UniversalHeader = ({ isAdmin }) => {
             </UserNameField>
             <Navbar>
 
-                {isAdmin ? <NavBarItem navPath="/Create" currentPath={location.pathname}><Link to="/Create">Create Event</Link></NavBarItem> : ""}
-                
-                <NavBarItem navPath="/" currentPath={location.pathname} ><Link to="/">Home</Link></NavBarItem>
-                <NavBarItem navPath="/cart" currentPath={location.pathname}><LinkToCart /></NavBarItem>
-                {isAdmin ? <NavBarItem navPath="/test" currentPath={location.pathname} ><Link to="/test">TestPage</Link></NavBarItem> : ""}
-                <NavBarItem navPath="/orders" currentPath={location.pathname}><Link to="/orders">Orders</Link></NavBarItem>
+                {isAdmin ? <NavBarItem onClick={()=>navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""}
+
+                <NavBarItem onClick={()=>navigate("/")} navPath="/" currentPath={location.pathname} >Home</NavBarItem>
+                <NavBarItem onClick={()=>navigate("/cart")} navPath="/cart" currentPath={location.pathname}><LinkToCart /></NavBarItem>
+                {isAdmin ? <NavBarItem onClick={()=>navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
+                <NavBarItem onClick={()=>navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem>
                 <div><LogInOutManager_connected /></div>
             </Navbar >
         </MainUniversalHeader>

@@ -70,28 +70,28 @@ namespace BookingSystem.WEB.API
             }            
         }        
        
-        [HttpGet("{id}")]     
+        [HttpGet("{id}")]
         public async Task<ActionResult<ArtEventViewModel>> Get(int id)
         {
             try
             {
                 return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
             }
-            catch (EventNotFoundException) 
+            catch (EventNotFoundException)
             {
                 return NotFound($"ArtEvent { id}  not found");
             }
             catch (EFCoreDbException ex)
             {
-                Debug.WriteLine(ex.Message); //   ToDo       - delete after 
+                Debug.WriteLine(ex.Message); //   ToDo       - delete after
                 return BadRequest();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message); //   ToDo       - delete after 
+                Debug.WriteLine(ex.Message); //   ToDo       - delete after
                 return BadRequest();
-            }            
-        }        
+            }
+        }
         //[ActionName("Del")]  ////////////
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)

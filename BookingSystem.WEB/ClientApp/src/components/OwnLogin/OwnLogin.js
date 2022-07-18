@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import urls from "../../API_URL"
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import {tryLoadAuthData} from "../../function/tryLoadAuthData"
 
-import ExternalLoginList from "../ExternalLogin/ExternalLoginList";
-
-
+import ExternalLoginList from "../ExternalLogin/ExternalLoginList"; 
 
 const OwnLogin =  ({setNoActive}) => {
 
@@ -17,7 +15,7 @@ const OwnLogin =  ({setNoActive}) => {
     const [rememberMe, setRememberMe] = useState(false);
     const [result, setResult] = useState("");
 
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
 
     const LoginHadler = async (event)=>{
         event.preventDefault();
@@ -28,29 +26,23 @@ const OwnLogin =  ({setNoActive}) => {
                 email: email,
                 password: password,
                 rememberMe: true
-            });
-            // console.log(result.status);
+            });            
             setResult(result.data);            
-            // обработка ответа нужна и перенаправление
             if (result.status ==200) {
                 setNoActive();
-                tryLoadAuthData();
-                // navigate("/");
+                tryLoadAuthData();                
             }
         } catch (error) { 
             console.log( error);
-            setResult( error.response.data);
-            
+            setResult( error.response.data);            
         }
     }
-
-
     return (
         <div className="OwnLogin" >
             <form onSubmit={LoginHadler} > 
-                <label> Email <input type="email" value={email} onChange={(event)=>{setEmail(event.target.value); console.log(event.target.value)}}/></label>
-                <label> Password <input type="password" value={password} onChange={(event)=>{setPassword(event.target.value); console.log(event.target.value) }}/></label>
-                <label> Remember <input type="checkbox" value={rememberMe} onChange={(event)=>{setRememberMe(event.target.value); console.log(event.target.value) }}/></label>
+                <label> Email <input type="email" value={email} onChange={(event)=>{setEmail(event.target.value)}}/></label>
+                <label> Password <input type="password" value={password} onChange={(event)=>{setPassword(event.target.value) }}/></label>
+                <label> Remember <input type="checkbox" value={rememberMe} onChange={(event)=>{setRememberMe(event.target.value)}}/></label>
                 <button type="submit"  > Login</button>
             </form>
             <p>{result}</p>

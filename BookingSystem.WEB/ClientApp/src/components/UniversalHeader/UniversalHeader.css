@@ -1,4 +1,27 @@
-.main-universal-header{
+/* .modal-enter {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 1000ms ease-out;
+}
+
+.modal-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-exit-active {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 1000ms ease-in;
+} */
+
+
+/* .main-universal-header{
     position: fixed;
     box-sizing: border-box;
     top: 0;
@@ -24,7 +47,7 @@
     justify-content: end;
     align-items:flex-start 
 }
-    
+     */
 /* .nav-block {    
     margin: 5px;
     padding: 2px;
@@ -40,3 +63,5 @@
     margin-left: auto;
 }
      */
+
+         

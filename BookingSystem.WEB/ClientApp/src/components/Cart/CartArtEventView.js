@@ -8,7 +8,7 @@ import CartArtEventViewButtonBlock from "./CartArtEventViewButtonBlock";
 
 
 function CartArtEventView(props) { 
-    // console.log(props);  
+    console.log(props);  
     let newProps ={...props,buttonBlock: CartArtEventViewButtonBlock } 
 
     return (
