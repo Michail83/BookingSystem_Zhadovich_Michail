@@ -4,14 +4,11 @@ import { useParams } from "react-router-dom";
 // import  LoadCustomArtEvent from "../../components/DetailsList/LoadCustomArtEvent";
 
 import urls from '../../API_URL';
-// import OpenAirDetails from '../../components/Details/OpenAirDetails'
-import PartyDetails from '../../components/Details/PartyDetails'
-// import ClassicMusicDetails from '../../components/Details/ClassicMusicDetails'
-
+import OpenAirDetails from '../../components/Details/OpenAirDetailsNEW';
+import PartyDetails from '../../components/Details/PartyDetailsNEW';
 import ClassicMusicDetails from '../../components/Details/ClassicMusicDetailsNEW';
 
- function DetailsPage({deleteButton}) {
-// console.log(deleteButton);
+ function DetailsPage({}) {
     let params = useParams();
     const [eventType, setEventType] = useState("");
     let id = parseInt(params.eventid);     //  string or number
@@ -25,14 +22,14 @@ import ClassicMusicDetails from '../../components/Details/ClassicMusicDetailsNEW
 
     switch (eventType) {
         
-        // case "OpenAir":
-        // return(<OpenAirDetails id={id} url= {urls.openairs(id)} deleteButton={deleteButton} />);
+        case "OpenAir":
+        return(<OpenAirDetails id={id} url= {urls.openairs(id)}/>);
 
         case "Party": 
-        return(<PartyDetails id={id} url= {urls.parties(id)} deleteButton={deleteButton}/>);
+        return(<PartyDetails id={id} url= {urls.parties(id)}/>);
 
         case "ClassicMusic":
-        return(<ClassicMusicDetails id={id} url= {urls.classicmusics(id)} deleteButton={deleteButton} />);
+        return(<ClassicMusicDetails id={id} url= {urls.classicmusics(id)}/>);
 
         default: 
         return(

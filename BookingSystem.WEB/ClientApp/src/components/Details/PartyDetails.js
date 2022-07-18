@@ -32,4 +32,4 @@ function PartyDetails(props) {
         </div>
     );    
 }
-export default PartyDetails;
+// export default PartyDetails;

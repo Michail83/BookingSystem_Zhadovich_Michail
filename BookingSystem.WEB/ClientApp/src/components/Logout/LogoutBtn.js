@@ -23,12 +23,15 @@ function LogoutBtn({ setAuthFalse }) {
 
 const mapDispatchToProps = dispatch => (
     {
-        setAuthFalse: () => dispatch(actionCreator.setAuth({
-            isAuthenticated: false,
-            userName: "",
-            userEmail: "",
-            isAdmin: false
-        }))
+        setAuthFalse: () => {
+            dispatch(actionCreator.setAuth({
+                isAuthenticated: false,
+                userName: "",
+                userEmail: "",
+                isAdmin: false
+            }));
+            dispatch(actionCreator.clearAdmins());
+        }
     });
 
 let LogoutBtn_ReduxWrapped = connect(null, mapDispatchToProps)(LogoutBtn);

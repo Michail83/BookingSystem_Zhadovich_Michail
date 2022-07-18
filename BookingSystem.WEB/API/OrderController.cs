@@ -61,7 +61,7 @@ namespace BookingSystem.WEB.API
             {
                 cartWithQuantityBLs.Add(new CartWithQuantityBL { Quantity = ord.Quantity, ArtEventBL = new ArtEventBL { Id = ord.EventId } });
             }
-            OrderBL orderBL = new OrderBL {UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs };
+            OrderBL orderBL = new OrderBL {UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation=System.DateTime.Now };
             await _orderBLService.CreateAsync(orderBL);
 
             return Ok();

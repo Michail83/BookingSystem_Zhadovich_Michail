@@ -24,9 +24,22 @@ import * as keys from "../CONST/KeysForLocalStorage"
 
 
 /*import parseMapFromJson from "../function/parseMapFromJson"*/
-import { parseMapFromJson } from "../function/getCartMapFromLocalStorage"
+import { parseMapFromJson } from "../function/getCartMapFromLocalStorage";
+import styled from "styled-components";
 
+const MainDiv = styled.div`
+margin-top: 15vh;
+`;
 
+const AbsoluteMessage = styled.div`
+    position: absolute;
+    z-index:1000;
+    opacity:0.4;
+    font-size: 6vw;
+    color: pink;
+    top:45%;
+    left: 45%;
+`;
 
 
 
@@ -71,7 +84,7 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
     // }
 
     return (
-        <div>
+        <MainDiv>
             <YMaps>                
                 <div>
                     My awesome application with maps!
@@ -111,7 +124,9 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
                         </Map>
                 </div>
             </YMaps>
-        </div> 
+            <button  onClick={()=>localStorage.clear()} >Clear localStorage</button>
+            <AbsoluteMessage>WARNING TEST</AbsoluteMessage>
+        </MainDiv> 
     )
 }
 

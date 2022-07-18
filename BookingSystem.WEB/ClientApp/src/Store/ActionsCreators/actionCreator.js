@@ -43,5 +43,29 @@ export default {
     setFilteringData: (filteringData)=>({
         type: actionTypeList.setFilteringData,
         filteringData
+    }),
+    setDeleteArtEventButton:(DeleteArtEventButton)=>({
+        type: actionTypeList.setDeleteArtEventButton,
+        DeleteArtEventButton
+    }),
+    clearAdmins: ()=>({
+        type: actionTypeList.clearAdmins
+    }),
+    
+    setBaseCreatingData:(additionData)=>({
+        type: actionTypeList.setBaseCreatingData,
+        payload:additionData
+    }),
+    ClearALLTempCreatingData:()=>({
+        type: actionTypeList.ClearALLTempCreatingData
+    }),
+    setAdditionalOpenAirCreatingData:(AdditionalOpenAirCreatingData)=>({
+        type: actionTypeList.setAdditionalOpenAirCreatingData,
+        payload:AdditionalOpenAirCreatingData
+    }),
+    setFilteringDataToDefault:()=>({
+        type: actionTypeList.setFilteringDataToDefault
     })
+
+
 }

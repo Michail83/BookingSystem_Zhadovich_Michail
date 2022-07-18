@@ -33,4 +33,4 @@ function OpenAirDetails(props) {
 
     );    
 }
-export default OpenAirDetails;
+// export default OpenAirDetails;

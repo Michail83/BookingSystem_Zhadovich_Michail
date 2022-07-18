@@ -34,6 +34,7 @@ namespace BookingSystem.BusinessLogic.Services
             {
                 Id = incomingOrderBL.Id,
                 UserEmail = incomingOrderBL.UserEmail,
+                TimeOfCreation = incomingOrderBL.TimeOfCreation,
                 OrderAndArtEvents = orderAndArtEvent
             };
             return result;

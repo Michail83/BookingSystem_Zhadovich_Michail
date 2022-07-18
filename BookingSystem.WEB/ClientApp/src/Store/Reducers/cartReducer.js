@@ -57,6 +57,4 @@ function deleteFromCart(cartMap, id) {
 function deleteFromCartArrayById(cartArray, id) {   
     return cartArray.filter((item) => item.id != id);
 }
-
-
 export default cartReducer;
