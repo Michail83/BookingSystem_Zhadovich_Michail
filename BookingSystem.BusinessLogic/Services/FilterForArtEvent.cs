@@ -9,12 +9,12 @@ using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.BusinessLogic.Services
 {
-    internal class FilterForArtEvent : IArtEventFilter<ArtEvent>
+    public class FilterForArtEvent : IArtEventFilter<ArtEvent>
     {
         public IQueryable<ArtEvent> FilterBy(IQueryable<ArtEvent> source, PagesState pagesState)
         {
             var result = source;
-            var filter = (pagesState.TypeForFilter ?? String.Empty).ToLower();
+            var filter = (pagesState?.TypeForFilter ?? String.Empty).ToLower();
 
             switch (filter)
             {
@@ -30,9 +30,9 @@ namespace BookingSystem.BusinessLogic.Services
                 default:
                     break;
             }
-            if (!String.IsNullOrEmpty(pagesState.NameForFilter))
+            if (!String.IsNullOrEmpty(pagesState?.NameForFilter))
             {
-                result = result.Where(artEvent => artEvent.IventName.Contains(pagesState.NameForFilter));
+                result = result.Where(artEvent => artEvent.EventName.Contains(pagesState.NameForFilter));
             }
             return result;
         }

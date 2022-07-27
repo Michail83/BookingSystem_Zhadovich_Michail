@@ -1,30 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
-
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization; 
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
-using BookingSystem.Infrastructure.IdentityDBContext;
-using BookingSystem.Infrastructure.Models;
-using BookingSystem.Infrastructure.JWT;
-using BookingSystem.Infrastructure.Services;
-using BookingSystem.Infrastructure.Interfaces;
-
-
-
-
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.API
 {
@@ -41,7 +19,7 @@ namespace BookingSystem.WEB.API
             //_usermanager = usermanager;
             //_rolemanager = rolemanager;
         }
-                
+
 
         [Authorize]
         [Route("Test")]
@@ -56,11 +34,11 @@ namespace BookingSystem.WEB.API
         [Route("TestUser")]
         [HttpGet]
         public ActionResult<string> TestUser()
-        {            
-            var one =  User.Identity.AuthenticationType.ToString();
+        {
+            var one = User.Identity.AuthenticationType.ToString();
             var two = User.Identity.Name;
             var three = User.IsInRole("admin");
-            return Ok($" AuthenticationType= {one}  Identity.Name  {two} IsInRole admin  {three}" );
+            return Ok($" AuthenticationType= {one}  Identity.Name  {two} IsInRole admin  {three}");
         }
 
         ////[Authorize]
@@ -70,6 +48,6 @@ namespace BookingSystem.WEB.API
         //    return Ok($"Ваш логин: {User.Identity.Name}");
         //}
 
-        
+
     }
 }

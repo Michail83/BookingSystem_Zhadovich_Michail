@@ -12,13 +12,13 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
     public class PartyBL : ArtEventBL
     {
         public int AgeLimitation { get; set; }
-        public PartyBL() : base()
-        { }
+        //public PartyBL() : base()
+        //{ }
 
-        public PartyBL(Party party) : base(party)
-        {
-            this.AgeLimitation = party.AgeLimitation;
-        }
+        //public PartyBL(Party party) : base(party)
+        //{
+        //    this.AgeLimitation = party.AgeLimitation;
+        //}
         
     }
 }

@@ -12,35 +12,35 @@ namespace BookingSystem.WEB.StaticClasses
             return new ArtEventViewModel
             {
                 Id = ArtEvent.Id,
-                IventName = ArtEvent.EventName,
+                EventName = ArtEvent.EventName,
                 Date = ArtEvent.Date,
                 Place = ArtEvent.Place,
-                AmounOfTicket = ArtEvent.AmountOfTickets,
+                AmountOfTickets = ArtEvent.AmountOfTickets,
                 Latitude = ArtEvent.Latitude,
                 Longitude = ArtEvent.Longitude
             };
         }
-        public static ArtEventViewModel ConvertFromClassicMusicEventBL(ClassicMusicBL classicMusicBL)
+        public static ArtEventViewModel ConvertFromClassicMusicEventBLtoView(ClassicMusicBL classicMusicBL)
         {
-            var result = (ArtEventViewModel)ConvertBaseProperty(classicMusicBL);
+            var result = ConvertBaseProperty(classicMusicBL);
 
             result.TypeOfArtEvent = "ClassicMusic";
             result.AdditionalInfo = new string[] { classicMusicBL.ConcertName, classicMusicBL.Voice };
             return result;
         }
 
-        public static ArtEventViewModel ConvertFromOpenAirEventBL(OpenAirBL openAir)
+        public static ArtEventViewModel ConvertFromOpenAirEventBLtoView(OpenAirBL openAir)
         {
-            var result = (ArtEventViewModel)ConvertBaseProperty(openAir);
+            var result = ConvertBaseProperty(openAir);
 
             result.TypeOfArtEvent = "OpenAir";
             result.AdditionalInfo = new string[] { openAir.HeadLiner };
             return result;
         }
 
-        public static ArtEventViewModel ConvertFromPartyEventBL(PartyBL party)
+        public static ArtEventViewModel ConvertFromPartyEventBLtoView(PartyBL party)
         {
-            var result = (ArtEventViewModel)ConvertBaseProperty(party);
+            var result = ConvertBaseProperty(party);
 
             result.TypeOfArtEvent = "Party";
             result.AdditionalInfo = new string[] { party.AgeLimitation.ToString() };

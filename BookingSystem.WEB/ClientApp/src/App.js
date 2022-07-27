@@ -30,7 +30,7 @@ import Registration from './components/OwnLogin/Registration';
 
 function App({ authData, addDeleteArtEventButtonToState }) {
     useEffect(() => {
-        // localStorage.clear();
+        localStorage.clear();
         tryLoadAuthData()
     }, [])
     

@@ -59,9 +59,9 @@ namespace BookingSystem.DataLayer.EntityFramework
                 new Party
                 {
                     Id = 6,
-                    IventName = "Fake TNT Party",
+                    EventName = "Fake TNT Party",
                     AgeLimitation = 18,
-                    AmounOfTicket = 1500,
+                    AmountOfTickets = 1500,
                     Date = new DateTime(2022, 10, 31, 19,0,0),
                     Place = "Беларусь, Минск, Революционная улица, 9А",
                     Latitude = 53.902375271214524m,
@@ -70,9 +70,9 @@ namespace BookingSystem.DataLayer.EntityFramework
                 new Party
                 {
                     Id = 1,
-                    IventName = " Fake Макс party",
+                    EventName = " Fake Макс party",
                     AgeLimitation = 21,
-                    AmounOfTicket = 300,
+                    AmountOfTickets = 300,
                     Date = new DateTime(2022, 09, 25, 22,0,0),
                     Place = "Беларусь, Минск, проспект Независимости, 73",
                     Latitude = 53.92206511236228m,
@@ -82,8 +82,8 @@ namespace BookingSystem.DataLayer.EntityFramework
                 new OpenAir
                 {
                     Id = 3,
-                    IventName = "Fake Gorky Party",                    
-                    AmounOfTicket = 1500,
+                    EventName = "Fake Gorky Party",                    
+                    AmountOfTickets = 1500,
                     Date = new DateTime(2022, 12, 31, 15, 0, 0),
                     Place = "Беларусь, Минск, Первомайская улица, 3А",
                     Latitude = 53.90222207800099m,
@@ -94,8 +94,8 @@ namespace BookingSystem.DataLayer.EntityFramework
                  new OpenAir
                  {
                      Id = 2,
-                     IventName = "Fake Avia Party",                     
-                     AmounOfTicket = 100,
+                     EventName = "Fake Avia Party",                     
+                     AmountOfTickets = 100,
                      Date = new DateTime(2022, 07, 25, 19, 0, 0),
                      Place = "Беларусь, Минский район, Боровлянский сельсовет, деревня Копище",
                      Latitude = 53.96147426906447m,
@@ -107,9 +107,9 @@ namespace BookingSystem.DataLayer.EntityFramework
                 new ClassicMusic
                 {
                     Id = 4,
-                    IventName = "Fake classic musik  1",
+                    EventName = "Fake classic musik  1",
                     ConcertName = "classic musik  1",
-                    AmounOfTicket = 200,
+                    AmountOfTickets = 200,
                     Date = new DateTime(2022, 07, 23,16,0,0),
                     Voice = "tenor",
                     Place = "Беларусь, Минск, проспект Независимости, 50",
@@ -119,9 +119,9 @@ namespace BookingSystem.DataLayer.EntityFramework
                 new ClassicMusic
                 {
                     Id = 5,
-                    IventName = "Fake classic musik  2",
+                    EventName = "Fake classic musik  2",
                     ConcertName = "classic musik  2",
-                    AmounOfTicket = 250,
+                    AmountOfTickets = 250,
                     Date = new DateTime(2022, 08, 14, 17, 0, 0),
                     Voice = "bas",
                     Place = "Беларусь, Минск, проспект Независимости, 50",

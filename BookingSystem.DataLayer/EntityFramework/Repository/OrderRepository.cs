@@ -41,8 +41,8 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                     foreach (var orderAndArtEvent in order.OrderAndArtEvents)
                     {
                         var artEventToChange = _artEvents.First(artEvent=>artEvent.Id == orderAndArtEvent.ArtEventId);
-                        artEventToChange.AmounOfTicket = artEventToChange.AmounOfTicket - orderAndArtEvent.NumberOfBookedTicket;
-                        if (artEventToChange.AmounOfTicket<0)
+                        artEventToChange.AmountOfTickets = artEventToChange.AmountOfTickets - orderAndArtEvent.NumberOfBookedTicket;
+                        if (artEventToChange.AmountOfTickets<0)
                         {
                             throw new Exception();
                         }

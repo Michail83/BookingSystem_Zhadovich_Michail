@@ -9,17 +9,17 @@ using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.BusinessLogic.Services
 {
-    public class MapperOpenAirBLtoDALentity : IMapper<OpenAirBL, OpenAir>
+    public class MapperPartyBLtoDALentity : IMapper<PartyBL, Party>
     {
-        public OpenAir Map(OpenAirBL incoming)  //means -  incoming is validated
+        public Party Map(PartyBL incoming)  //means -  incoming is validated in controller
         {
-            return new OpenAir 
+            return new Party
             {
                 Id = incoming.Id, 
-                AmounOfTicket = incoming.AmountOfTickets,
+                AmountOfTickets = incoming.AmountOfTickets,
                 Date = incoming.Date,
-                HeadLiner = incoming.HeadLiner, 
-                IventName = incoming.EventName, 
+                AgeLimitation = incoming.AgeLimitation,
+                EventName = incoming.EventName, 
                 Place = incoming.Place,
                 Longitude = incoming.Longitude,
                 Latitude = incoming.Latitude

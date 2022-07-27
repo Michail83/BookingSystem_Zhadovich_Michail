@@ -1,23 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
+using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer;
-using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.Services;
-using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.DataLayer.EntityFramework.Repository;
-using Microsoft.EntityFrameworkCore;
-using BookingSystem.WEB.Models;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using Microsoft.AspNetCore.Cors;
 using System.Diagnostics;
-using BookingSystem.DataLayer.Exceptions;
-
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.API
 {
@@ -32,10 +22,8 @@ namespace BookingSystem.WEB.API
         {
             _artEventBLService = artEventBLService;
             _mapperToViewModel = mapperToViewModel;
-           
         }
        
-        //[Route("GetAll")]
         [HttpGet]
         public async Task<ActionResult<ArtEventViewModel>> Get([FromQuery] PagesState pageStatus = null)
         {
@@ -65,11 +53,11 @@ namespace BookingSystem.WEB.API
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(GetType()+"      " +ex.Message);
+                Debug.WriteLine(GetType() + "      " + ex.Message);
                 return BadRequest();
-            }            
-        }        
-       
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ArtEventViewModel>> Get(int id)
         {
@@ -77,22 +65,14 @@ namespace BookingSystem.WEB.API
             {
                 return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
             }
-            catch (EventNotFoundException)
-            {
-                return NotFound($"ArtEvent { id}  not found");
-            }
-            catch (EFCoreDbException ex)
-            {
-                Debug.WriteLine(ex.Message); //   ToDo       - delete after
-                return BadRequest();
-            }
+            
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message); //   ToDo       - delete after
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
-        //[ActionName("Del")]  ////////////
+       
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -101,15 +81,12 @@ namespace BookingSystem.WEB.API
                 await _artEventBLService.DeleteAsync(id);
                 return Ok(id);
             }
-            catch (EventNotFoundException) 
-            {
-                return NotFound(id);
-            }
+            
             catch (Exception ex)
             {
                 Debug.WriteLine(GetType() + ex.Message);//ToDo     change Exception
-                return BadRequest();
-            }            
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

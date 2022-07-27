@@ -51,7 +51,7 @@ namespace BookingSystem.BusinessLogic.Services
 
             var artEventsQuery = _repository.GetAll();
             artEventsQuery = _filter.FilterBy(artEventsQuery, pagesStatus);
-            artEventsQuery = _sorter.SortBy(artEventsQuery, pagesStatus);
+            artEventsQuery = _sorter.SortBy(artEventsQuery, pagesStatus.SortBy);
 
             var pagedArtEvents = await PagedList<ArtEvent>.TakePagedListAsync(artEventsQuery, pagesStatus.PageNumber, pagesStatus.PageSize);
             

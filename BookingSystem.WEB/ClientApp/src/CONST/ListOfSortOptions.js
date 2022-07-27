@@ -1,6 +1,6 @@
 export const ListOfSortOptions = [
-    {value:"IventName", name: "Name "},
-    {value:"AmounOfTicket", name: "AmounOfTicket"},
+    {value:"EventName", name: "Name "},
+    {value:"AmountOfTickets", name: "AmountOfTickets"},
     {value:"Date", name: "Date"},
     {value:"Place", name: "Place"},    
     ] 

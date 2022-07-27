@@ -9,18 +9,19 @@ using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.BusinessLogic.Services
 {
-    public class MapperPartyBLtoDALentity : IMapper<PartyBL, Party>
+    public class MapperClassicMusicBLtoDALentity : IMapper<ClassicMusicBL, ClassicMusic>
     {
-        public Party Map(PartyBL incoming)  //means -  incoming is validated in controller
+        public ClassicMusic Map(ClassicMusicBL incoming)
         {
-            return new Party
+            return new ClassicMusic
             {
                 Id = incoming.Id, 
-                AmounOfTicket = incoming.AmountOfTickets,
+                AmountOfTickets = incoming.AmountOfTickets,
                 Date = incoming.Date,
-                AgeLimitation = incoming.AgeLimitation,
-                IventName = incoming.EventName, 
+                Voice = incoming.Voice,
+                EventName = incoming.EventName, 
                 Place = incoming.Place,
+                ConcertName = incoming.ConcertName,
                 Longitude = incoming.Longitude,
                 Latitude = incoming.Latitude
             };
