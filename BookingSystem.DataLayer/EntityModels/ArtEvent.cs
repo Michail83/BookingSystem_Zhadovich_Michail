@@ -9,8 +9,8 @@ namespace BookingSystem.DataLayer.EntityModels
     public class ArtEvent
     {
         public int Id { get; set; }
-        public string IventName { get; set; }
-        public int AmounOfTicket { get; set; }
+        public string EventName { get; set; }
+        public int AmountOfTickets { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
         public decimal Latitude { get; set; }

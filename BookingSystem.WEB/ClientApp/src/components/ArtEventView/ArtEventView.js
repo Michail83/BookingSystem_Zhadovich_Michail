@@ -41,11 +41,11 @@ function ArtEventView(props) {
 
             </ArtEventViewImage>
             <AboutArtEvent>
-                <h3>{props.iventName}</h3>
+                <h3>{props.eventName}</h3>
                 <p>{props.typeOfArtEvent}</p>
                 <div>{props.additionalInfo.map((info, index) => <p key={index} >{info }</p>)}</div>
                 <p>{new Date(props.date).toLocaleString()}</p>                
-                <h5>{props.amounOfTicket}</h5>
+                <h5>{props.amountOfTickets}</h5>
                 <p>{props.place}</p>
 
             </AboutArtEvent>

@@ -11,17 +11,17 @@ using System.Reflection;
 
 namespace BookingSystem.BusinessLogic.Services
 {
-    public class SortForArtEvent<T> : IArtEventSort<T>
+    public class SortForArtEvent<T> : IArtEventSort<T> where T : ArtEvent
     {
-        public IQueryable<T> SortBy(IQueryable<T> source, PagesState pagesState)
+        public IQueryable<T> SortBy(IQueryable<T> source, string sortBy)
         {
 			IQueryable<T> result;
-			if (string.IsNullOrWhiteSpace(pagesState.SortBy))
+			if (string.IsNullOrWhiteSpace(sortBy))
 			{
-				return result = source.OrderBy("Id");     //.OrderBy(x => x.IventName)		
+				return result = source.OrderBy("Id"); 
 			}
 
-			var artEventParams = pagesState.SortBy.Trim().Split(',');
+			var artEventParams = sortBy.Trim().Split(',');
 			var propertiesInfo = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 			var artEventsQueryBuilder = new StringBuilder();
 
@@ -43,12 +43,12 @@ namespace BookingSystem.BusinessLogic.Services
 
 			var orderQuery = artEventsQueryBuilder.ToString().TrimEnd(',', ' ');
 
-			//if (string.IsNullOrWhiteSpace(orderQuery))
-			//{				
-			//	return result = source.OrderBy(x => x.IventName);
-			//}
+            if (string.IsNullOrWhiteSpace(orderQuery))
+            {
+				orderQuery= "Id ascending";
+            }
 
-			result = source.OrderBy(orderQuery);
+            result = source.OrderBy(orderQuery);
 
 			return result;			
         }

@@ -10,6 +10,6 @@ namespace BookingSystem.BusinessLogic.Interfaces
 {
     public interface IArtEventSort<T> 
     {
-        public IQueryable<T> SortBy(IQueryable<T> source, PagesState pagesState);
+        public IQueryable<T> SortBy(IQueryable<T> source, string sortBy);
     }
 }

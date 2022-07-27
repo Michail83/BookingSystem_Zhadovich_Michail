@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
-
-using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Collections.Generic;
-using System.Linq;
-
-
-using BookingSystem.BusinessLogic.Services;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.BusinessLogic.Services;
 using BookingSystem.WEB.Models;
 using BookingSystem.WEB.Services;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.API
 {
@@ -26,7 +24,7 @@ namespace BookingSystem.WEB.API
         //string currentUsersEmail;
         MapperOrderBLtoViewModel mapperOrderBLtoViewModel;
 
-        public OrderController(OrderBLService orderBLService, IMapper<ArtEventBL, ArtEventViewModel> artMapper) 
+        public OrderController(OrderBLService orderBLService, IMapper<ArtEventBL, ArtEventViewModel> artMapper)
         {
             _orderBLService = orderBLService;
             mapperOrderBLtoViewModel = new MapperOrderBLtoViewModel(artMapper);
@@ -40,8 +38,8 @@ namespace BookingSystem.WEB.API
         [Route("GetAsync")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
-        {            
-            var resultBL = await _orderBLService.GetAllAsync(GetCurrentUserEmail());           
+        {
+            var resultBL = await _orderBLService.GetAllAsync(GetCurrentUserEmail());
             var resultViewModel = mapperOrderBLtoViewModel.Map(resultBL);
             return Ok(resultViewModel);
         }
@@ -49,28 +47,26 @@ namespace BookingSystem.WEB.API
 
         [Route("Create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]IEnumerable<OrderData> orderData) 
+        public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
         {
             //string currentUsersEmail = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-            if (orderData.Count() ==0)
+            if (orderData.Count() == 0)
             {
                 return BadRequest("No orderData");
-            }                        
+            }
             List<CartWithQuantityBL> cartWithQuantityBLs = new();
             foreach (var ord in orderData)
             {
                 cartWithQuantityBLs.Add(new CartWithQuantityBL { Quantity = ord.Quantity, ArtEventBL = new ArtEventBL { Id = ord.EventId } });
             }
-            OrderBL orderBL = new OrderBL {UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation=System.DateTime.Now };
+            OrderBL orderBL = new OrderBL { UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation = System.DateTime.Now };
             await _orderBLService.CreateAsync(orderBL);
 
             return Ok();
         }
-        private string GetCurrentUserEmail() 
+        private string GetCurrentUserEmail()
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.Email);
         }
-
-
     }
 }

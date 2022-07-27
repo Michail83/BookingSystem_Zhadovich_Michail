@@ -15,7 +15,7 @@ export const initialCart = {
     fullCartArray: []
 }
 export const partOfInitialState_FilteringData = {
-    sortBy:'AmounOfTicket',
+    sortBy:'AmountOfTickets',
     nameForFilter:'',
     typeForFilter:''
 }

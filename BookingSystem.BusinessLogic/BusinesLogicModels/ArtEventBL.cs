@@ -18,23 +18,23 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
 
-        public ArtEventBL()
-        {            
-        }
-        public ArtEventBL(ArtEvent ivent)
-        {
-            this.Id = ivent.Id;
-            this.EventName = ivent.IventName;
-            this.AmountOfTickets = ivent.AmounOfTicket;
-            this.Date = ivent.Date;
-            this.Place = ivent.Place;
-            this.Latitude = ivent.Latitude; 
-            this.Longitude = ivent.Longitude;
-        }
+        //public ArtEventBL()
+        //{            
+        //}
+        //public ArtEventBL(ArtEvent ivent)
+        //{
+        //    this.Id = ivent.Id;
+        //    this.EventName = ivent.EventName;
+        //    this.AmountOfTickets = ivent.AmountOfTickets;
+        //    this.Date = ivent.Date;
+        //    this.Place = ivent.Place;
+        //    this.Latitude = ivent.Latitude; 
+        //    this.Longitude = ivent.Longitude;
+        //}
 
-        public virtual string ToJsonArtEvent()
-        {
-            return String.Empty;
-        }
+        //public virtual string ToJsonArtEvent()
+        //{
+        //    return String.Empty;
+        //}
     }
 }

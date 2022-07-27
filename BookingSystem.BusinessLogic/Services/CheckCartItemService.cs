@@ -37,7 +37,7 @@ namespace BookingSystem.BusinessLogic.Services
             }
             else
             {
-                checkCartResult = new CheckCartResult { isExist = true, maxValue = (uint)artEventFromCart.AmounOfTicket };
+                checkCartResult = new CheckCartResult { isExist = true, maxValue = (uint)artEventFromCart.AmountOfTickets };
             }            
             return checkCartResult;
         }

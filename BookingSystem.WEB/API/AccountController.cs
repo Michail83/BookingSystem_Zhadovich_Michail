@@ -40,13 +40,13 @@ namespace BookingSystem.WEB.API
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _jwtTokenProvider = jwtTokenProvider;
+            //_jwtTokenProvider = jwtTokenProvider;
             _configuration = configuration;
             _emailService = emailService;
         }
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly IJWTTokenProvider _jwtTokenProvider;
+        //private readonly IJWTTokenProvider _jwtTokenProvider;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
 
@@ -127,15 +127,8 @@ namespace BookingSystem.WEB.API
             else {
                 var notConfirmed = new[] { new {code = "", description= "Please, confirm your email" } };
                 return BadRequest(notConfirmed);
-
             }
-
-            
-            
-
-            return NotFound("email or password wrong");
         }
-
 
         [HttpGet]
         [Route("GetExternalProviders")]
@@ -165,32 +158,20 @@ namespace BookingSystem.WEB.API
 
             if (info == null || email == null)  
             {
-                return BadRequest("GetExternalLoginInfoAsync  ERROR");
-                //return Redirect(returnUrl);
+                return BadRequest("GetExternalLoginInfoAsync  ERROR");                
             }
                                                                                                                                         //true
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent:false, bypassTwoFactor:false);
             if (signInResult.Succeeded)
-            {
-                //User user =  await _userManager.FindByEmailAsync(email);
-                return Redirect("https://localhost:5001/");
-                //return Redirect(GetUrlWithJWTToken(user))/* Ok($"Succeeded,   signIn result=  {info.LoginProvider} ")*/;
+            {                
+                return Redirect("https://localhost:5001/");                
             }
-
             if (signInResult.IsLockedOut)
             {
-                return BadRequest("IsLockedOut");
-                //return RedirectToAction(nameof(ForgotPassword));
+                return BadRequest("IsLockedOut");                
             }
             else
             {
-                
-                //var email = info.Principal.FindFirst(ClaimTypes.Email).Value;
-                //if (email == null)
-                //{
-                //    return BadRequest("not find Email");
-                //}
-
                 User user = await _userManager.FindByEmailAsync(email);
                 IdentityResult result;
                 if (user != null)
@@ -199,8 +180,7 @@ namespace BookingSystem.WEB.API
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect("https://localhost:5001/");
-                        //return Redirect(GetUrlWithJWTToken(user));
+                        return Redirect("https://localhost:5001/");                       
                     }
                 }
                 
@@ -218,11 +198,9 @@ namespace BookingSystem.WEB.API
                     {
                         result = await _userManager.AddLoginAsync(user, info);
                         if (result.Succeeded)
-                        {
-                            //TODO: Send an emal for the email confirmation and add a default role as in the Register action
+                        {                           
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                            return Redirect("https://localhost:5001/");
-                            //return Redirect(GetUrlWithJWTToken(user));
+                            return Redirect("https://localhost:5001/");                           
                         }
                     }
                 }                
@@ -237,7 +215,6 @@ namespace BookingSystem.WEB.API
             await _signInManager.SignOutAsync();            
             return Ok();
         }
-        //[EnableCors("LocalForDevelopmentAllowAll")]
         
         [Authorize]
         [Route("loginfo")]
@@ -250,13 +227,13 @@ namespace BookingSystem.WEB.API
            return Ok(new { isAuthenticated, userEmail, userName, isAdmin });
         }
 
-        private string GetUrlWithJWTToken(User user, string urlRedirect = null)
-        {
-            var token =  _jwtTokenProvider.GetSecurityToken(user);
-            var url = _configuration.GetSection("ReactInfo")["CallBackUrlForToken"];
-            url += token;
-            return url;
-        }
+        //private string GetUrlWithJWTToken(User user, string urlRedirect = null)
+        //{
+        //    var token =  _jwtTokenProvider.GetSecurityToken(user);
+        //    var url = _configuration.GetSection("ReactInfo")["CallBackUrlForToken"];
+        //    url += token;
+        //    return url;
+        //}
 
     }
 }

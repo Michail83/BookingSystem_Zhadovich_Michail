@@ -21,7 +21,7 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
                 _pageSize = (value < _maxPageSize && value > 0) ? value : _pageSize;
             }
         }
-        public string SortBy { get; set; } = "IventName";
+        public string SortBy { get; set; } = "Id";
         public string NameForFilter { get; set; }
         public string TypeForFilter { get; set; }
     }
