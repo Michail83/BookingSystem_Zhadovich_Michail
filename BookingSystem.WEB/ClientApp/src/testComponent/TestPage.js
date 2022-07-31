@@ -27,6 +27,8 @@ import * as keys from "../CONST/KeysForLocalStorage"
 import { parseMapFromJson } from "../function/getCartMapFromLocalStorage";
 import styled from "styled-components";
 
+import createArrayWithPageNumber from "../components/PaginationPanel/CreateArrayWithPageNumber"
+
 const MainDiv = styled.div`
 margin-top: 15vh;
 `;
@@ -126,6 +128,7 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
             </YMaps>
             <button  onClick={()=>localStorage.clear()} >Clear localStorage</button>
             <AbsoluteMessage>WARNING TEST</AbsoluteMessage>
+            {console.log(createArrayWithPageNumber(10, 100,10, 2,1))}
         </MainDiv> 
     )
 }

@@ -60,8 +60,40 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
     const [nameFilter, setNameFilter] = useState(filteringData.nameForFilter);
     const [typeFilter, setTypeFilter] = useState(filteringData.typeForFilter);
     const [sort, setSort] = useState(filteringData.sortBy);
+
     const createTypeFilterOptions = (listOfArtEventType) => listOfArtEventType.map((eventType) => <option key={eventType.value} value={eventType.value}> {eventType.name}</option>);
     const createSortOptions = (sortOptions) => sortOptions.map((sortby) => <option key={sortby.value} value={sortby.value}> {sortby.name}</option>);
+
+    const resetFilter=()=>{
+        setNameFilter(partOfInitialState_FilteringData.nameForFilter);
+        setTypeFilter(partOfInitialState_FilteringData.typeForFilter);
+        setSort(partOfInitialState_FilteringData.setSort);
+
+        setfilteringDataToDefault();
+    };
+    const IsResetDisabled=()=>(
+        partOfInitialState_FilteringData.sortBy === filteringData.sortBy&&
+        partOfInitialState_FilteringData.nameForFilter === filteringData.nameForFilter&&
+        partOfInitialState_FilteringData.typeForFilter === filteringData.typeForFilter
+    )
+    const IsApplyDisabled =()=>(
+        sort === filteringData.sortBy&&
+        nameFilter === filteringData.nameForFilter&&
+        typeFilter === filteringData.typeForFilter
+    )
+    // console.log(nameFilter == filteringData.sortBy);
+
+    // console.log(nameFilter);
+    // console.log( filteringData.sortBy);
+
+    // console.log(typeFilter == filteringData.nameForFilter);
+    // console.log(typeFilter);
+    // console.log(filteringData.nameForFilter);
+
+    // console.log(sort == filteringData.typeForFilter);
+    // console.log(filteringData.typeForFilter);
+    // console.log(sort);
+
 
     return (
         <MainFilterPanelWrapped>
@@ -76,16 +108,15 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
                 <select className="filterElementSize" value={sort} onChange={(event) => setSort(event.target.value)}>
                     {createSortOptions(ListOfSortOptions)}
                 </select>
-                <button type="button" onClick={() => setfilteringData(nameFilter, typeFilter, sort)} >Apply</button>
+                <button type="button" disabled={IsApplyDisabled()} onClick={() => setfilteringData(nameFilter, typeFilter, sort)} >Apply</button>
 
-                <button type="button" disabled={_.isEqual(filteringData, partOfInitialState_FilteringData)} onClick={() => setfilteringDataToDefault()}>Reset</button>
+                <button type="button" disabled={IsResetDisabled()} onClick={() => resetFilter()}>Reset</button>
 
+                <div>{IsApplyDisabled()}</div>
             </MainFilterPanel>
         </MainFilterPanelWrapped>
     )
 }
-
-
 
 const mapStateToProps = state => ({
     

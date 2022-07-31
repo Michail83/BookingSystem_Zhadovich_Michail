@@ -52,9 +52,6 @@ namespace BookingSystem.DataLayer.EntityFramework
             modelBuilder.Entity<ArtEvent>().Property(artEvent => artEvent.Latitude).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<ArtEvent>().Property(artEvent => artEvent.Longitude).HasColumnType("decimal(9,6)");
 
-
-
-
             modelBuilder.Entity<Party>().HasData(
                 new Party
                 {
@@ -128,6 +125,25 @@ namespace BookingSystem.DataLayer.EntityFramework
                     Latitude = 53.91486434449279m,
                     Longitude = 27.584181354972173m,
                 });
+            var rnd = new Random();
+            for (int i = 7; i < 35; i++)
+            {
+                modelBuilder.Entity<OpenAir>().HasData(
+                new OpenAir
+                {
+                    Id = i,
+                    EventName = $"Fake OpenAir № {i} ",
+                    AmountOfTickets = rnd.Next(10,2000),
+                    Date = new DateTime(2022, rnd.Next(8, 12), rnd.Next(1, 30), rnd.Next(12, 23), 0, 0),
+                    Place = $"Беларусь, Минск, место {i}",
+                    Latitude =  53.90m+ (decimal)rnd.Next(0,223000)/100000000,
+                    Longitude = 27.57m + (decimal)rnd.Next(0, 286000) / 100000000,
+                    HeadLiner = $"Headliner - {i} "
+                });;
+
+
+
+            }
             base.OnModelCreating(modelBuilder);
         }
     }

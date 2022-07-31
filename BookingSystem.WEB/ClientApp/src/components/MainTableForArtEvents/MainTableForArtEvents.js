@@ -1,13 +1,14 @@
-import React, {useEffect, useState, Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useStateIfMounted } from "use-state-if-mounted";
 
 import HomeArtEventView from '../HomeArtEventView/HomeArtEventView';
 // import './MainTableForArtEvents.css';
-import urls from  '../../API_URL'
+import urls from '../../API_URL'
 import axios from "axios";
 import { connect } from "react-redux";
 import actionCreator from "../../Store/ActionsCreators/actionCreator.js";
 import FilterPanel_ReduxWrapped from "../FilterPanel/FilterPanel";
+import PaginationPanel_ReduxWrapped from "../PaginationPanel/PaginationPanel"
 import styled from "styled-components";
 
 const Flexblock = styled.div`
@@ -22,66 +23,96 @@ const NoResult = styled.div`
     font-size: 4rem;
     font-weight: bold;
 `;
+const ShowLoading = styled.div`
+    position: absolute;
+    top: 45vh;
+    left: 30vw;
+    z-index: 1000;
+    font-size: 10rem;
+    opacity: 0.5;
+`;
 
-const MainTableForArtEvents = ({ artEventItems, setArtEventItems, filteringData }) => {
+const MainTableForArtEvents = ({
+    artEventItems, setArtEventItems, setPaginationData,
+    sortBy, nameForFilter, typeForFilter,
+    currentPage, pageSize
+}) => {
     const [loading, setLoading] = useStateIfMounted(true);
     const [error, setError] = useStateIfMounted(undefined);
 
     const loadArtEvents = async (filteringData) => {
         try {
             setLoading(true);
-            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));            
-            setArtEventItems(result.data);
             
+            console.log(urls.getArtEventWithFilterQuery(filteringData));
+            let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));
+            let paginationData = JSON.parse(result.headers["pagestateinfo"]);
+            console.log(paginationData);
+            setPaginationData(paginationData);
+
+            setArtEventItems(result.data);
         } catch (err) {
-            console.log("error in MainTableForArtEvents => loadArtEvents  " + err);            
+            console.log("error in MainTableForArtEvents => loadArtEvents  " + err);
             setError(err);
             setArtEventItems([]);
-        } finally{
+        } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        loadArtEvents(filteringData);        
-    }, [filteringData]);
+        loadArtEvents({ sortBy, nameForFilter, typeForFilter,currentPage, pageSize });
+    }, [sortBy, nameForFilter, typeForFilter,currentPage, pageSize]);
 
     const createComponent = () => {
-        let content= "NOOOOO" ;
+        let content = "NOOOOO";
         if (loading) {
-            return <div>Loading...</div>
+            return <ShowLoading>Loading...</ShowLoading>
         } else {
             if (error != undefined) {
                 console.log(error);
                 return content;
             }
-        }        
+        }
         if (artEventItems.length) {
             content = artEventItems.map((item) => (<HomeArtEventView key={item.id} {...item} />));
-        } else{
+        } else {
             content = <NoResult>No result</NoResult>;
-        }        
-        return  content;
+        }
+        return content;
     }
 
     return (
         <Fragment>
-                <FilterPanel_ReduxWrapped />
-                <Flexblock>
-                    {createComponent()}
-                </Flexblock>
-            </Fragment>
+            <FilterPanel_ReduxWrapped />
+            <Flexblock>
+                {createComponent()}
+                <PaginationPanel_ReduxWrapped />
+            </Flexblock>
+        </Fragment>
     )
 }
 
-const mapStateToProps = state => ({    
-    artEventItems: state.state.artEventItems,    
-    filteringData: state.state.filteringData
+const mapStateToProps = state => ({
+    artEventItems: state.state.artEventItems,
+    // filteringData: state.state.filteringData,
+
+    sortBy: state.state.filteringData.sortBy,
+    nameForFilter: state.state.filteringData.nameForFilter,
+    typeForFilter: state.state.filteringData.typeForFilter,
+
+    currentPage: state.state.filteringData.currentPage,
+    pageSize: state.state.filteringData.pageSize,
+    // totalPages: state.state.filteringData.totalPages,
+
+
 });
 
 const mapDispatchToProps = dispatch => (
     {
-        setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
+        setArtEventItems: (artItems) => dispatch(actionCreator.SetArtEventItems(artItems)),
+
+        setPaginationData: (paginationData) => dispatch(actionCreator.setPaginationData(paginationData))
     });
 
 var MainTableForArtEvents_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(MainTableForArtEvents);
