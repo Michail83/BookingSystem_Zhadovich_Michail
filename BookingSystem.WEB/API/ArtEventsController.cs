@@ -40,12 +40,12 @@ namespace BookingSystem.WEB.API
                 #region AddPageStateInfoToHeader
                 var pageInfo = new
                 {
-                    QueryResult.TotalItemsCount,
-                    QueryResult.PageSize,
-                    QueryResult.CurrentPage,
-                    QueryResult.TotalPages,
-                    QueryResult.HasNext,
-                    QueryResult.HasPrevious
+                    totalItemsCount=  QueryResult.TotalItemsCount,
+                    pageSize=QueryResult.PageSize,
+                    currentPage=QueryResult.CurrentPage,
+                    totalPages=QueryResult.TotalPages,
+                    hasNext=QueryResult.HasNext,
+                    hasPrevious=QueryResult.HasPrevious
                 };
                 HttpContext.Response.Headers.Add("PageStateInfo", JsonSerializer.Serialize(pageInfo));
                 #endregion AddPageStateInfoToHeader

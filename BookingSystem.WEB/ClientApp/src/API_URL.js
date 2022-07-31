@@ -17,16 +17,12 @@
         return this.base_api+'/ArtEvents'+this.setid(id);        
     },
     getArtEventWithFilterQuery: function (filteringData){
-        // console.log(filteringData);
-        // const nameFilter= filteringData.nameForFilter??'';
-        // const typeForFilter = filteringData.typeForFilter??'';  
-        // const sortBy = filteringData.sortBy??'id';
-
-        // console.log(nameFilter);
-        // console.log(typeForFilter);
-        // console.log(sortBy);
-       
-            return this.base_api+'/ArtEvents/?NameForFilter=' + filteringData.nameForFilter +'&TypeForFilter=' + filteringData.typeForFilter +'&sortBy=' +filteringData.sortBy    
+        
+            return this.base_api+'/ArtEvents/?NameForFilter=' + filteringData.nameForFilter +
+            '&TypeForFilter=' + filteringData.typeForFilter +
+            '&sortBy=' +filteringData.sortBy +
+            '&PageNumber=' + filteringData.currentPage  +
+            '&PageSize=' + filteringData.pageSize  
     },
     parties: function (id) {
         return this.base_api+'/Parties'+this.setid(id);

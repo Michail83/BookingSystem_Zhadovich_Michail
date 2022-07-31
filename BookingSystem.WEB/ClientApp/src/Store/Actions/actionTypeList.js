@@ -25,3 +25,7 @@ export const setBaseCreatingData ="setBaseCreatingData";
 export const ClearALLCreatingData ="ClearALLCreatingData";
 
 export const setAdditionalOpenAirCreatingData = "setAdditionalOpenAirCreatingData"; 
+
+export const setCurrentPage ="SetCurrentPage";
+export const setPaginationData ="SetPaginationData";
+

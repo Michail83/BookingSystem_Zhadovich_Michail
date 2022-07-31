@@ -17,13 +17,24 @@ export const initialCart = {
 export const partOfInitialState_FilteringData = {
     sortBy:'AmountOfTickets',
     nameForFilter:'',
-    typeForFilter:''
+    typeForFilter:'', 
+
+    
+}
+export const partOfInitialState_PaginationData={
+    totalItemsCount:'',
+    pageSize:3,
+    currentPage:1,
+    totalPages:'',
+    hasNext:'',
+    hasPrevious:'',
+    pageNeighbours:1
 }
 
 export const initialState = {
     iSmodalLoginWindowActive: false,
     artEventItems: [],
-    filteringData: {...partOfInitialState_FilteringData}
+    filteringData: {...partOfInitialState_FilteringData, ...partOfInitialState_PaginationData}
 }
 
 export const initialAdmins ={

@@ -58,13 +58,21 @@ export default {
     }),
     ClearALLTempCreatingData:()=>({
         type: actionTypeList.ClearALLTempCreatingData
-    }),
-    setAdditionalOpenAirCreatingData:(AdditionalOpenAirCreatingData)=>({
-        type: actionTypeList.setAdditionalOpenAirCreatingData,
-        payload:AdditionalOpenAirCreatingData
+    // }),
+    // setAdditionalOpenAirCreatingData:(AdditionalOpenAirCreatingData)=>({
+    //     type: actionTypeList.setAdditionalOpenAirCreatingData,
+    //     payload:AdditionalOpenAirCreatingData
     }),
     setFilteringDataToDefault:()=>({
         type: actionTypeList.setFilteringDataToDefault
+    }),
+    setCurrentPage:(number)=>({
+        type:actionTypeList.setCurrentPage,
+        payload:number
+    }),
+    setPaginationData:(paginationData)=>({
+        type:actionTypeList.setPaginationData,
+        payload:paginationData
     })
 
 
