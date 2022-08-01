@@ -17,3 +17,11 @@ code {
   margin:  1vh 1vw;
   position: relative;
 } */
+
+body {  
+	overflow: scroll;
+  @supports (scrollbar-gutter: stable) {
+  overflow: auto;    
+  scrollbar-gutter: stable;  
+  }
+}

@@ -151,7 +151,7 @@ namespace BookingSystem.WEB.API
         }        
 
         [Route("externallogincallback")]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "http://localhost:5001/")
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "/")
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
             var email = info?.Principal?.FindFirstValue(ClaimTypes.Email);
@@ -164,7 +164,7 @@ namespace BookingSystem.WEB.API
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent:false, bypassTwoFactor:false);
             if (signInResult.Succeeded)
             {                
-                return Redirect("https://localhost:5001/");                
+                return Redirect("/");                
             }
             if (signInResult.IsLockedOut)
             {
@@ -180,7 +180,7 @@ namespace BookingSystem.WEB.API
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect("https://localhost:5001/");                       
+                        return Redirect("");                       
                     }
                 }
                 
@@ -200,7 +200,7 @@ namespace BookingSystem.WEB.API
                         if (result.Succeeded)
                         {                           
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                            return Redirect("https://localhost:5001/");                           
+                            return Redirect("");                           
                         }
                     }
                 }                

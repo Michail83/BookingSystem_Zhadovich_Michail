@@ -40,7 +40,7 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated})=>{
     
     const CreateOrderHandler = async ()=>{
         try {
-            console.log(mapToOrderData(cartMap));
+            // console.log(mapToOrderData(cartMap));
 
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
 

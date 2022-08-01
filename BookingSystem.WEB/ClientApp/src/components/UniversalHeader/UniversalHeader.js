@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { connect } from 'react-redux';
+
 import "./UniversalHeader.css";
 import LogInOutManager_connected from "../LoginOutManager/LoginOutManager.js"
 import LinkToCart from '../Cart/cartButton/LinkToCartFromHeader'
@@ -43,6 +45,7 @@ const Navbar = styled.div`
     }
     & div:last-child{
         margin-left: auto;
+        background-color:lightskyblue; 
     }
 `;
 const UserNameField = styled.div`    
@@ -53,6 +56,7 @@ const UserNameField = styled.div`
     align-items:flex-start
 `;
 
+
 const NavBarItem = styled.div`
     width: 13%;
     cursor: pointer;
@@ -60,14 +64,17 @@ const NavBarItem = styled.div`
         padding:1%;
         margin:0;
     }
-    background-color:lightblue;
-    background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue!important" : "inherit"};
+    /* background-color:white; */
+    background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue" : "inherit"};
     &:hover{
         background-color:royalblue
     }
 `;
+const LogInOutItem =styled.div`
+background-color:lightblue;
+`;
 
-const UniversalHeader = ({ isAdmin }) => {
+const UniversalHeader = ({ isAdmin, cartMap }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -85,13 +92,24 @@ const UniversalHeader = ({ isAdmin }) => {
                 {isAdmin ? <NavBarItem onClick={()=>navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""}
 
                 <NavBarItem onClick={()=>navigate("/")} navPath="/" currentPath={location.pathname} >Home</NavBarItem>
-                <NavBarItem onClick={()=>navigate("/cart")} navPath="/cart" currentPath={location.pathname}><LinkToCart /></NavBarItem>
+                {cartMap.size !=0 ? <NavBarItem onClick={()=>navigate("/cart")} navPath="/cart" currentPath={location.pathname}>Cart </NavBarItem>:""}
                 {isAdmin ? <NavBarItem onClick={()=>navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
                 <NavBarItem onClick={()=>navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem>
-                <div><LogInOutManager_connected /></div>
+                <LogInOutItem><LogInOutManager_connected /></LogInOutItem>
             </Navbar >
         </MainUniversalHeader>
     )
 }
 
-export default UniversalHeader;
+const mapStateToProps = state => ({
+    isAdmin: state.auth.isAdmin,
+    cartMap: state.cart.cartMap
+    // isActive: state.state.iSmodalLoginWindowActive
+});
+const mapDispatchToProps = dispatch => (
+    {
+        addDeleteArtEventButtonToState:()=>dispatch(actionsCreator.setDeleteArtEventButton(DeleteArtEventButton))
+        // setNoActive:()=> dispatch(actionCreator.setModalWindowForLoginActive(false))        
+    });
+var UniversalHeader_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(UniversalHeader);
+export default UniversalHeader_ReduxWrapped;

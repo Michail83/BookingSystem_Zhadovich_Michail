@@ -4,15 +4,15 @@ import { useForm } from "react-hook-form";
 // import { ErrorMessage } from "@hookform/error-message";
 
 // import createNewArtEvent from "../createNewArtEvent";
-import API_URL from "../../../API_URL";
+import API_URL from "../../API_URL";
 import axios from "axios";
 import {Input, Form, Label, ErrorMessage,SubmitButton} from "./StyledComponentsForCreateEvents"
-import { defaultValuesCreateArtEvent } from "../../../CONST/DefaultValuesCreateArtEvent";
+import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
 
-const defaultValues = {...defaultValuesCreateArtEvent, headliner:""} ;
+const defaultValues = {...defaultValuesCreateArtEvent, ageLimitation:""} ;
 
 // ////////////////////////////////////////////////////////////////////
-const OpenAirCreateForm3 =()=>{
+const PartyCreateForm =()=>{
     console.log("render");
 
     const [statusOfCreating, setStatusOfCreating] = useState("");
@@ -36,11 +36,11 @@ const OpenAirCreateForm3 =()=>{
     const onSubmit =async (data, event)=>{ 
         event.preventDefault()       
         try {
-            let result = await axios.post(API_URL.openairs(),data); 
-            if (result.status==200) setStatusOfCreating(true);       
+            let result = await axios.post(API_URL.parties(),data); 
+            if (result.status==200) setStatusOfCreating(true);
         } catch (error) {
             console.log(error);
-        }       
+        }
     }
 
     return(
@@ -71,16 +71,17 @@ const OpenAirCreateForm3 =()=>{
         {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
         
         
-        <Label> headliner</Label>
-        <Input type={"text"} {...register("headliner", {required: TrustedHTML, minLength:2})}  />
-        {errors.headliner?.type==="required"&& <ErrorMessage>headliner is required</ErrorMessage>}
+        <Label> ageLimitation</Label>
+        <Input type={"text"} {...register("ageLimitation", {required: true, min:0, max:99 })}  />
+        {errors.ageLimitation?.type==="required"&& <ErrorMessage>headliner is required</ErrorMessage>}
+        {errors.ageLimitation?.type==="min"||errors.ageLimitation?.type==="max"&& <ErrorMessage>Enter number between 0 and 99</ErrorMessage>}
 
 
         <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
         </Form>
     )
 }
-export default OpenAirCreateForm3;
+export default PartyCreateForm;
 
 
 

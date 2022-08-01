@@ -1,122 +1,91 @@
-import React from "react"; 
-import './CreateForm.css'
-import urls from "../../API_URL"
+import React,{useEffect, useState} from "react";
 
-class ClassicMusicCreateForm extends React.Component {
-    constructor(props){
-        super(props);        
-        this.state ={            
-            eventName: "",
-            date:"",
-            amountOfTickets: 0,
-            place: "",            
-            typeOfArtEvent: "ClassicMusic",
-            voice: "",
-            concertName:"",
-            longitude: "",
-            latitude: ""
-        };
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleSubmit =          this.handleSubmit.bind(this);    
+import { useForm } from "react-hook-form"; 
+// import { ErrorMessage } from "@hookform/error-message";
+
+// import createNewArtEvent from "../createNewArtEvent";
+import API_URL from "../../API_URL";
+import axios from "axios";
+import {Input, Form, Label, ErrorMessage,SubmitButton} from "./StyledComponentsForCreateEvents"
+import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
+
+const defaultValues = {...defaultValuesCreateArtEvent, voice:"",concertName:"" } ;
+
+// ////////////////////////////////////////////////////////////////////
+const ClassicMusicCreateForm =()=>{
+    console.log("render");
+
+    const [statusOfCreating, setStatusOfCreating] = useState("");
+
+    const {
+        register,       
+        handleSubmit,
+        formState,
+        formState: { isSubmitSuccessful,errors }, 
+        reset
+    } = useForm(
+        {defaultValues: defaultValues 
+    });
+
+    useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ ...defaultValues });
+    }
+  }, [formState, reset]);
+
+    const onSubmit =async (data, event)=>{ 
+        event.preventDefault()       
+        try {
+            let result = await axios.post(API_URL.classicmusics(),data); 
+            if (result.status==200) setStatusOfCreating(true);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    handleChangeName(event){
-        const name = event.target.name;
-        const eventValue = event.target.value;
-        this.setState({[name]: eventValue});        
-    }
-
-    handleSubmit(event){        
-        event.preventDefault();
-              
-        const {eventName, date,amountOfTickets, place, voice,concertName, longitude,latitude} = this.state;     
-        let url2 =  urls.classicmusics();
+    return(
+       <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label> ArtEvent name</Label>
+        <Input type={"text"} {...register("eventName", {required: true, minLength:2})}  />
+        {errors.eventName?.type==="required"&& <ErrorMessage>ArtEvent name is required</ErrorMessage>}
+        {errors.eventName?.type ==="minLength" && <ErrorMessage>min length is 2</ErrorMessage>}
         
-        // console.log(JSON.stringify({eventName, date,amountOfTickets, place, headLiner}));
+        <Label> Date and Time</Label>
+        <Input type={"datetime-local"} {...register("date", {required: true})}  />
+        {errors.date?.type==="required"&& <ErrorMessage>Date is required</ErrorMessage>}
+       
+        <Label> Amount Of Tickets</Label>
+        <Input type={"number"} {...register("amountOfTickets", {required: true, min:1 })}  />
+        {errors.amountOfTickets?.type==="required"&& <ErrorMessage>quantity of tickets cannot be zero or lesser </ErrorMessage>}
+        {errors.amountOfTickets?.type==="min"&& <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
+
+        <Label> Place</Label>
+        <Input type={"text"} {...register("place", {required: true, minLength:5})}  />
+        {errors.place?.type==="required"&& <ErrorMessage>Place is required</ErrorMessage>}
         
-        fetch(url2, {
-            method: "post",
-            body: JSON.stringify({eventName, date,amountOfTickets, place, voice,concertName, longitude, latitude }),
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }            
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {  
-                    console.log(result);
-                    this.setState({            
-                        eventName: "",
-                        date:"",
-                        amountOfTickets: 0,
-                        place: "",            
-                        typeOfArtEvent: "ClassicMusic",
-                        voice: "",
-                        concertName:"",
-                        longitude: "",
-                        latitude: ""
-                    })                      
-                }, 
-                (error) => {
-                    console.log(error);     
-                }
-        )
-    }
+        <Label> Latitude</Label>
+        <Input type={"text"} {...register("latitude", {required: true})}  />        
+        
+        <Label> Longitude</Label>
+        <Input type={"text"} {...register("longitude", {required: true})}  />
+        {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
+        
+        
+        <Label> Voice</Label>
+        <Input type={"text"} {...register("voice", {required: true, minLength:2})}  />
+        {errors.voice?.type==="required"&& <ErrorMessage>Voice is required</ErrorMessage>}
 
-    render(){
-        return(           
-                <form className="maincreate"  onSubmit={this.handleSubmit} autoComplete="off">
-                    <div>
-                        <label>Name
-                             <input 
-                             value={this.state.eventName}             
-                             name="eventName" 
-                             required        
-                             type="text"     
-                             onChange={this.handleChangeName}>                                 
-                             </input>
-                        </label> 
-                    </div>
-                    <div>
-                        <label>Date
-                            <input 
-                            value={this.state.date}              
-                            name="date" 
-                            required             
-                            type="datetime-local"
-                            onChange={this.handleChangeName}
-                            />                            
-                            </label> 
-                        </div>
-                    <div><label>amount Of Ticket<input value={this.state.amountOfTickets}   name="amountOfTickets" required  type="number"   onChange={this.handleChangeName}></input></label> </div>
-                    <div> <label>Place<input value={this.state.place}             name="place" required           type="text"     onChange={this.handleChangeName}></input></label> </div>
-                    <div><label>Voice<input value={this.state.voice}              name="voice" required            type="text"     onChange={this.handleChangeName}></input></label> </div>
-                    <div><label>Concert Name<input value={this.state.concertName}       name="concertName" required      type="text"     onChange={this.handleChangeName}></input></label> </div>
-                    <div>
-                        <label>Сoordinates
-                        <input 
-                            // autoComplete="off"  
-                            required      
-                            name="latitude"  
-                            value={this.state.latitude}   
-                            placeholder="latitude"      
-                            type="text"     
-                            onChange={this.handleChangeName}>
-                            </input>
-                            <input 
-                            // autoComplete="off"  
-                            required      
-                            name="longitude"  
-                            value={this.state.longitude} 
-                            placeholder="longitude"      
-                            type="text"     
-                            onChange={this.handleChangeName}>                                
-                            </input>
-                            
-                        </label> 
-                    </div>
+        <Label> Concert Name</Label>
+        <Input type={"text"} {...register("concertName", {required: true, minLength:2})}  />
+        {errors.concertName?.type==="required"&& <ErrorMessage>Concert Name is required</ErrorMessage>}
 
-                <label><input             type="submit"  value="Create" ></input></label>
-            </form>            
-        )
-    }       
+
+        <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
+        </Form>
+    )
 }
 export default ClassicMusicCreateForm;
+
+
+
+

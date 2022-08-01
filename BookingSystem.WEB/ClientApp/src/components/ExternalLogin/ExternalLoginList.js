@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from "react" 
 import  axios from "axios"; 
 import urls from '../../API_URL'
-import CreateLinkToExternalProvider from "./CreateLinkToExternalProvider" 
+import CreateLinkToExternalProvider from "./CreateLinkToExternalProvider";
+import styled from "styled-components";
+
+const DivWrap = styled.div`
+
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    margin-bottom: 1rem;
+    /* margin-top: 1rem; */
+
+    /* & :first-child{
+        margin-left:auto;
+    }
+    &:last-child{
+        margin-right:auto;
+    } */
+`;
 
 function ExternalLoginList(prop) {
 
@@ -34,8 +51,10 @@ function ExternalLoginList(prop) {
         }
         return items;
     }
+
+
     return(
-        <div>{showLoading()}</div>
+        <DivWrap>{showLoading()}</DivWrap>
     );
 }
 export default ExternalLoginList;
