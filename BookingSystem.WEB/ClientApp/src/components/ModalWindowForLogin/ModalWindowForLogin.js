@@ -31,25 +31,31 @@ const TestActive= styled(TestNoActive)`
 `;
 
 const ModalContent = styled.div`
-    padding: 20px;
+    display:flex;
+    flex-direction:column;
+    padding: 0.2rem;
     border-radius: 6px;
-    background-color: white; 
-    /* opacity: 1;    */
-    width: 50%;
-    height: 50%;
-    border: 1px solid royalblue;
+    background-color:rgba(237, 237, 237,1);
+    
+    width: 35%;
+    
+    border: 1px solid rgba(237, 237, 237,1);
+    box-sizing: border-box;
+    box-shadow: 0px 0px 20px 8px rgba(34, 60, 80, 0.2);
 `;
 
 
 const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
     // let ModalWindow =isActive?TestActive:TestNoActive;
+    let nodeRef = React.useRef(null);
     let ModalWindow =TestNoActive;
     
     return (
         <div>
             <CSSTransition
         in={isActive}
-        timeout={300}        
+        timeout={300}
+        nodeRef={nodeRef}        //finddomnode is deprecated in strictmode
         classNames="modal"
         unmountOnExit        
         >

@@ -42,12 +42,10 @@ const MainTableForArtEvents = ({
 
     const loadArtEvents = async (filteringData) => {
         try {
-            setLoading(true);
-            
-            console.log(urls.getArtEventWithFilterQuery(filteringData));
+            setLoading(true);            
             let result = await axios.get(urls.getArtEventWithFilterQuery(filteringData));
             let paginationData = JSON.parse(result.headers["pagestateinfo"]);
-            console.log(paginationData);
+            
             setPaginationData(paginationData);
 
             setArtEventItems(result.data);

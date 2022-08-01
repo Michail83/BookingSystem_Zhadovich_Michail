@@ -12,7 +12,7 @@ export const rootReducer = combineReducers({
     cart: cartReducer ,
     state: stateReducer,
     admins: admins,
-    creatingBaseData:creatingTempDataReducer,
-    creatingOpenAir:openAirReducer
+    // creatingBaseData:creatingTempDataReducer,
+    // creatingOpenAir:openAirReducer
 
 });

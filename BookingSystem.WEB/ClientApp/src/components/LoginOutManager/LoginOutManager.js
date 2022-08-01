@@ -18,16 +18,12 @@ import actionsCreator from "../../Store/ActionsCreators/actionCreator"
 const LogInOutManager = ({ auth }) => {
 
     const showButton = () => {
-        let element;        
+        let element;
         if (auth.isAuthenticated) {
-            element =   
-                            <LogoutBtn />
-                        
+            element = <LogoutBtn />
         } else {
             element =
-                
-                    <button onClick={() => store.dispatch(actionsCreator.setModalWindowForLoginActive(true))} > Login </button>
-                           
+                <button onClick={() => store.dispatch(actionsCreator.setModalWindowForLoginActive(true))} > Login </button>
         }
         return element;
     }

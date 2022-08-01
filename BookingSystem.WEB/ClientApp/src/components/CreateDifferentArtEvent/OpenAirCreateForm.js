@@ -1,156 +1,87 @@
-import React from "react"; 
-import './CreateForm.css';
-import urls from "../../API_URL";
+import React,{useEffect, useState} from "react";
 
+import { useForm } from "react-hook-form"; 
+// import { ErrorMessage } from "@hookform/error-message";
 
-class OpenAirCreateForm extends React.Component {
-    constructor(props){
-        super(props);        
-        this.state ={            
-            eventName: "",
-            date: "",
-            amountOfTickets: 0,
-            place: "",
-            // from props?
-            typeOfArtEvent: "OpenAir",
-            headLiner: "",
-            longitude: "",
-            latitude: ""
-        };
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleSubmit =          this.handleSubmit.bind(this);
-    
+// import createNewArtEvent from "../createNewArtEvent";
+import API_URL from "../../API_URL";
+import axios from "axios";
+import {Input, Form, Label, ErrorMessage,SubmitButton} from "./StyledComponentsForCreateEvents"
+import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
+
+const defaultValues = {...defaultValuesCreateArtEvent, headliner:""} ;
+
+// ////////////////////////////////////////////////////////////////////
+const OpenAirCreateForm =()=>{
+    console.log("render");
+
+    const [statusOfCreating, setStatusOfCreating] = useState("");
+
+    const {
+        register,       
+        handleSubmit,
+        formState,
+        formState: { isSubmitSuccessful,errors }, 
+        reset
+    } = useForm(
+        {defaultValues: defaultValues 
+    });
+
+    useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ ...defaultValues });
+    }
+  }, [formState, reset]);
+
+    const onSubmit =async (data, event)=>{ 
+        event.preventDefault()       
+        try {
+            let result = await axios.post(API_URL.openairs(),data); 
+            if (result.status==200) setStatusOfCreating(true);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    handleChangeName(event){
-        const name = event.target.name;
-        const eventValue = event.target.value;
-        this.setState({[name]: eventValue});        
-    }
-
-    handleSubmit(event){        
-        event.preventDefault();
-              
-        const {eventName, date,amountOfTickets, place, headLiner, longitude,latitude } = this.state;     
-        let url2 = urls.openairs();
+    return(
+       <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label> ArtEvent name</Label>
+        <Input type={"text"} {...register("eventName", {required: true, minLength:2})}  />
+        {errors.eventName?.type==="required"&& <ErrorMessage>ArtEvent name is required</ErrorMessage>}
+        {errors.eventName?.type ==="minLength" && <ErrorMessage>min length is 2</ErrorMessage>}
         
-        fetch(url2, {
-            method: "post",
-            body: JSON.stringify({eventName, date,amountOfTickets, place, headLiner, longitude, latitude }),
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }            
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {  
-                    console.log("Create Success"); 
-                    console.log(result); 
-                    this.setState({            
-                        eventName: "",
-                        date: "",
-                        amountOfTickets: 0,
-                        place: "",                        
-                        typeOfArtEvent: "OpenAir",
-                        headLiner: "",
-                        longitude: "",
-                        latitude: ""
-                    })                     
-                }, 
-                (error) => {
-                    console.log(error);     
-                }
-        )
-    }
+        <Label> Date and Time</Label>
+        <Input type={"datetime-local"} {...register("date", {required: true})}  />
+        {errors.date?.type==="required"&& <ErrorMessage>Date is required</ErrorMessage>}
+       
+        <Label> Amount Of Tickets</Label>
+        <Input type={"number"} {...register("amountOfTickets", {required: true, min:1 })}  />
+        {errors.amountOfTickets?.type==="required"&& <ErrorMessage>quantity of tickets cannot be zero or lesser </ErrorMessage>}
+        {errors.amountOfTickets?.type==="min"&& <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
 
-    render(){
-        return(           
-                <form className="maincreate"  onSubmit={this.handleSubmit} autoComplete="off">
-                    <div > 
-                        <label>Name
-                            <input  
-                            required 
-                            // autoComplete="off"
-                             value={this.state.eventName}         
-                             name="eventName"        
-                             type="text"     
-                             onChange={this.handleChangeName}>                             
+        <Label> Place</Label>
+        <Input type={"text"} {...register("place", {required: true, minLength:5})}  />
+        {errors.place?.type==="required"&& <ErrorMessage>Place is required</ErrorMessage>}
+        
+        <Label> Latitude</Label>
+        <Input type={"text"} {...register("latitude", {required: true})}  />        
+        
+        <Label> Longitude</Label>
+        <Input type={"text"} {...register("longitude", {required: true})}  />
+        {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
+        
+        
+        <Label> headliner</Label>
+        <Input type={"text"} {...register("headliner", {required: TrustedHTML, minLength:2})}  />
+        {errors.headliner?.type==="required"&& <ErrorMessage>headliner is required</ErrorMessage>}
 
-                             </input>
-                        </label> 
-                    </div>
-                    <div>
-                         <label>Date<input
-                        //  autoComplete="off"   
-                         required  
-                         value={this.state.date}          
-                         name="date"             
-                         type="datetime-local"     
-                         onChange={this.handleChangeName}></input></label> 
-                    </div>
-                    <div>
-                        <label>amount Of Ticket<input 
-                        // autoComplete="off" 
-                        required  
-                        value={this.state.amountOfTickets}  
-                        name="amountOfTickets"  
-                        type="number"   
-                        onChange={this.handleChangeName}></input></label> 
-                    </div>
-                    <div> 
-                        <label>Place
-                        <input 
-                          
-                        required   
-                        value={this.state.place}        
-                        name="place"            
-                        type="text"     
-                        onChange={this.handleChangeName}
-                        />
-                        
-                       
-                        </label> 
-                    </div>
-                    <div>
-                        <label>HeadLiner
-                            <input
-                            required   
-                            value={this.state.headLiner}        
-                            name="headLiner"        
-                            type="text"     
-                            onChange={this.handleChangeName}
-                            />                            
-                            </label> 
-                    </div>
 
-                    <div>
-                        <label>Сoordinates
-                            <input 
-                            // autoComplete="off"  
-                            required      
-                            name="latitude"  
-                            value={this.state.latitude}   
-                            placeholder="latitude"      
-                            type="text"     
-                            onChange={this.handleChangeName}
-                            />
-                            
-                            <input 
-                            // autoComplete="off"  
-                            required      
-                            name="longitude"  
-                            value={this.state.longitude} 
-                            placeholder="longitude"      
-                            type="text"     
-                            onChange={this.handleChangeName}
-                            />                            
-                        </label> 
-                    </div>
-
-                <label><input             type="submit"  value="Create" ></input></label>
-            </form>            
-        )
-    }       
+        <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
+        </Form>
+    )
 }
 export default OpenAirCreateForm;
 
 
-//change to function 
+
+

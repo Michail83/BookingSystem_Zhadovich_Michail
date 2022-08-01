@@ -1,4 +1,28 @@
-import React from "react"
+import React from "react";
+import styled from "styled-components";
+
+const ExternalLink =  styled.a`
+    display: inline-block;
+    font-size: 1em;    
+    
+    /* margin: 1rem; */
+    padding:1vh;
+    border: 1px solid black;
+    border-radius: 4px;
+    text-align: center;
+    margin: 0.8rem 0.2rem 0 0.2rem;
+    text-decoration:none;
+    &:hover{
+        background-color:rgba(220, 220, 220,1)
+    }
+    &:visited{
+        color:initial;
+    }
+    
+
+`;
+
+
 function CreateLinkToExternalProvider(props){
     if (!props.providerName) {
         return (
@@ -9,25 +33,7 @@ function CreateLinkToExternalProvider(props){
     const path = "https://localhost:5001/account/externallogin?provider=" + props.providerName+ returnUrl;
 
 return (
-    <div className="btn"><a href={path}>{props.providerName}</a></div>
+    <ExternalLink href={path}>{props.providerName}</ExternalLink>
 )
 }
 export default CreateLinkToExternalProvider;
-
-
-
-//const returnUrl = "";
-///*props.returnUrl ? "&returnUrl=" + props.returnUrl : "";*/
-//const path = urls.basePath() + "/account/externallogin?provider=" + props.providerName + returnUrl;
-
-//const modalLink = (event) => {
-//    /*console.log(path);*/
-//    event.preventDefault();
-//    window.open(path, "provider", "width=400,height=400");
-//    store.dispatch(actionsCreator.setModalWindowForLoginActive(false))
-//}
-
-//return (
-//    <div className="btn">
-//        <a href="" onClick={(event) => modalLink(event)}>{props.providerName}</a>
-//    </div>

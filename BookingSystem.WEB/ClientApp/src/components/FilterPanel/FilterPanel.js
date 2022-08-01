@@ -67,7 +67,7 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
     const resetFilter=()=>{
         setNameFilter(partOfInitialState_FilteringData.nameForFilter);
         setTypeFilter(partOfInitialState_FilteringData.typeForFilter);
-        setSort(partOfInitialState_FilteringData.setSort);
+        setSort(partOfInitialState_FilteringData.sortBy);
 
         setfilteringDataToDefault();
     };
@@ -81,19 +81,6 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
         nameFilter === filteringData.nameForFilter&&
         typeFilter === filteringData.typeForFilter
     )
-    // console.log(nameFilter == filteringData.sortBy);
-
-    // console.log(nameFilter);
-    // console.log( filteringData.sortBy);
-
-    // console.log(typeFilter == filteringData.nameForFilter);
-    // console.log(typeFilter);
-    // console.log(filteringData.nameForFilter);
-
-    // console.log(sort == filteringData.typeForFilter);
-    // console.log(filteringData.typeForFilter);
-    // console.log(sort);
-
 
     return (
         <MainFilterPanelWrapped>
