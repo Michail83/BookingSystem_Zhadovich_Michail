@@ -106,7 +106,7 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest(ModelState.Values);
             }
-
+            var users =  _userManager.Users.ToList();
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             if (user==null)
             {
@@ -180,7 +180,7 @@ namespace BookingSystem.WEB.API
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect("");                       
+                        return Redirect("/");                       
                     }
                 }
                 
@@ -200,7 +200,7 @@ namespace BookingSystem.WEB.API
                         if (result.Succeeded)
                         {                           
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                            return Redirect("");                           
+                            return Redirect("/");                           
                         }
                     }
                 }                

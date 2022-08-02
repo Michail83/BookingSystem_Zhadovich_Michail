@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+
 import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCartButton"
 import "./Cart.css"
 import urls from "../../API_URL"
@@ -11,7 +12,7 @@ import CartArtEventView from "./CartArtEventView";
 import styled from "styled-components";
 
 
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Flexblock = styled.div`
  box-sizing: border-box;
@@ -27,11 +28,11 @@ const AbsoluteMessage = styled.div`
     opacity:0.4;
     font-size: 10vw;
     color: pink;
-    top:35%;
-    left: 55%;
+    top:20%;
+    left: 25%;
 `;
 
-const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated})=>{
+const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearCart})=>{
 
     const [isLoading, setIsLoading] = useState(true);                
     const [errorMessage, setErrorMessage] = useState(null);
@@ -45,8 +46,10 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated})=>{
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
 
             if (result.status==200) {
+
                 console.log("ORDER WAS CREATED");
                 setMessage("ORDER WAS CREATED");
+                clearCart();
                 setTimeout(() => {setMessage("")
                     
                 }, 5000);               
@@ -116,7 +119,8 @@ const mapStateToProps=(state)=> ({
     fullCartArray: state.cart.fullCartArray
 }); 
 const mapDispatchToProps = dispatch => ({
-    setFullCartArray: (fullCartArray) => dispatch(actionCreator.setFullCartArray(fullCartArray))
+    setFullCartArray: (fullCartArray) => dispatch(actionCreator.setFullCartArray(fullCartArray)),
+    clearCart: () => dispatch(actionCreator.clearCart())
 });
 
 let Cart_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(Cart);

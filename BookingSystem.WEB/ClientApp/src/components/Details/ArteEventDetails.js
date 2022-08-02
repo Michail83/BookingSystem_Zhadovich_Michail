@@ -5,21 +5,17 @@ import { YandMap } from "../YandMAP/YandMAP";
 import loadData from './Functions/LoadData';
 
 const DetailsMain = styled.div`
-    margin-top: 13vh;
+    margin-top: 14vh;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    padding: 1rem 1rem;
-    & div{
-        padding: 1px;
-    }
-
+    padding: 1vh 1vw;
+    border-bottom: 1px solid lightskyblue; 
 `;
 const ImageBlock = styled.div`
-    width: 20%;
+    width: 18%;
     aspect-ratio: 1/1;
     background-color: aqua;
-
 `;
 
 const MapBlock = styled.div`
@@ -27,17 +23,20 @@ const MapBlock = styled.div`
     /* display: inline-block; */    
 `;
 const DataBlock = styled.div`
+    padding: 1vh 1vw;
     min-width: 45%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    &p{
+        margin: 0.5rem
+    }
 `;
 const ButtonBlock = styled.div`
     width: 70vw;
 `;
 
-const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
-    // console.log("ArtEventDetails =>DeleteButton =>  ", deleteButton)
+const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {    
     const [artEvent, setArtEvent] = useState();
 
     useEffect(() => {
@@ -53,10 +52,10 @@ const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
                 </ImageBlock>
 
                 <DataBlock>
-                    <div>{artEvent.eventName} </div>
-                    <div>{artEvent.amountOfTickets}</div>
-                    <div>{artEvent.date}</div>
-                    <div>{artEvent.place}</div>
+                    <h3>{artEvent.eventName} </h3>
+                    <h5>{artEvent.amountOfTickets}</h5>
+                    <p>{new Date(artEvent.date).toLocaleString()}</p>
+                    <p>{artEvent.place}</p>
                     <ConcreteIventData {...artEvent} />
 
                 </DataBlock>
@@ -76,7 +75,7 @@ const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
         )
     }
 }
-// export default ArtEventDetails;
+
 
 const mapStateToProps = state => ({
     DeleteButton: state.admins.DeleteArtEventButton,

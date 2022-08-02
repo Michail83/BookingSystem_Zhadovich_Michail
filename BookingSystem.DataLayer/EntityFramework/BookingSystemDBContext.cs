@@ -12,7 +12,7 @@ namespace BookingSystem.DataLayer.EntityFramework
     {
         public BookingSystemDBContext(DbContextOptions<BookingSystemDBContext> options) :base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
         public DbSet<ArtEvent> ArtEvents { get; set; }
         public DbSet<ClassicMusic> ClassicMusics { get; set; }

@@ -2,10 +2,8 @@ import React from "react";
 import ArtEventDetails from "./ArteEventDetails";
 
 const OpenAirSpecific = (props) =>
-    <div>
-        <div>{props.headLiner}</div>        
-    </div>
-
+   <p>{props.headLiner}</p>
+   
 function OpenAirDetails(props) {
     return (
         <ArtEventDetails {...props} ConcreteIventData={OpenAirSpecific}/>

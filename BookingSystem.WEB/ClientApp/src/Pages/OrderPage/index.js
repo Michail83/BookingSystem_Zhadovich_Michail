@@ -7,7 +7,7 @@ import  Orders from '../../components/Orders/Orders';
 import styled from 'styled-components';
 
 const MainBlock = styled.div`
-margin-top: 15vh;
+margin-top: 16vh;
 `;
 
 const OrderPage = () => {

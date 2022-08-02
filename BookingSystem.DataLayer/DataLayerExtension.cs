@@ -19,10 +19,12 @@ namespace BookingSystem.DataLayer
     {
         public static IServiceCollection AddDataLayerService(this IServiceCollection service, IConfiguration configuration)
         {
+            //service.AddDbContext<BookingSystemDBContext>(option =>
+            //option.UseSqlServer(configuration.GetConnectionString("defaultLocalConnection")));
             service.AddDbContext<BookingSystemDBContext>(option =>
-            option.UseSqlServer(configuration.GetConnectionString("defaultLocalConnection")));
+            option.UseInMemoryDatabase("defaultLocalConnection"));
 
-            
+
 
             service.AddScoped<IRepositoryAsync<ArtEvent>, ArtEventRepository>();
 
@@ -30,7 +32,7 @@ namespace BookingSystem.DataLayer
 
             service.AddScoped<IRepositoryAsync<Party>, GenericConcreteRepository<Party>>();
             service.AddScoped<IRepositoryAsync<ClassicMusic>, GenericConcreteRepository<ClassicMusic>>();
-            service.AddScoped<IOrderRepositoryAsync, OrderRepository >();
+            service.AddScoped<IOrderRepositoryAsync, OrderRepositoryInMemory>();
             
 
 
