@@ -1,4 +1,9 @@
 # BookingSystem_Zhadovich_Michail
+учебный проект  -   приложение для бронирования билетов на мероприятия
+
+от ветки  master отличается  
+     -  UseInMemoryDatabase вместо UseSqlServer
+     - отключены транзакции(не поддерживаются UseInMemoryDatabase)
 
 база данных создается в памяти с тестовым содержимым.
 
