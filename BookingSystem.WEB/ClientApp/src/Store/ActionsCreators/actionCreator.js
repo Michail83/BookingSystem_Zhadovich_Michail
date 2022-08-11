@@ -56,13 +56,13 @@ export default {
         type: actionTypeList.setBaseCreatingData,
         payload:additionData
     }),
-    ClearALLTempCreatingData:()=>({
-        type: actionTypeList.ClearALLTempCreatingData
+    // ClearALLTempCreatingData:()=>({
+    //     type: actionTypeList.ClearALLTempCreatingData
     // }),
     // setAdditionalOpenAirCreatingData:(AdditionalOpenAirCreatingData)=>({
     //     type: actionTypeList.setAdditionalOpenAirCreatingData,
     //     payload:AdditionalOpenAirCreatingData
-    }),
+    // }),
     setFilteringDataToDefault:()=>({
         type: actionTypeList.setFilteringDataToDefault
     }),

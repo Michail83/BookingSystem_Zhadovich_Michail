@@ -8,7 +8,7 @@ import LinkToCart from '../Cart/cartButton/LinkToCartFromHeader'
 import ModalWindowForLogin_ReduxWrapped from "../ModalWindowForLogin/ModalWindowForLogin";
 import DisplayUserName_ReduxWrapped from "../DisplayUserName/DisplayUserName";
 import styled from "styled-components";
-
+import actionCreator from "../../Store/ActionsCreators/actionCreator";
 
 
 const MainUniversalHeader = styled.div`
@@ -108,7 +108,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => (
     {
-        addDeleteArtEventButtonToState:()=>dispatch(actionsCreator.setDeleteArtEventButton(DeleteArtEventButton))
+        /* addDeleteArtEventButtonToState:()=>dispatch(actionCreator.setDeleteArtEventButton(DeleteArtEventButton)) */
         // setNoActive:()=> dispatch(actionCreator.setModalWindowForLoginActive(false))        
     });
 var UniversalHeader_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(UniversalHeader);

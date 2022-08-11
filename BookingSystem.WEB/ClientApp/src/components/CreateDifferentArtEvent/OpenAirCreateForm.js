@@ -72,7 +72,7 @@ const OpenAirCreateForm =()=>{
         
         
         <Label> headliner</Label>
-        <Input type={"text"} {...register("headliner", {required: TrustedHTML, minLength:2})}  />
+        <Input type={"text"} {...register("headliner", {required: true, minLength:2})}  />
         {errors.headliner?.type==="required"&& <ErrorMessage>headliner is required</ErrorMessage>}
 
 

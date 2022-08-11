@@ -4,8 +4,8 @@ import authReducer from "./authReducer";
 import cartReducer from "./cartReducer";
 import stateReducer from "./stateReducer";
 import admins from "./adminsReducer";
-import creatingTempDataReducer from './Creating/baseReducer';
-import openAirReducer from './Creating/openAirReducer';
+// import creatingTempDataReducer from './Creating/baseReducer';
+// import openAirReducer from './Creating/openAirReducer';
 
 export const rootReducer = combineReducers({
     auth: authReducer ,
