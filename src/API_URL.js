@@ -1,5 +1,5 @@
  export default {
-    base_api: 'https://bookingsystem-zhadovichmichail.herokuapp.com',     
+    base_api: 'https://bookingsystem-zhadovichmichail.herokuapp.com/',     
     account : '/account',
     setid: (id)=>{
         if (!id) {
