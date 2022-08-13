@@ -1,0 +1,25 @@
+.mainDetails{
+    margin-top: 13vh;
+    display: flex;
+    box-sizing: border-box;
+    padding: 1rem 1rem;
+
+}
+.mainDetails div{    
+    padding: 1px;
+    border: 1px solid black;
+    
+}
+.dataBlock{    
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+.mapBlock{
+    width: auto;
+    background-color: deepskyblue;
+    display: inline-block;
+
+}

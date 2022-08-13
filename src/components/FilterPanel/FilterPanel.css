@@ -1,0 +1,53 @@
+/* .mainFilterPanel{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(30, 117, 204, 0.877); ;
+    border: 1px solid black; 
+    border-radius: 2px;
+    padding: 0.5%;
+    margin: -5px 0 0 0 ;
+    background-color: white;
+} */
+/* .mainFilterPanel div{
+    height: 50px;
+} */
+/* .filterElementSize{
+    height: 20px;
+    margin: 0.5rem 1%;
+} */
+
+/* .mainFilterPanel select,input[type="text"],button {
+    box-sizing: border-box;
+    height: 20px;
+    margin: 0.5rem 1%;
+  } */
+  
+  /* .mainFilterPanel  select,
+  input[type="text"] {
+    width: auto;
+    padding: 2px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    -webkit-appearance: none;
+  } */
+  /* .mainFilterPanel  select {
+    padding-right: 25px;
+    background-image: url("../../icons/icons8-drop-down24.png");
+    background-size: 14%;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: calc(100% - 5px);
+} */
+/* .mainFilterPanel button {
+width: 9%;
+
+} */
+/* .mainFilterPanelWrapped{
+  box-sizing: border-box;
+  position: fixed;
+  top: 100px;
+  width: 100%;
+  background-color: white;
+} */
