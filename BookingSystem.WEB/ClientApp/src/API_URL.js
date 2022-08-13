@@ -1,5 +1,5 @@
  export default {
-    base_api: 'https://localhost:5001',     
+    base_api: '',     
     account : '/account',
     setid: (id)=>{
         if (!id) {
