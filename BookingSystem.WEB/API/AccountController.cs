@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Cors;
+
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ using BookingSystem.WEB.Models;
 using BookingSystem.BusinessLogic.Services;
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
-
+using Microsoft.AspNetCore.Hosting;
 
 namespace BookingSystem.WEB.API
 {
@@ -35,7 +37,8 @@ namespace BookingSystem.WEB.API
                                  [FromServices] IConfiguration configuration,
                                  SignInManager<User> signInManager, 
                                  UserManager<User> userManager,
-                                 IEmailService emailService
+                                 IEmailService emailService,
+                                 IWebHostEnvironment env
             )
         {
             _signInManager = signInManager;
@@ -43,12 +46,23 @@ namespace BookingSystem.WEB.API
             //_jwtTokenProvider = jwtTokenProvider;
             _configuration = configuration;
             _emailService = emailService;
+            if (env.IsDevelopment())
+            {
+                _hostsUrl = "/";
+            }
+            else 
+            {
+                _hostsUrl = configuration.GetSection("BaseUri").Value;
+            }
+            
+
         }
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         //private readonly IJWTTokenProvider _jwtTokenProvider;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly string _hostsUrl;
 
         [HttpPost]
         [Route("Register")]
@@ -164,7 +178,7 @@ namespace BookingSystem.WEB.API
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent:false, bypassTwoFactor:false);
             if (signInResult.Succeeded)
             {                
-                return Redirect("/");                
+                return Redirect(_hostsUrl);                
             }
             if (signInResult.IsLockedOut)
             {
@@ -180,7 +194,7 @@ namespace BookingSystem.WEB.API
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect("/");                       
+                        return Redirect(_hostsUrl);                       
                     }
                 }
                 
@@ -200,7 +214,7 @@ namespace BookingSystem.WEB.API
                         if (result.Succeeded)
                         {                           
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                            return Redirect("/");                           
+                            return Redirect(_hostsUrl);                           
                         }
                     }
                 }                
