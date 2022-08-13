@@ -1,0 +1,1 @@
+﻿export const localStorage_cartMap = "cart"

@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\src\NewFolder1\**" />
-    <Content Remove="ClientApp\src\NewFolder1\**" />
-    <EmbeddedResource Remove="ClientApp\src\NewFolder1\**" />
-    <None Remove="ClientApp\src\NewFolder1\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.14" />
