@@ -19,7 +19,7 @@ namespace UnitTests
         Mock<IRepositoryAsync<ArtEvent>> fakeArtEventRepository = new();
         Mock<IMapper<ArtEvent, ArtEventBL>> FakeMapperToBL = new();
         Mock<IArtEventFilter<ArtEvent>> FakeArtEventFilter = new();
-        Mock<IArtEventSort<ArtEvent>> FakeArtEventSorter = new();        
+        Mock<IArtEventSort<ArtEvent>> FakeArtEventSorter = new();
 
         Party party = new Party
         {
@@ -59,7 +59,7 @@ namespace UnitTests
 
         List<ArtEvent> fakeArtEventsList;
 
-        IQueryable<ArtEvent> fakeArtEvents;      
+        IQueryable<ArtEvent> fakeArtEvents;
 
         public UnitTest_ArtEventBLService()
         {
@@ -71,9 +71,9 @@ namespace UnitTests
         }
 
 
-        [TestCase("classicmusic","",2,TestName = "FilterForArtEvent_byType_ClassicMusic")]
-        [TestCase("openair","",1, TestName = "FilterForArtEvent_byType_OpenAir")]
-        [TestCase("party","",0, TestName = "FilterForArtEvent_byType_Party")]
+        [TestCase("classicmusic", "", 2, TestName = "FilterForArtEvent_byType_ClassicMusic")]
+        [TestCase("openair", "", 1, TestName = "FilterForArtEvent_byType_OpenAir")]
+        [TestCase("party", "", 0, TestName = "FilterForArtEvent_byType_Party")]
 
         [TestCase("", "Fake classic", 2, TestName = "FilterForArtEvent byName Fake classic")]
         [TestCase("", "Fake Gorky P", 1, TestName = "FilterForArtEvent_byName Fake Gorky P")]
@@ -81,28 +81,28 @@ namespace UnitTests
 
         [TestCase(null, null, 0, TestName = "FilterForArtEvent_null")]
 
-        public void FilterForArtEvent(string filterByType,string filterName, int indexOfFirstExpected)
+        public void FilterForArtEvent(string filterByType, string filterName, int indexOfFirstExpected)
         {
             FilterForArtEvent filterForArtEvent = new();
-            var pageState = new PagesState { TypeForFilter = filterByType, NameForFilter=filterName };            
+            var pageState = new PagesState { TypeForFilter = filterByType, NameForFilter = filterName };
 
             var filterResult = filterForArtEvent.FilterBy(fakeArtEvents, pageState).ToList();
 
             Assert.IsTrue(filterResult[0].IsEqual(fakeArtEventsList[indexOfFirstExpected]));
 
         }
-        
-        [TestCase("AmountOfTickets", 2,TestName = "SortForArtEvent => AmountOfTickets ")]
+
+        [TestCase("AmountOfTickets", 2, TestName = "SortForArtEvent => AmountOfTickets ")]
         [TestCase("AmountOfTickets desc", 0, TestName = "SortForArtEvent => AmountOfTickets DESC ")]
         [TestCase(" ", 1, TestName = "SortForArtEvent => WhiteSpace ")]
         [TestCase("Blablabal ", 1, TestName = "SortForArtEvent => wrong string ")]
 
         public void SortForArtEvent(string sortBy, int indexOfresult)
         {
-            SortForArtEvent<ArtEvent> sortForArtEvent = new();           
+            SortForArtEvent<ArtEvent> sortForArtEvent = new();
 
             var resultOfSort = sortForArtEvent.SortBy(fakeArtEvents, sortBy).ToList();
-            
+
             Assert.IsTrue(resultOfSort[0].IsEqual(fakeArtEventsList[indexOfresult]));
         }
 

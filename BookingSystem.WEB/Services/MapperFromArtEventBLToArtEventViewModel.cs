@@ -1,5 +1,5 @@
-﻿using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
+using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.WEB.Models;
 using BookingSystem.WEB.StaticClasses;
 

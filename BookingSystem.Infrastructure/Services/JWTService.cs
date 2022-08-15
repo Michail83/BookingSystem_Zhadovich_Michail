@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
+﻿using BookingSystem.Infrastructure.Interfaces;
+using BookingSystem.Infrastructure.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-
-using BookingSystem.Infrastructure.Interfaces;
-using BookingSystem.Infrastructure.Models;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace BookingSystem.Infrastructure.Services
 {
-    public class JwtService :IJWTTokenProvider
+    public class JwtService : IJWTTokenProvider
     {
         private readonly string _secret;
         private readonly string _expDate;
@@ -27,11 +22,11 @@ namespace BookingSystem.Infrastructure.Services
             _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
             _issuer = config.GetSection("JwtConfig").GetSection("issuer").Value;
             _audience = config.GetSection("JwtConfig").GetSection("audience").Value;
-        }        
+        }
 
         public string GetSecurityToken(User user)
         {
-           
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
             var tokenDescriptor = new SecurityTokenDescriptor

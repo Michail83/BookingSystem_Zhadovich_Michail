@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.BusinessLogic.Services
@@ -13,13 +8,13 @@ namespace BookingSystem.BusinessLogic.Services
     {
         public OpenAir Map(OpenAirBL incoming)  //means -  incoming is validated
         {
-            return new OpenAir 
+            return new OpenAir
             {
-                Id = incoming.Id, 
+                Id = incoming.Id,
                 AmountOfTickets = incoming.AmountOfTickets,
                 Date = incoming.Date,
-                HeadLiner = incoming.HeadLiner, 
-                EventName = incoming.EventName, 
+                HeadLiner = incoming.HeadLiner,
+                EventName = incoming.EventName,
                 Place = incoming.Place,
                 Longitude = incoming.Longitude,
                 Latitude = incoming.Latitude

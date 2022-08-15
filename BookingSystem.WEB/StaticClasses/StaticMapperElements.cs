@@ -1,5 +1,4 @@
-﻿using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.WEB.Models;
 
 namespace BookingSystem.WEB.StaticClasses

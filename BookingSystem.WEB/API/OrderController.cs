@@ -2,7 +2,6 @@
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.BusinessLogic.Services;
 using BookingSystem.WEB.Models;
-using BookingSystem.WEB.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,25 +21,39 @@ namespace BookingSystem.WEB.API
     {
         OrderBLService _orderBLService;
         //string currentUsersEmail;
-        MapperOrderBLtoViewModel mapperOrderBLtoViewModel;
+        IMapper<OrderBL, OrderViewModel> _mapperOrderBLtoViewModel;
 
-        public OrderController(OrderBLService orderBLService, IMapper<ArtEventBL, ArtEventViewModel> artMapper)
+
+        public OrderController(
+            OrderBLService orderBLService,
+            //IMapper<ArtEventBL, ArtEventViewModel> artMapper,
+            IMapper<OrderBL, OrderViewModel> orderToViewModelMapper
+            )
         {
             _orderBLService = orderBLService;
-            mapperOrderBLtoViewModel = new MapperOrderBLtoViewModel(artMapper);
+            _mapperOrderBLtoViewModel = orderToViewModelMapper;
+
+
+
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
             var orderBl = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
-            return Ok(orderBl);
+            var result = _mapperOrderBLtoViewModel.Map(orderBl);
+            return Ok(result);
         }
         [Route("GetAsync")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
             var resultBL = await _orderBLService.GetAllAsync(GetCurrentUserEmail());
-            var resultViewModel = mapperOrderBLtoViewModel.Map(resultBL);
+            var resultViewModel = new List<OrderViewModel>();
+
+            foreach (var item in resultBL)
+            {
+                resultViewModel.Add(_mapperOrderBLtoViewModel.Map(item));
+            }
             return Ok(resultViewModel);
         }
 

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
-using BookingSystem.Infrastructure.Models;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 
 namespace BookingSystem.Infrastructure.IdentityDBContext
@@ -29,7 +25,8 @@ namespace BookingSystem.Infrastructure.IdentityDBContext
                     await userManager.AddToRoleAsync(newUser, admin);
                 }
             }
-            else {
+            else
+            {
                 if (!(await userManager.GetRolesAsync(currentUser)).Contains(admin))
                 {
                     await userManager.AddToRoleAsync(currentUser, admin);

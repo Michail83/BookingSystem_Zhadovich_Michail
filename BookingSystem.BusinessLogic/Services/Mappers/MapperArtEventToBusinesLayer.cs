@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.DataLayer.EntityModels;
+using System;
 
 namespace BookingSystem.BusinessLogic.Services
 {
@@ -18,20 +14,20 @@ namespace BookingSystem.BusinessLogic.Services
             IMapper<OpenAir, OpenAirBL> mapperOpenAirToOpenAirBL,
             IMapper<Party, PartyBL> mapperPartyToPartyBL,
             IMapper<ClassicMusic, ClassicMusicBL> mapperClassicMusicToClassicMusicBL
-            ) 
+            )
         {
-             _mapperOpenAirToOpenAirBL = mapperOpenAirToOpenAirBL;
-             _mapperPartyToPartyBL = mapperPartyToPartyBL;
-             _mapperClassicMusicToClassicMusicBL = mapperClassicMusicToClassicMusicBL;
+            _mapperOpenAirToOpenAirBL = mapperOpenAirToOpenAirBL;
+            _mapperPartyToPartyBL = mapperPartyToPartyBL;
+            _mapperClassicMusicToClassicMusicBL = mapperClassicMusicToClassicMusicBL;
         }
 
         public ArtEventBL Map(ArtEvent incoming)
         {
             return MapArtEventToBusinessLayerArtEvents(incoming);
-        } 
+        }
 
         internal PartyBL MapIventsToBusinessLayerIvents(Party party)
-        {            
+        {
             return _mapperPartyToPartyBL.Map(party);
         }
 
@@ -41,7 +37,7 @@ namespace BookingSystem.BusinessLogic.Services
         }
 
         internal ClassicMusicBL MapIventsToBusinessLayerIvents(ClassicMusic classicMusic)
-        {            
+        {
             return _mapperClassicMusicToClassicMusicBL.Map(classicMusic);
         }
 
@@ -52,6 +48,6 @@ namespace BookingSystem.BusinessLogic.Services
             ClassicMusic classicMusic => MapIventsToBusinessLayerIvents(classicMusic),
             _ => throw new Exception("Type Not found"),
         };
-        
+
     }
 }

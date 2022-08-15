@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using System.Threading.Tasks;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 
 namespace BookingSystem.BusinessLogic.Interfaces
 {
-    public interface IBusinessLayerCRUDServiceAsync<T> where T: class
+    public interface IBusinessLayerCRUDServiceAsync<T> where T : class
     {
         public Task<PagedList<T>> GetAllAsync(PagesState pagesStatus);
         public Task<T> GetAsync(int id);

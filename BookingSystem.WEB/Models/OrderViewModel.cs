@@ -9,5 +9,5 @@ namespace BookingSystem.WEB.Models
         public string UserEmail { get; set; }
         public DateTime TimeOfCreation { get; set; }
         public List<CartWithQuantityViewModel> ListOfReservedEventTickets { get; set; }
-    }    
+    }
 }

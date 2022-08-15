@@ -2,8 +2,8 @@
 {
     public class CartWithQuantityViewModel
     {
-        public int Quantity { get; set; }        
+        public int Quantity { get; set; }
         public ArtEventViewModel ArtEventViewModel { get; set; }
-        
+
     }
 }

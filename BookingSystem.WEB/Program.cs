@@ -1,20 +1,12 @@
+using BookingSystem.Infrastructure.IdentityDBContext;
+using BookingSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-
-using BookingSystem.Infrastructure.Models;
-
-
-
-using BookingSystem.Infrastructure.IdentityDBContext;
 
 namespace BookingSystem.WEB
 {
@@ -49,7 +41,7 @@ namespace BookingSystem.WEB
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred while seeding the database.");
             }
-            
+
         }
     }
 }

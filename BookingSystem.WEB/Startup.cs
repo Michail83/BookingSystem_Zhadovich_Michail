@@ -1,28 +1,20 @@
 
 
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SpaServices;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.IdentityModel.Tokens;
-
 using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.WEB.Services;
-using BookingSystem.WEB.Models;
-
-using BookingSystem.Infrastructure.JWT;
+using BookingSystem.BusinessLogic.Services.AutoMapper;
 using BookingSystem.Infrastructure;
+using BookingSystem.WEB.Models;
+using BookingSystem.WEB.Services;
+using BookingSystem.WEB.Services.AutoMapper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace BookingSystem.WEB
 {
@@ -34,58 +26,66 @@ namespace BookingSystem.WEB
         }
 
         public IConfiguration Configuration { get; }
-                
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(BysinessLayerAutoMapperProfile), typeof(WebAutoMapperProfile));
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
 
-            services.ADDInfrastructureServices(Configuration);            
+            services.ADDInfrastructureServices(Configuration);
             services.AddAuthentication()
-                .AddGoogle("google",options => 
-                {
-                    var authData = Configuration.GetSection("Authentication:Google");
+                .AddGoogle("google", options =>
+                 {
+                     var authData = Configuration.GetSection("Authentication:Google");
 
-                    options.ClientId = authData ["ClientId"];
-                    options.ClientSecret = authData["ClientSecret"];
-                    options.SignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddFacebook("facebook", options=>
+                     options.ClientId = authData["ClientId"];
+                     options.ClientSecret = authData["ClientSecret"];
+                     options.SignInScheme = IdentityConstants.ExternalScheme;
+                 })
+                .AddFacebook("facebook", options =>
                 {
                     var authData = Configuration.GetSection("Authentication:Facebook");
 
                     options.ClientId = authData["ClientId"];
                     options.ClientSecret = authData["ClientSecret"];
-                    options.SignInScheme = IdentityConstants.ExternalScheme;                             
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
                 });
 
             services.AddControllersWithViews();
 
-            services.AddBusinessLayerAndDataLayerServices(Configuration);            
+            services.AddBusinessLayerAndDataLayerServices(Configuration);
 
-            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventBLToArtEventViewModel>();
+            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperArtEventBLToArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
+            services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperArtEventBLToArtEventViewModel<OrderBL, OrderViewModel>>();
+
+
+
+
+
+
 
             services.AddMemoryCache();
 
-            services.AddCors(options => 
+            services.AddCors(options =>
             {
                 options.AddPolicy("LocalForDevelopment", builder =>
                 {
                     builder.WithOrigins("https://localhost:44324");
-                });                
+                });
                 options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */   
+                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */
                     //.AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
-                    });
+                });
             });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "../build";
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseDeveloperExceptionPage();
@@ -103,7 +103,7 @@ namespace BookingSystem.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors();
