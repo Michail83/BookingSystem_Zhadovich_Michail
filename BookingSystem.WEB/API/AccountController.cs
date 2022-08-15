@@ -45,10 +45,12 @@ namespace BookingSystem.WEB.API
             else
             {
                 _hostsUrl = configuration.GetSection("BaseUri").Value;
+                
             }
 
 
         }
+
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         //private readonly IJWTTokenProvider _jwtTokenProvider;

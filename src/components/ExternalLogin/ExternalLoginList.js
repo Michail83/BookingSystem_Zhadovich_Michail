@@ -43,7 +43,7 @@ function ExternalLoginList(prop) {
 
     const showLoading = ()=>{
         let items;
-        const returnUrl = prop.returnUrl ?? "http://localhost:5001/"           
+        const returnUrl = prop.returnUrl ?? urls.basePath() + "/"           
         if (externalProviderList) {
             items = externalProviderList.map((provider)=>(<CreateLinkToExternalProvider key={provider} providerName ={provider} returnUrl = {returnUrl}/>));
         } else {            
