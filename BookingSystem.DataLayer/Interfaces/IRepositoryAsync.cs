@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BookingSystem.DataLayer.EntityModels;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.DataLayer.Interfaces
 {

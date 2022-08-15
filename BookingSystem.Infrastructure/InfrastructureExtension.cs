@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using BookingSystem.Infrastructure.IdentityDBContext;
+using BookingSystem.Infrastructure.Interfaces;
+using BookingSystem.Infrastructure.Models;
+using BookingSystem.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-
-
-using Microsoft.AspNetCore.Authentication.Google;
-using BookingSystem.Infrastructure.Models;
-using BookingSystem.Infrastructure.Interfaces;
-using BookingSystem.Infrastructure.Services;
-using BookingSystem.Infrastructure.IdentityDBContext;
 
 namespace BookingSystem.Infrastructure
 {

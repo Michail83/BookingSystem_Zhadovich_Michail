@@ -16,14 +16,16 @@ namespace BookingSystem.WEB.Services
         public OrderViewModel Map(OrderBL incoming)
         {
             List<CartWithQuantityViewModel> newListOfReservedEventTickets = new();
+
             foreach (var ReservedEventTicket in incoming.ListOfReservedEventTickets)
             {
                 newListOfReservedEventTickets.Add(new CartWithQuantityViewModel
-                { 
+                {
                     Quantity = ReservedEventTicket.Quantity,
-                    ArtEventViewModel = _mapper.Map(ReservedEventTicket.ArtEventBL)                    
+                    ArtEventViewModel = _mapper.Map(ReservedEventTicket.ArtEventBL)
                 });
             }
+
             var result = new OrderViewModel
             {
                 Id = incoming.Id,
@@ -33,13 +35,12 @@ namespace BookingSystem.WEB.Services
             };
             return result;
         }
-        public List<OrderViewModel> Map(IEnumerable<OrderBL> incoming) 
+        public List<OrderViewModel> Map(IEnumerable<OrderBL> incoming)
         {
-            List<OrderViewModel> result = new ();
-            foreach (var orderBL in incoming) 
+            List<OrderViewModel> result = new();
+            foreach (var orderBL in incoming)
             {
                 result.Add(Map(orderBL));
-
             }
             return result;
         }

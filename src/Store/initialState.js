@@ -23,7 +23,7 @@ export const partOfInitialState_FilteringData = {
 }
 export const partOfInitialState_PaginationData = {
     totalItemsCount: '',
-    pageSize: 3,
+    pageSize: 5,
     currentPage: 1,
     totalPages: '',
     hasNext: '',

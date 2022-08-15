@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using BookingSystem.DataLayer;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.Services;
-using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.DataLayer.EntityFramework.Repository;
-using Microsoft.EntityFrameworkCore;
 using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace BookingSystem.WEB.API

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BookingSystem.DataLayer.EntityModels;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.DataLayer.Interfaces
 {
-    public interface IRepository<T> where T: ArtEvent
+    public interface IRepository<T> where T : ArtEvent
     {
         public IQueryable<T> GetAll();
         public T GetAsync(int ID);

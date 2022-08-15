@@ -37,8 +37,7 @@ const Navbar = styled.div`
     padding: 2px;
     border: 0px solid black;
     border-radius: 3px;
-    font-size: 1.5rem;
-    background-color:white;    
+    font-size: 1.5rem;        
 }   
     & div:first-child{
         margin-left: auto;
@@ -65,7 +64,7 @@ const NavBarItem = styled.div`
         margin:0;
     }
     /* background-color:white; */
-    background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue" : "inherit"};
+    background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue" : "white"};
     &:hover{
         background-color:royalblue
     }

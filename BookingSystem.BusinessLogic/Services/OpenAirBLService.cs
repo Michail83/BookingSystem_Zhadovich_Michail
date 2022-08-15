@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.Services;
 using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.DataLayer.EntityFramework.Repository;
-using Microsoft.EntityFrameworkCore;
 using BookingSystem.DataLayer.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 
 namespace BookingSystem.BusinessLogic.Services
@@ -20,16 +11,16 @@ namespace BookingSystem.BusinessLogic.Services
     {
         IRepositoryAsync<OpenAir> _repository;
         IMapper<OpenAir, OpenAirBL> _mapperToOpenAirBLEvents;
-        IMapper<OpenAirBL,OpenAir> _mapperFromOpenAirBLEvents;
+        IMapper<OpenAirBL, OpenAir> _mapperFromOpenAirBLEvents;
 
         public OpenAirBLService
             (
-            IRepositoryAsync<OpenAir> repository, 
-            IMapper<OpenAir, OpenAirBL> mapperToOpenAirBLEvents, 
+            IRepositoryAsync<OpenAir> repository,
+            IMapper<OpenAir, OpenAirBL> mapperToOpenAirBLEvents,
             IMapper<OpenAirBL, OpenAir> mapperFromOpenAirBLEvents)
         {
             _repository = repository;
-            _mapperToOpenAirBLEvents= mapperToOpenAirBLEvents;
+            _mapperToOpenAirBLEvents = mapperToOpenAirBLEvents;
             _mapperFromOpenAirBLEvents = mapperFromOpenAirBLEvents;
         }
         public async Task CreateAsync(OpenAirBL openAirArtEvevnt)

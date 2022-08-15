@@ -1,19 +1,25 @@
+using AutoMapper;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.Services;
+using BookingSystem.BusinessLogic.Services.AutoMapper;
 using BookingSystem.DataLayer.EntityModels;
 using Moq;
 using NUnit.Framework;
 
-
-
 namespace UnitTests
 {
     [TestFixture]
-    public class UnitTest_Mapper_BL
+    public class AutoMapper_BetweenDLandBL
     {
-        MapperArtEventToBusinesLayer mapperArtEventToArtEventBL;
+        readonly Mapper _mapper;
 
+        AutoMapperArtEventToBusinesLayer mapperArtEventToArtEventBL;
+
+        public AutoMapper_BetweenDLandBL()
+        {
+            _mapper = new Mapper(new MapperConfiguration(conf => conf.AddProfile<BysinessLayerAutoMapperProfile>()));
+            mapperArtEventToArtEventBL = new AutoMapperArtEventToBusinesLayer(_mapper);
+        }
         OpenAir artEventOpenAir;
         OpenAirBL artEventOpenAirBL;
         Party artEventParty;
@@ -28,8 +34,6 @@ namespace UnitTests
         [SetUp]
         public void Setup()
         {
-            mapperArtEventToArtEventBL = new(fakeOpenAirToBusinessLayer.Object, fakeMapperPartyToBusinessLayer.Object, fakeClassicMusicToBusinessLayer.Object);
-
             artEventOpenAir = new OpenAir
             {
                 Id = 15,
@@ -104,22 +108,20 @@ namespace UnitTests
         }
         #region Check_MapperArtEventToBusinesLayer
         [Test]
-        public void Check_MapperArtEventToBusinesLayer_IsMapperCalled_OpenAirToOpenAirBL()
+        public void Check_AuroMapperArtEventToBusinesLayer_OpenAirToOpenAirBL()
         {
-            mapperArtEventToArtEventBL.Map(artEventOpenAir);
-            fakeOpenAirToBusinessLayer.Verify(mock => mock.Map(artEventOpenAir));
+            Assert.IsTrue(mapperArtEventToArtEventBL.Map(artEventOpenAir).IsEqual(artEventOpenAirBL));
+
         }
         [Test]
-        public void Check_MapperArtEventToBusinesLayer_IsMapperCalled_PartyToPartyBL()
+        public void Check_AutoMapperArtEventToBusinesLayer_PartyToPartyBL()
         {
-            mapperArtEventToArtEventBL.Map(artEventParty);
-            fakeMapperPartyToBusinessLayer.Verify(mock => mock.Map(artEventParty));
+            Assert.IsTrue(mapperArtEventToArtEventBL.Map(artEventParty).IsEqual(artEventPartyBL));
         }
         [Test]
-        public void Check_MapperArtEventToBusinesLayer_IsMapperCalled_ClassicMusicToClassicMusicBL()
+        public void Check_AutoMapperArtEventToBusinesLayer_ClassicMusicToClassicMusicBL()
         {
-            mapperArtEventToArtEventBL.Map(artEventClassicMusic);
-            fakeClassicMusicToBusinessLayer.Verify(mock => mock.Map(artEventClassicMusic));
+            Assert.IsTrue(mapperArtEventToArtEventBL.Map(artEventClassicMusic).IsEqual(artEventClassicMusicBL));
         }
         #endregion Check_MapperArtEventToBusinesLayer
 
@@ -127,20 +129,30 @@ namespace UnitTests
         [Test]
         public void Check_MapperPartyToBusinessLayer()
         {
-            MapperPartyToBusinessLayer mapperPartyToBusinessLayer = new();
+
+            AutoMapperBetweenDLandBLlayer<Party, PartyBL> mapperPartyToBusinessLayer
+                = new AutoMapperBetweenDLandBLlayer<Party, PartyBL>(new AutoMapper.Mapper(
+                    new MapperConfiguration(conf => conf.AddProfile<BysinessLayerAutoMapperProfile>())));
+
             Assert.IsTrue(mapperPartyToBusinessLayer.Map(artEventParty).IsEqual(artEventPartyBL));
         }
 
         [Test]
         public void Check_MapperOpenAirToBusinessLayer()
         {
-            MapperOpenAirToBusinessLayer mapperOpenAirToBusinessLayer = new();
+            AutoMapperBetweenDLandBLlayer<OpenAir, OpenAirBL> mapperOpenAirToBusinessLayer
+                = new AutoMapperBetweenDLandBLlayer<OpenAir, OpenAirBL>(new Mapper(
+                    new MapperConfiguration(conf => conf.AddProfile<BysinessLayerAutoMapperProfile>()
+                    )));
             Assert.IsTrue(mapperOpenAirToBusinessLayer.Map(artEventOpenAir).IsEqual(artEventOpenAirBL));
         }
         [Test]
         public void Check_MapperClassicMusicToBusinessLayer()
         {
-            MapperClassicMusicToBusinessLayer mapperClassicMusicToBusinessLayer = new();
+            AutoMapperBetweenDLandBLlayer<ClassicMusic, ClassicMusicBL> mapperClassicMusicToBusinessLayer
+                = new AutoMapperBetweenDLandBLlayer<ClassicMusic, ClassicMusicBL>(new AutoMapper.Mapper(
+                    new MapperConfiguration(conf => conf.AddProfile<BysinessLayerAutoMapperProfile>()
+                    )));
             Assert.IsTrue(mapperClassicMusicToBusinessLayer.Map(artEventClassicMusic).IsEqual(artEventClassicMusicBL));
         }
         #endregion Check_Mappers_DAL_to_BL
@@ -149,25 +161,35 @@ namespace UnitTests
         [Test]
         public void Check_MapperPartyBLtoDALentity()
         {
-            MapperPartyBLtoDALentity mapperPartyBLtoDALentity = new();
+            AutoMapperBetweenDLandBLlayer<PartyBL, Party> mapperPartyBLtoDALentity
+                = new AutoMapperBetweenDLandBLlayer<PartyBL, Party>(new AutoMapper.Mapper(
+                    new MapperConfiguration(conf => conf.CreateMap<PartyBL, Party>()
+                    )));
             Assert.IsTrue(mapperPartyBLtoDALentity.Map(artEventPartyBL).IsEqual(artEventParty));
         }
 
         [Test]
         public void Check_MapperOpenAirBLtoDALentity()
         {
-            MapperOpenAirBLtoDALentity mapperOpenAirBLtoDALentity = new();
+            AutoMapperBetweenDLandBLlayer<OpenAirBL, OpenAir> mapperOpenAirBLtoDALentity
+                = new AutoMapperBetweenDLandBLlayer<OpenAirBL, OpenAir>(
+                    new AutoMapper.Mapper(
+                    new MapperConfiguration(conf => conf.AddProfile(new BysinessLayerAutoMapperProfile()))));
+
             Assert.IsTrue(mapperOpenAirBLtoDALentity.Map(artEventOpenAirBL).IsEqual(artEventOpenAir));
         }
         [Test]
         public void Check_MapperClassicMusicBLtoDALentity()
         {
-            MapperClassicMusicBLtoDALentity mapperClassicMusicBLtoDALentity = new();
+            AutoMapperBetweenDLandBLlayer<ClassicMusicBL, ClassicMusic> mapperClassicMusicBLtoDALentity
+                = new AutoMapperBetweenDLandBLlayer<ClassicMusicBL, ClassicMusic>(
+                    new AutoMapper.Mapper(
+
+                        new MapperConfiguration(conf => conf.AddProfile(new BysinessLayerAutoMapperProfile()))));
+
             Assert.IsTrue(mapperClassicMusicBLtoDALentity.Map(artEventClassicMusicBL).IsEqual(artEventClassicMusic));
         }
         #endregion Check_Mappers_BL_to_DAL
 
     }
-
-
 }

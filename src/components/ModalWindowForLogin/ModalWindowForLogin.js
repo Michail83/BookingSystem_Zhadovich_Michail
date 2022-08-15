@@ -45,6 +45,8 @@ const ModalContent = styled.div`
 `;
 
 
+
+
 const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
     // let ModalWindow =isActive?TestActive:TestNoActive;
     let nodeRef = React.useRef(null);
@@ -55,7 +57,7 @@ const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
             <CSSTransition
         in={isActive}
         timeout={300}
-        nodeRef={nodeRef}        //finddomnode is deprecated in strictmode
+        nodeRef={nodeRef}        //findDomNode is deprecated in strictmode
         classNames="modal"
         unmountOnExit        
         >
@@ -64,7 +66,7 @@ const ModalWindowForLogin =  ({ isActive, setNoActive }) => {
                     <ExternalLoginList />
                     <OwnLogin />
                     <div>
-                        <Link to={"/Registration"}>Registration</Link>
+                        <Link to={"/Registration"} onClick={setNoActive}>Registration</Link>
                     </div>
 
                 </ModalContent>

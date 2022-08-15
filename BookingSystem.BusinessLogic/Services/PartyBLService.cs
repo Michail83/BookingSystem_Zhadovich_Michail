@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.Services;
 using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.DataLayer.EntityFramework.Repository;
-using Microsoft.EntityFrameworkCore;
 using BookingSystem.DataLayer.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 
 namespace BookingSystem.BusinessLogic.Services
@@ -24,12 +15,12 @@ namespace BookingSystem.BusinessLogic.Services
 
         public PartyBLService
             (
-            IRepositoryAsync<Party> repository, 
-            IMapper<Party, PartyBL> mapperToOpenAirBLEvents, 
+            IRepositoryAsync<Party> repository,
+            IMapper<Party, PartyBL> mapperToOpenAirBLEvents,
             IMapper<PartyBL, Party> mapperFromOpenAirBLEvents)
         {
             _repository = repository;
-            _mapperToOpenAirBLEvents= mapperToOpenAirBLEvents;
+            _mapperToOpenAirBLEvents = mapperToOpenAirBLEvents;
             _mapperFromOpenAirBLEvents = mapperFromOpenAirBLEvents;
         }
         public async Task CreateAsync(PartyBL openAirArtEvevnt)

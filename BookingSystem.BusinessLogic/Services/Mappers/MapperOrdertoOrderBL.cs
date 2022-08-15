@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.DataLayer.EntityModels;
+using System.Collections.Generic;
 
 namespace BookingSystem.BusinessLogic.Services
 {
     public class MapperOrdertoOrderBL : IMapper<Order, OrderBL>
     {
-        IMapper<ArtEvent, ArtEventBL> _mapperArtEventToBL; 
-        public MapperOrdertoOrderBL(IMapper<ArtEvent, ArtEventBL> mapperArtEventToBL) 
+        IMapper<ArtEvent, ArtEventBL> _mapperArtEventToBL;
+        public MapperOrdertoOrderBL(IMapper<ArtEvent, ArtEventBL> mapperArtEventToBL)
         {
             _mapperArtEventToBL = mapperArtEventToBL;
         }
 
-        public OrderBL Map(Order incomingOrder)  
+        public OrderBL Map(Order incomingOrder)
         {
-            List<CartWithQuantityBL> cartWithQuantity = new ();
+            List<CartWithQuantityBL> cartWithQuantity = new();
             foreach (var item in incomingOrder.OrderAndArtEvents)
             {
                 CartWithQuantityBL newCartItem = new CartWithQuantityBL
                 {
                     Quantity = item.NumberOfBookedTicket,
-                    ArtEventBL = _mapperArtEventToBL.Map(item.ArtEvent)                     
+                    ArtEventBL = _mapperArtEventToBL.Map(item.ArtEvent)
                 };
                 cartWithQuantity.Add(newCartItem);
             }
-            OrderBL result = new OrderBL 
+            OrderBL result = new OrderBL
             {
                 Id = incomingOrder.Id,
-                UserEmail= incomingOrder.UserEmail,
+                UserEmail = incomingOrder.UserEmail,
                 TimeOfCreation = incomingOrder.TimeOfCreation,
                 ListOfReservedEventTickets = cartWithQuantity
             };

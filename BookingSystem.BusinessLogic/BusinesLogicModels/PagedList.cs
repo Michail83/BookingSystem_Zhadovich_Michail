@@ -1,15 +1,14 @@
-﻿using System;
+﻿using BookingSystem.BusinessLogic.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using BookingSystem.BusinessLogic.Interfaces;
 
 
 namespace BookingSystem.BusinessLogic.BusinesLogicModels
 {
-    public class PagedList<T> :List<T>
+    public class PagedList<T> : List<T>
     {
         public int CurrentPage { get; private set; }
         public int TotalPages { get; private set; }
@@ -36,14 +35,14 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
-        public PagedList<Y> MapTo<Y>(IMapper<T,Y> mapper)
+        public PagedList<Y> MapTo<Y>(IMapper<T, Y> mapper)
         {
             var mappedsource = new List<Y>();
             foreach (var item in this)
             {
                 mappedsource.Add(mapper.Map(item));
             }
-            return new PagedList<Y>(mappedsource,TotalItemsCount, CurrentPage, PageSize);
+            return new PagedList<Y>(mappedsource, TotalItemsCount, CurrentPage, PageSize);
         }
 
     }

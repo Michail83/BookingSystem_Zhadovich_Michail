@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer.EntityModels;
 
 namespace BookingSystem.BusinessLogic.BusinesLogicModels
 {
@@ -18,23 +12,5 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
 
-        //public ArtEventBL()
-        //{            
-        //}
-        //public ArtEventBL(ArtEvent ivent)
-        //{
-        //    this.Id = ivent.Id;
-        //    this.EventName = ivent.EventName;
-        //    this.AmountOfTickets = ivent.AmountOfTickets;
-        //    this.Date = ivent.Date;
-        //    this.Place = ivent.Place;
-        //    this.Latitude = ivent.Latitude; 
-        //    this.Longitude = ivent.Longitude;
-        //}
-
-        //public virtual string ToJsonArtEvent()
-        //{
-        //    return String.Empty;
-        //}
     }
 }

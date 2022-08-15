@@ -3,7 +3,6 @@ using BookingSystem.BusinessLogic.Interfaces;
 
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 
 using System;
 using System.Threading.Tasks;
@@ -25,8 +24,8 @@ namespace BookingSystem.WEB.API
 
         [HttpGet]
         public ActionResult Get([FromQuery] PagesState pageState = null)
-        {           
-            return BadRequest();                     
+        {
+            return BadRequest();
         }
 
         [HttpGet("{id}")]
@@ -37,7 +36,7 @@ namespace BookingSystem.WEB.API
                 var result = await _partyService.GetAsync(id);
                 return Ok(result);
             }
-   
+
 
             catch (Exception ex)
             {

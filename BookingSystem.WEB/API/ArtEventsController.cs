@@ -23,7 +23,7 @@ namespace BookingSystem.WEB.API
             _artEventBLService = artEventBLService;
             _mapperToViewModel = mapperToViewModel;
         }
-       
+
         [HttpGet]
         public async Task<ActionResult<ArtEventViewModel>> Get([FromQuery] PagesState pageStatus = null)
         {
@@ -40,12 +40,12 @@ namespace BookingSystem.WEB.API
                 #region AddPageStateInfoToHeader
                 var pageInfo = new
                 {
-                    totalItemsCount=  QueryResult.TotalItemsCount,
-                    pageSize=QueryResult.PageSize,
-                    currentPage=QueryResult.CurrentPage,
-                    totalPages=QueryResult.TotalPages,
-                    hasNext=QueryResult.HasNext,
-                    hasPrevious=QueryResult.HasPrevious
+                    totalItemsCount = QueryResult.TotalItemsCount,
+                    pageSize = QueryResult.PageSize,
+                    currentPage = QueryResult.CurrentPage,
+                    totalPages = QueryResult.TotalPages,
+                    hasNext = QueryResult.HasNext,
+                    hasPrevious = QueryResult.HasPrevious
                 };
                 HttpContext.Response.Headers.Add("PageStateInfo", JsonSerializer.Serialize(pageInfo));
                 #endregion AddPageStateInfoToHeader
@@ -65,14 +65,14 @@ namespace BookingSystem.WEB.API
             {
                 return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
             }
-            
+
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message); //   ToDo       - delete after
                 return BadRequest(ex.Message);
             }
         }
-       
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -81,7 +81,7 @@ namespace BookingSystem.WEB.API
                 await _artEventBLService.DeleteAsync(id);
                 return Ok(id);
             }
-            
+
             catch (Exception ex)
             {
                 Debug.WriteLine(GetType() + ex.Message);//ToDo     change Exception

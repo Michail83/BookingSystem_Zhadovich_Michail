@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.DataLayer.Interfaces;
-using BookingSystem.DataLayer.EntityModels;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using System.Data.SqlClient;
+﻿using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.DataLayer.Exceptions;
+using BookingSystem.DataLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookingSystem.DataLayer.EntityFramework.Repository
 {
@@ -29,9 +26,9 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         /// <param name="artEvent"></param>
         /// <returns></returns>
         /// <exception cref="EFCoreDbException"></exception>
-        public  Task CreateAsync(ArtEvent artEvent)
+        public Task CreateAsync(ArtEvent artEvent)
         {
-             throw new NotImplementedException("Not supported  -  ArtEventRepository : IRepositoryAsync<ArtEvent>==  CreateAsync ");
+            throw new NotImplementedException("Not supported  -  ArtEventRepository : IRepositoryAsync<ArtEvent>==  CreateAsync ");
             //try
             //{
             //    await _dbSet.AddAsync(artEvent);
@@ -53,10 +50,10 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         /// <exception cref="EFCoreDbException"></exception>
         #endregion SummuryDeleteAsync
         public async Task DeleteAsync(int ID)
-        {            
+        {
             try
             {
-                ArtEvent artEventForRemove = await _dbSet.FirstOrDefaultAsync(artEvent =>artEvent.Id == ID);
+                ArtEvent artEventForRemove = await _dbSet.FirstOrDefaultAsync(artEvent => artEvent.Id == ID);
                 if (artEventForRemove == null)
                 {
                     throw new EventNotFoundException("Событие не найдено");
@@ -75,7 +72,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
 
         public IQueryable<ArtEvent> GetAll()
         {
-            return  _dbSet.AsNoTracking();
+            return _dbSet.AsNoTracking();
         }
 
         /// <summary>
@@ -90,7 +87,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             try
             {
                 var queryResult = await _dbSet.FirstOrDefaultAsync(x => x.Id == ID);
-                if (queryResult==null)
+                if (queryResult == null)
                 {
                     throw new EventNotFoundException("Событие не найдено");
                 }
@@ -103,14 +100,14 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             //    throw new EFCoreDbException(Ex.Message+ "Not Found");
             //}
             catch (SqlException sqlEx)
-            {                
-                throw new EFCoreDbException(sqlEx.Message); 
-            }           
+            {
+                throw new EFCoreDbException(sqlEx.Message);
+            }
         }
 
-        public  Task UpdateAsync(ArtEvent artEvent)
+        public Task UpdateAsync(ArtEvent artEvent)
         {
-             throw new NotImplementedException("Not Supported - ArtEventRepository : IRepositoryAsync<ArtEvent>  == UpdateAsync");
+            throw new NotImplementedException("Not Supported - ArtEventRepository : IRepositoryAsync<ArtEvent>  == UpdateAsync");
 
         }
     }
