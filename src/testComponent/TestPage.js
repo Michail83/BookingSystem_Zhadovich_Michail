@@ -127,6 +127,8 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
                 </div>
             </YMaps>
             <button  onClick={()=>localStorage.clear()} >Clear localStorage</button>
+            <button  onClick={()=>console.log(process.env.NODE_ENV)} >Get NODE_ENV</button>
+            
             <AbsoluteMessage>WARNING TEST</AbsoluteMessage>
             {console.log(createArrayWithPageNumber(10, 100,10, 2,1))}
         </MainDiv> 
