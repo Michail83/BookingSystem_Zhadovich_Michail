@@ -1,6 +1,6 @@
  export default {
-     base_api: 'https://bookingsystem-zhadovichmichail.herokuapp.com', 
-    // base_api: 'https://localhost:5001',     
+    //  base_api: 'https://bookingsystem-zhadovichmichail.herokuapp.com', 
+    base_api: 'https://localhost:5001',     
     account : '/account',
     setid: (id)=>{
         if (!id) {
@@ -67,5 +67,10 @@
     }, 
     register : function(){
         return this.base_api + "/account/Register"
+    },
+    getExternalLoginUrl : function(providerName, returnUrl){
+        return this.base_api + "/account/externallogin?provider=" + providerName+ "&returnUrl=" +returnUrl
     }
+
+   
 }

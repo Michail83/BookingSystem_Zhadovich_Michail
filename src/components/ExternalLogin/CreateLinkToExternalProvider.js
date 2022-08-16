@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import API_URL from "../../API_URL";
 
 const ExternalLink =  styled.a`
     display: inline-block;
@@ -29,8 +30,12 @@ function CreateLinkToExternalProvider(props){
             <p>External provider not found</p>
         )        
     }
-    const returnUrl = props.returnUrl ?"&returnUrl="+props.returnUrl:"";
-    const path = "https://localhost:5001/account/externallogin?provider=" + props.providerName+ returnUrl;
+
+    let returnUrl = props.returnUrl;
+    if (!props.returnUrl) {
+        returnUrl =API_URL.base_api;
+    }    
+    const path = API_URL.getExternalLoginUrl(props.providerName,returnUrl);
 
 return (
     <ExternalLink href={path}>{props.providerName}</ExternalLink>
