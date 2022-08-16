@@ -8,6 +8,8 @@ using BookingSystem.Infrastructure;
 using BookingSystem.WEB.Models;
 using BookingSystem.WEB.Services;
 using BookingSystem.WEB.Services.AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +18,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB
 {
@@ -27,6 +31,17 @@ namespace BookingSystem.WEB
         }
 
         public IConfiguration Configuration { get; }
+        private Task MakeHttps(RedirectContext<OAuthOptions> arg)
+        {
+            if (!arg.RedirectUri.Contains("redirect_uri=https", StringComparison.OrdinalIgnoreCase))
+            {
+                arg.RedirectUri = arg.RedirectUri.Replace("redirect_uri=http", "redirect_uri=https", StringComparison.OrdinalIgnoreCase);
+            }
+
+            arg.HttpContext.Response.Redirect(arg.RedirectUri);
+
+            return Task.CompletedTask;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -42,9 +57,11 @@ namespace BookingSystem.WEB
                      options.ClientId = authData["ClientId"];
                      options.ClientSecret = authData["ClientSecret"];
                      options.SignInScheme = IdentityConstants.ExternalScheme;
-                     options.CallbackPath = "/signin-google";
-                     options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
-                     
+                     //options.CallbackPath = "/signin-google";
+                     options.CorrelationCookie.SameSite = SameSiteMode.None;
+
+                     options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+
 
                      //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder 
                      //{
@@ -152,3 +169,4 @@ namespace BookingSystem.WEB
         }
     }
 }
+
