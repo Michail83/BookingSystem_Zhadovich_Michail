@@ -153,7 +153,7 @@ namespace BookingSystem.WEB.API
         public IActionResult ExternalLogin([FromQuery] string provider, string returnUrl = null)
         {
 
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "account", new { returnUrl });
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "account", null, Request.Scheme);
             // вызов с передачей имени провайдера
             var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
