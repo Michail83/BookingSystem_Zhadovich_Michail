@@ -10,6 +10,7 @@ using BookingSystem.WEB.Services;
 using BookingSystem.WEB.Services.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +42,14 @@ namespace BookingSystem.WEB
                      options.ClientId = authData["ClientId"];
                      options.ClientSecret = authData["ClientSecret"];
                      options.SignInScheme = IdentityConstants.ExternalScheme;
+
+                     //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder 
+                     //{
+                     //    HttpOnly = false,
+                     //    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None,
+                     //    SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.None,
+                     //    Expiration = System.TimeSpan.FromMinutes(60)
+                     //};
                  })
                 .AddFacebook("facebook", options =>
                 {
@@ -99,6 +108,13 @@ namespace BookingSystem.WEB
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCookiePolicy(new CookiePolicyOptions()
+            {
+                MinimumSameSitePolicy = SameSiteMode.None
+            });
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
