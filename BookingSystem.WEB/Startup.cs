@@ -57,7 +57,7 @@ namespace BookingSystem.WEB
                      options.ClientId = authData["ClientId"];
                      options.ClientSecret = authData["ClientSecret"];
                      options.SignInScheme = IdentityConstants.ExternalScheme;
-                     //options.CallbackPath = "/signin-google";
+                     options.CallbackPath = "/signin-rnuto45";
                      options.CorrelationCookie.SameSite = SameSiteMode.None;
 
                      options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
