@@ -45,6 +45,10 @@ namespace BookingSystem.WEB
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.Secure = CookieSecurePolicy.Always;
+            });
             services.AddAutoMapper(typeof(BysinessLayerAutoMapperProfile), typeof(WebAutoMapperProfile));
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
 
@@ -63,13 +67,13 @@ namespace BookingSystem.WEB
                      options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
 
 
-                     //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder 
-                     //{
-                     //    HttpOnly = false,
-                     //    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None,
-                     //    SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.None,
-                     //    Expiration = System.TimeSpan.FromMinutes(60)
-                     //};
+                     options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                     {
+                         HttpOnly = false,
+                         SameSite = SameSiteMode.None,
+                         SecurePolicy = CookieSecurePolicy.None,
+                         Expiration = TimeSpan.FromMinutes(60)
+                     };
                  })
                 .AddFacebook("facebook", options =>
                 {
@@ -86,11 +90,6 @@ namespace BookingSystem.WEB
 
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperArtEventBLToArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
             services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperArtEventBLToArtEventViewModel<OrderBL, OrderViewModel>>();
-
-
-
-
-
 
 
             services.AddMemoryCache();
@@ -117,6 +116,11 @@ namespace BookingSystem.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCookiePolicy(new CookiePolicyOptions()
+            {
+                MinimumSameSitePolicy = SameSiteMode.Lax
+            });
+
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -126,7 +130,7 @@ namespace BookingSystem.WEB
             {
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseCookiePolicy(new CookiePolicyOptions()
