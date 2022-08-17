@@ -45,7 +45,7 @@ namespace BookingSystem.WEB.API
             else
             {
                 _hostsUrl = configuration.GetSection("BaseUri").Value;
-                
+
             }
 
 
@@ -203,6 +203,12 @@ namespace BookingSystem.WEB.API
                         EmailConfirmed = true,
                     };
 
+                    result = await _userManager.CreateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        user.UserName = user.Email;
+                        //Identity   ?не понимает русский?
+                    }
                     result = await _userManager.CreateAsync(user);
                     if (result.Succeeded)
                     {

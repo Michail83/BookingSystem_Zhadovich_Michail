@@ -57,19 +57,21 @@ namespace BookingSystem.WEB
                      options.ClientId = authData["ClientId"];
                      options.ClientSecret = authData["ClientSecret"];
                      options.SignInScheme = IdentityConstants.ExternalScheme;
-                     options.CallbackPath = "/signin-rnuto45";
+                     options.CallbackPath = new PathString("/signin-rnuto45");
+
                      options.CorrelationCookie.SameSite = SameSiteMode.None;
 
                      options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
 
 
-                     //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder 
-                     //{
-                     //    HttpOnly = false,
-                     //    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None,
-                     //    SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.None,
-                     //    Expiration = System.TimeSpan.FromMinutes(60)
-                     //};
+                     options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                     {
+                         HttpOnly = false,
+                         IsEssential = true,
+                         SameSite = SameSiteMode.Lax,
+                         SecurePolicy = CookieSecurePolicy.None,
+                         Expiration = TimeSpan.FromMinutes(60)
+                     };
                  })
                 .AddFacebook("facebook", options =>
                 {
@@ -121,7 +123,7 @@ namespace BookingSystem.WEB
             {
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
+                app.UseHsts();
             }
 
             app.UseCookiePolicy(new CookiePolicyOptions()
