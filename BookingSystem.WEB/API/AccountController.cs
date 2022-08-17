@@ -202,14 +202,8 @@ namespace BookingSystem.WEB.API
                         UserName = info.Principal.FindFirst(ClaimTypes.GivenName).Value.Trim(new char[] { '\"' }),
                         EmailConfirmed = true,
                     };
-
-                    result = await _userManager.CreateAsync(user);
-                    if (!result.Succeeded)
-                    {
-                        user.UserName = user.Email;
-                        //Identity   ?не понимает русский?
-                    }
-                    result = await _userManager.CreateAsync(user);
+                    result = await _userManager.CreateAsync(user);                   
+                    
                     if (result.Succeeded)
                     {
                         result = await _userManager.AddLoginAsync(user, info);

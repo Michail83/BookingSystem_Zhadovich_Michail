@@ -49,6 +49,14 @@ namespace BookingSystem.WEB
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.ADDInfrastructureServices(Configuration);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.Secure = CookieSecurePolicy.Always;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+
+
+            });
             services.AddAuthentication()
                 .AddGoogle("google", options =>
                  {
@@ -59,19 +67,22 @@ namespace BookingSystem.WEB
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                      options.CallbackPath = new PathString("/signin-rnuto45");
 
-                     options.CorrelationCookie.SameSite = SameSiteMode.None;
+                     
+                     
+                     options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+                     options.CorrelationCookie.IsEssential = true;
 
                      options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
 
 
-                     options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
-                     {
-                         HttpOnly = false,
-                         IsEssential = true,
-                         SameSite = SameSiteMode.Lax,
-                         SecurePolicy = CookieSecurePolicy.None,
-                         Expiration = TimeSpan.FromMinutes(60)
-                     };
+                     //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                     //{
+                     //    HttpOnly = false,
+                     //    IsEssential = true,
+                     //    SameSite = SameSiteMode.Lax,
+                     //    SecurePolicy = CookieSecurePolicy.None,
+                     //    Expiration = TimeSpan.FromMinutes(60)
+                     //};
                  })
                 .AddFacebook("facebook", options =>
                 {
@@ -80,6 +91,7 @@ namespace BookingSystem.WEB
                     options.ClientId = authData["ClientId"];
                     options.ClientSecret = authData["ClientSecret"];
                     options.SignInScheme = IdentityConstants.ExternalScheme;
+                    options.CallbackPath = new PathString("/signin-hfuema");
                 });
 
             services.AddControllersWithViews();
@@ -114,6 +126,8 @@ namespace BookingSystem.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCookiePolicy();
+
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -125,13 +139,6 @@ namespace BookingSystem.WEB
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseCookiePolicy(new CookiePolicyOptions()
-            {
-                MinimumSameSitePolicy = SameSiteMode.None
-            });
-
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

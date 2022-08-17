@@ -18,6 +18,7 @@ namespace BookingSystem.Infrastructure
 
             //services.AddDbContext<AppIdentityContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("identityLocalConnection")));
             services.AddDbContext<AppIdentityContext>(opt => opt.UseInMemoryDatabase("identityLocalConnection"));
+            
             services.AddIdentity<User, IdentityRole>(options =>
                     {
                         options.Password.RequiredLength = 4;
@@ -27,6 +28,7 @@ namespace BookingSystem.Infrastructure
 
                         options.SignIn.RequireConfirmedEmail = true;
                         options.User.RequireUniqueEmail = true;
+                        options.User.AllowedUserNameCharacters = null;
                     })
                     .AddEntityFrameworkStores<AppIdentityContext>()
                     .AddDefaultTokenProviders();
