@@ -52,7 +52,7 @@ namespace BookingSystem.WEB
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.Secure = CookieSecurePolicy.Always;
+                //options.Secure = CookieSecurePolicy.Always;
                 options.MinimumSameSitePolicy = SameSiteMode.Lax;
 
 
