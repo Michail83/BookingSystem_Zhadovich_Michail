@@ -50,13 +50,13 @@ namespace BookingSystem.WEB
 
             services.ADDInfrastructureServices(Configuration);
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                //options.Secure = CookieSecurePolicy.Always;
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    //options.Secure = CookieSecurePolicy.Always;
+            //    //options.MinimumSameSitePolicy = SameSiteMode.Lax;
 
 
-            });
+            //});
             services.AddAuthentication()
                 .AddGoogle("google", options =>
                  {
@@ -67,12 +67,12 @@ namespace BookingSystem.WEB
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                      options.CallbackPath = new PathString("/signin-rnuto45");
 
-                     
-                     
-                     //options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+
+
+                     options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                      //options.CorrelationCookie.IsEssential = true;
 
-                     //options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+                     options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
 
 
                      //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
@@ -126,7 +126,7 @@ namespace BookingSystem.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
