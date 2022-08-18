@@ -1,7 +1,7 @@
 # BookingSystem_Zhadovich_Michail
 учебный проект  -   приложение для бронирования билетов на мероприятия
 
-__ для запуска в Visual studio необходимо:__
+** для запуска в Visual studio необходимо:**
  * установить npm
  * в Visual studio сменить launch profile  с   IIS на  BookingSystem.WEB
 
