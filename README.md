@@ -1,6 +1,11 @@
 # BookingSystem_Zhadovich_Michail
 учебный проект  -   приложение для бронирования билетов на мероприятия
 
+для запуска в Visual studio необходимо:
+ установить npm
+ в Visual studio сменить launch profile  с   IIS на  BookingSystem.WEB
+
+
 от ветки  master отличается  
      -  UseInMemoryDatabase вместо UseSqlServer
      - отключены транзакции(не поддерживаются UseInMemoryDatabase)
