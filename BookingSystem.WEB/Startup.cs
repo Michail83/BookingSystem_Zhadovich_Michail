@@ -72,7 +72,7 @@ namespace BookingSystem.WEB
                      //options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                      //options.CorrelationCookie.IsEssential = true;
 
-                     options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+                     //options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
 
 
                      //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
