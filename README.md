@@ -3,7 +3,7 @@
 
 **для запуска в Visual studio необходимо:**
  * установить npm
- * в Visual studio сменить launch profile  с   IIS на  BookingSystem.WEB
+ * в Visual studio сменить launch profile  с   IIS Express на  BookingSystem.WEB
 
 
 от ветки  master отличается  
