@@ -69,8 +69,8 @@ namespace BookingSystem.BusinessLogic.Services
                 MailRequest mailRequest = new MailRequest
                 {
                     ToEmail = orderBL.UserEmail,
-                    Body = "Test mail bode",
-                    Subject = "subject Test"
+                    Body = $"User {orderBL.UserEmail} created order",
+                    Subject = "Order was created by     bookingsystem-zhadovichmichail.herokuapp.com"
                 };
 
                 await _mailService.SendEmailAsync(mailRequest);
