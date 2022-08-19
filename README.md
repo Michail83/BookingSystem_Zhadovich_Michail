@@ -2,7 +2,7 @@
 учебный проект  -   приложение для бронирования билетов на мероприятия
 
 **для запуска в Visual studio необходимо:**
- * установить npm
+ * установить Node.js
  * в Visual studio сменить launch profile  с   IIS Express на  BookingSystem.WEB
 
 
