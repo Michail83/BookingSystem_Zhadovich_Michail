@@ -29,7 +29,7 @@ const ShowLoading = styled.div`
     left: 30vw;
     z-index: 1000;
     font-size: 10rem;
-    opacity: 0.5;
+    opacity: 0.3;
 `;
 
 const MainTableForArtEvents = ({

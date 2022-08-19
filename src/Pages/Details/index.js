@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-// import  LoadCustomArtEvent from "../../components/DetailsList/LoadCustomArtEvent";
 
 import urls from '../../API_URL';
 import OpenAirDetails from '../../components/Details/OpenAirDetailsNEW';
 import PartyDetails from '../../components/Details/PartyDetailsNEW';
 import ClassicMusicDetails from '../../components/Details/ClassicMusicDetailsNEW';
 
- function DetailsPage({}) {
+ function DetailsPage() {
     let params = useParams();
     const [eventType, setEventType] = useState("");
-    let id = parseInt(params.eventid);     //  string or number
+    let id = parseInt(params.eventid); 
     let url = new URL(urls.getArtEvents(id));
 
     useEffect(async ()=>{
-        // error handling
+       
         const result = await axios.get(url);
         setEventType(result.data.typeOfArtEvent);
     });   

@@ -19,14 +19,12 @@ namespace BookingSystem.WEB.API
     [ApiController]
     public class OrderController : ControllerBase
     {
-        OrderBLService _orderBLService;
-        //string currentUsersEmail;
+        OrderBLService _orderBLService;        
         IMapper<OrderBL, OrderViewModel> _mapperOrderBLtoViewModel;
 
 
         public OrderController(
-            OrderBLService orderBLService,
-            //IMapper<ArtEventBL, ArtEventViewModel> artMapper,
+            OrderBLService orderBLService,            
             IMapper<OrderBL, OrderViewModel> orderToViewModelMapper
             )
         {
@@ -57,12 +55,10 @@ namespace BookingSystem.WEB.API
             return Ok(resultViewModel);
         }
 
-
         [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
-        {
-            //string currentUsersEmail = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+        {            
             if (orderData.Count() == 0)
             {
                 return BadRequest("No orderData");

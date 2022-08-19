@@ -1,6 +1,6 @@
 import {initialState, partOfInitialState_FilteringData, partOfInitialState_PaginationData } from '../initialState';
 import * as actionTypeList from "../Actions/actionTypeList"
-import { act } from '@testing-library/react';
+
 
 function stateReducer(state = initialState, action) {
     switch (action.type) {
@@ -28,8 +28,6 @@ function stateReducer(state = initialState, action) {
 }
 export default stateReducer;
 
-
-//middleware?
 function validatePage(total, newPage){
     if (newPage<1) {
         return 1;

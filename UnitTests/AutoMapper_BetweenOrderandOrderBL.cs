@@ -111,7 +111,7 @@ namespace UnitTests
 
 
 
-            orderAndArtEvent = new OrderAndArtEvent { NumberOfBookedTicket = 5, ArtEventId = artEventOpenAir.Id };            
+            orderAndArtEvent = new OrderAndArtEvent { NumberOfBookedTicket = 5, ArtEventId = artEventOpenAir.Id };
             order = new Order
             {
                 Id = 1,

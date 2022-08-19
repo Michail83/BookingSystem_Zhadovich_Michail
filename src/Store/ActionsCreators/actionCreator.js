@@ -1,6 +1,6 @@
 import * as actionTypeList from "../Actions/actionTypeList"
 
-export default {
+ const actionsCreater  = {
     setIdToken: (token) => ({
         type: actionTypeList.SetIDToken,
         token: token
@@ -77,3 +77,5 @@ export default {
 
 
 }
+
+export default  actionsCreater;

@@ -2,30 +2,22 @@ import React, { Fragment, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
-// import { Provider } from 'react-redux';
-import store from './Store/store'
-
-import axios from "axios";
-
-import urls from "../src/API_URL";
 import actionsCreator from "../src/Store/ActionsCreators/actionCreator";
 import { tryLoadAuthData } from "./function/tryLoadAuthData";
-
-
-
-
+import Registration from './components/OwnLogin/Registration';
 import { DeleteArtEventButton } from './components/Details/DeleteArtEventButton';
+import UniversalHeaderReduxWrapped from './components/UniversalHeader/UniversalHeader.js';
+
 
 import HomePage from './Pages/Home/Index';
 import CreateEvent from './Pages/Create/Index';
-import DetailsPage from './Pages/Details/index'
+import DetailsPage from './Pages/Details/index';
+import LoginPage from './Pages/Login/index';
+import CartPage from "./Pages/CartPage/Index";
+import OrderPage from "./Pages/OrderPage/index";
+
+
 import Testpageauth from './testComponent/TestPage';
-import UniversalHeader_ReduxWrapped from './components/UniversalHeader/UniversalHeader.js';
-import LoginPage from './Pages/Login/index'
-// import LoginCallback from './Pages/LoginCallback/index'
-import CartPage from "./Pages/CartPage/Index"
-import OrderPage from "./Pages/OrderPage/index"
-import Registration from './components/OwnLogin/Registration';
 
 
 function App({ authData, addDeleteArtEventButtonToState }) {
@@ -39,7 +31,7 @@ function App({ authData, addDeleteArtEventButtonToState }) {
 
         addDeleteArtEventButtonToState();
         routes = (<Fragment>
-            <UniversalHeader_ReduxWrapped />
+            <UniversalHeaderReduxWrapped />
             <Routes>
                 <Route path="/" element={<HomePage />}>      </Route>
                 <Route path="/Create" element={<CreateEvent />}>   </Route>
@@ -58,7 +50,7 @@ function App({ authData, addDeleteArtEventButtonToState }) {
     } else {        
         routes = (
             <Fragment>
-                <UniversalHeader_ReduxWrapped />
+                <UniversalHeaderReduxWrapped />
                 <Routes>
                     <Route path="/" element={<HomePage />}>      </Route>
                     <Route path="/Create" element={<CreateEvent />}>   </Route>
@@ -90,6 +82,6 @@ const mapDispatchToProps = dispatch => (
         addDeleteArtEventButtonToState: () => dispatch(actionsCreator.setDeleteArtEventButton(DeleteArtEventButton))
               
     });
-var App_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(App);
-export default App_ReduxWrapped;
+var AppReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(App);
+export default AppReduxWrapped;
 

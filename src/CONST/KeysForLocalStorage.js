@@ -1,1 +1,1 @@
-﻿export const localStorage_cartMap = "cart"
+﻿export const localStorage_cartMap = "cart";
