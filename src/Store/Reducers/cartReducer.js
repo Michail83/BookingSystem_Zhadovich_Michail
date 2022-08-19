@@ -1,8 +1,5 @@
 import { initialCart } from '../initialState';
-import * as actionTypeList from "../Actions/actionTypeList"
-import { checkPropTypes } from 'prop-types';
-
-
+import * as actionTypeList from "../Actions/actionTypeList";
 
 function cartReducer(state = initialCart, action) {
     switch (action.type) {
@@ -49,6 +46,6 @@ function deleteFromCart(cartMap, id) {
 }
 
 function deleteFromCartArrayById(cartArray, id) {
-    return cartArray.filter((item) => item.id != id);
+    return cartArray.filter((item) => item.id !== id);
 }
 export default cartReducer;

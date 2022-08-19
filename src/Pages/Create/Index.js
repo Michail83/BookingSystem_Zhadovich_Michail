@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from 'react';
-// import './Index.css';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import OpenAirCreateForm from '../../components/CreateDifferentArtEvent/OpenAirCreateForm.js';
 import ClassicMusicCreateForm from '../../components/CreateDifferentArtEvent/ClassicMusicCreateForm';
 import PartyCreateForm from '../../components/CreateDifferentArtEvent/PartyCreateForm';
 
-
-
-// ///////////////////////////////////////////////////////////////////////////////////////
-// import OpenAirCreateFormNew from '../../components/CreateDifferentArtEvent/OpenAirCreateFormNew';
-
 const MainBlock = styled.div`
-/* margin-top: 15vh; */
 max-width: 600px;
 margin: 15vh auto 0 auto; 
 border: 1px solid lightskyblue;
@@ -72,15 +66,15 @@ function CreateEvent() {
         <MainBlock>
             <BorderBlock>
                 <TabBlock>
-                    {currentTab != 0 ?
+                    {currentTab !== 0 ?
                         <TabsItem onClick={() => setcurrentTab(0)}>Open Airs</TabsItem>
                         : <ActiveTabsItem onClick={() => setcurrentTab(0)}>Open Airs</ActiveTabsItem>}
 
-                    {currentTab != 1 ?
+                    {currentTab !== 1 ?
                         <TabsItem onClick={() => setcurrentTab(1)}>Parties</TabsItem>
                         : <ActiveTabsItem onClick={() => setcurrentTab(1)}>Parties</ActiveTabsItem>}
 
-                    {currentTab != 2 ?
+                    {currentTab !== 2 ?
                         <TabsItem onClick={() => setcurrentTab(2)}>Classic Music</TabsItem>
                         : <ActiveTabsItem onClick={() => setcurrentTab(2)}>Classic Music</ActiveTabsItem>
                     }

@@ -18,7 +18,7 @@ namespace BookingSystem.Infrastructure
 
             //services.AddDbContext<AppIdentityContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("identityLocalConnection")));
             services.AddDbContext<AppIdentityContext>(opt => opt.UseInMemoryDatabase("identityLocalConnection"));
-            
+
             services.AddIdentity<User, IdentityRole>(options =>
                     {
                         options.Password.RequiredLength = 4;

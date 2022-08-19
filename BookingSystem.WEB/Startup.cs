@@ -1,5 +1,3 @@
-
-
 using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
@@ -49,14 +47,7 @@ namespace BookingSystem.WEB
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.ADDInfrastructureServices(Configuration);
-
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    //options.Secure = CookieSecurePolicy.Always;
-            //    //options.MinimumSameSitePolicy = SameSiteMode.Lax;
-
-
-            //});
+            
             services.AddAuthentication()
                 .AddGoogle("google", options =>
                  {
@@ -67,22 +58,8 @@ namespace BookingSystem.WEB
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                      options.CallbackPath = new PathString("/signin-rnuto45");
 
-
-
-                     //options.CorrelationCookie.SameSite = SameSiteMode.Lax;
-                     //options.CorrelationCookie.IsEssential = true;
-
-                     //options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
-
-
-                     //options.CorrelationCookie = new Microsoft.AspNetCore.Http.CookieBuilder
-                     //{
-                     //    HttpOnly = false,
-                     //    IsEssential = true,
-                     //    SameSite = SameSiteMode.Lax,
-                     //    SecurePolicy = CookieSecurePolicy.None,
-                     //    Expiration = TimeSpan.FromMinutes(60)
-                     //};
+                     options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+                     
                  })
                 .AddFacebook("facebook", options =>
                 {
@@ -106,14 +83,13 @@ namespace BookingSystem.WEB
 
             services.AddCors(options =>
             {
-                options.AddPolicy("LocalForDevelopment", builder =>
-                {
-                    builder.WithOrigins("https://localhost:44324");
-                });
+                //options.AddPolicy("LocalForDevelopment", builder =>
+                //{
+                //    builder.WithOrigins("https://localhost:44324");
+                //});
                 options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */
-                    //.AllowCredentials()
+                    builder.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
@@ -125,9 +101,7 @@ namespace BookingSystem.WEB
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            //app.UseCookiePolicy();
-
+        { 
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -136,7 +110,7 @@ namespace BookingSystem.WEB
             else
             {
                 //app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -147,12 +121,7 @@ namespace BookingSystem.WEB
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
