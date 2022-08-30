@@ -2,19 +2,21 @@ import React, {useState} from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 
+import imageSelect from "../../icons/icons8-drop-down24.png";
 
 import {ListOfArtEventType} from "../../CONST/ListOfArtEventType";
 import {ListOfSortOptions} from "../../CONST/ListOfSortOptions";
 import { partOfInitialState_FilteringData } from "../../Store/initialState";
 import actionsCreator from "../../Store/ActionsCreators/actionCreator";
-// import "./FilterPanel.css";
 import styled from "styled-components";
 
 
 const MainFilterPanelWrapped =styled.div`
     box-sizing: border-box;
     position: fixed;
-    top: 13vh;
+
+    top: 5.9rem;
+
     width: 100%;
     background-color: white;
 `;
@@ -26,24 +28,12 @@ const MainFilterPanel =styled.div`
     border-bottom: 1px solid rgba(30, 117, 204, 0.877);    
     padding: 0.5%;
     margin: -5px 0 0 0 ;
-    /* background-color: white; */
+    
     height: 40px;     
     & select,input[type="text"],button {
         box-sizing: border-box;
         
         margin: 0.5rem 1%;
-    }
-    & select{
-        padding-right: 25px;
-        background-image: url("../../icons/icons8-drop-down24.png");
-        background-size: 14%;
-        background-repeat: no-repeat;
-        background-position-y: center;
-        background-position-x: calc(100% - 5px);
-        cursor:pointer;
-    }
-    & button {
-        width: 9%;
     }
     & select,
   input[type="text"] {
@@ -53,6 +43,18 @@ const MainFilterPanel =styled.div`
     font-size: 13px;
     -webkit-appearance: none;
   }
+    & select{
+        padding-right: 25px;
+        background-image: url(${imageSelect});
+        background-size: 14%;
+        background-repeat: no-repeat;
+        background-position-y: center;
+        background-position-x: calc(100% - 5px);
+        cursor:pointer;
+    }
+    & button {
+        width: 9%;
+    }    
 `;
 
 const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefault }) => {

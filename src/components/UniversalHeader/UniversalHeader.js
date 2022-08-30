@@ -1,26 +1,23 @@
 import React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import "./UniversalHeader.css";
+
 import LogInOutManager_connected from "../LoginOutManager/LoginOutManager.js"
-import LinkToCart from '../Cart/cartButton/LinkToCartFromHeader'
 import ModalWindowForLogin_ReduxWrapped from "../ModalWindowForLogin/ModalWindowForLogin";
 import DisplayUserName_ReduxWrapped from "../DisplayUserName/DisplayUserName";
 import styled from "styled-components";
-import actionCreator from "../../Store/ActionsCreators/actionCreator";
-
 
 const MainUniversalHeader = styled.div`
     position: fixed;
     box-sizing: border-box;
-    top: 0;
+    top: 0rem;
     z-index: 1000;
     width: 100%;
-    height: 13vh;
+    height: 6rem;
     background-color: white;
-    padding: 1rem 1rem;
-    margin: 0;
+    padding: 0 1rem 1rem 1rem;
+    margin: 0;   
 `;
 const Navbar = styled.div`
     background-color: lightskyblue;
@@ -32,13 +29,15 @@ const Navbar = styled.div`
     height: 60px;  
     border-radius: 3px;  
 
-    & div {    
+    
+
+    /* & div {    
     margin: 5px;
     padding: 2px;
     border: 0px solid black;
     border-radius: 3px;
     font-size: 1.5rem;        
-}   
+}    */
     & div:first-child{
         margin-left: auto;
     }
@@ -54,47 +53,48 @@ const UserNameField = styled.div`
     justify-content: end;
     align-items:flex-start
 `;
+const BaseNavBarItem = styled.div`
+    margin: 5px;
+    padding: 2px;
+    border: 0px solid black;
+    border-radius: 3px;
+    
+`;
 
-
-const NavBarItem = styled.div`
+const NavBarItem = styled(BaseNavBarItem)`
     width: 13%;
-    cursor: pointer;
-    & :first-child{
-        padding:1%;
-        margin:0;
-    }
-    /* background-color:white; */
+    cursor: pointer; 
+    font-size: 1.5rem;  
+    
     background-color: ${({ navPath, currentPath }) => navPath == currentPath ? "royalblue" : "white"};
     &:hover{
         background-color:royalblue
     }
 `;
-const LogInOutItem =styled.div`
+const LogInOutItem = styled(BaseNavBarItem)`
+display: flex;
 background-color:lightblue;
 `;
-
-const UniversalHeader = ({ isAdmin, cartMap }) => {
+const UniversalHeader = ({ isAdmin, cartMap, isAuth }) => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    /* console.log(location);
-    console.log(location.pathname=="/"); */
-
     return (
         <MainUniversalHeader>
             <UserNameField>
-                <ModalWindowForLogin_ReduxWrapped />
-                <DisplayUserName_ReduxWrapped />
+                <ModalWindowForLogin_ReduxWrapped />                
             </UserNameField>
             <Navbar>
 
-                {isAdmin ? <NavBarItem onClick={()=>navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""}
+                {isAdmin ? <NavBarItem onClick={() => navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""}
 
-                <NavBarItem onClick={()=>navigate("/")} navPath="/" currentPath={location.pathname} >Home</NavBarItem>
-                {cartMap.size !=0 ? <NavBarItem onClick={()=>navigate("/cart")} navPath="/cart" currentPath={location.pathname}>Cart </NavBarItem>:""}
-                {isAdmin ? <NavBarItem onClick={()=>navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
-                <NavBarItem onClick={()=>navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem>
-                <LogInOutItem><LogInOutManager_connected /></LogInOutItem>
+                <NavBarItem onClick={() => navigate("/")} navPath="/" currentPath={location.pathname} >Home</NavBarItem>
+                {cartMap.size != 0 ? <NavBarItem onClick={() => navigate("/cart")} navPath="/cart" currentPath={location.pathname}>Cart </NavBarItem> : ""}
+                {isAdmin ? <NavBarItem onClick={() => navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
+                {isAuth ? <NavBarItem onClick={() => navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem> : ""}
+                <LogInOutItem>
+                    <DisplayUserName_ReduxWrapped />
+                    <LogInOutManager_connected />
+                </LogInOutItem>
             </Navbar >
         </MainUniversalHeader>
     )
@@ -102,13 +102,12 @@ const UniversalHeader = ({ isAdmin, cartMap }) => {
 
 const mapStateToProps = state => ({
     isAdmin: state.auth.isAdmin,
-    cartMap: state.cart.cartMap
-    // isActive: state.state.iSmodalLoginWindowActive
+    cartMap: state.cart.cartMap,
+    isAuth: state.auth.isAuthenticated
+
 });
 const mapDispatchToProps = dispatch => (
     {
-        /* addDeleteArtEventButtonToState:()=>dispatch(actionCreator.setDeleteArtEventButton(DeleteArtEventButton)) */
-        // setNoActive:()=> dispatch(actionCreator.setModalWindowForLoginActive(false))        
     });
 var UniversalHeader_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(UniversalHeader);
 export default UniversalHeader_ReduxWrapped;

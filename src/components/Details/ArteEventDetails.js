@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { YandMap } from "../YandMAP/YandMAP";
 import loadData from './Functions/LoadData';
+import AddOrChangeValueButton_ReduxWrapped from "../Cart/cartButton/AddOrChangeValueButton";
 
 const DetailsMain = styled.div`
     margin-top: 14vh;
@@ -32,8 +33,17 @@ const DataBlock = styled.div`
         margin: 0.5rem
     }
 `;
+
+
 const ButtonBlock = styled.div`
-    width: 70vw;
+    box-sizing: border-box;
+    border: 0;    
+    width: 100%;
+    padding:0;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    /* margin: 0 auto; */
 `;
 
 const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {    
@@ -62,10 +72,14 @@ const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
 
                 <MapBlock>
                     <YandMap artEventItems={[artEvent]} />
-                </MapBlock>
+                </MapBlock>                
+                    
+                
                 <ButtonBlock>
                     {DeleteButton ? <DeleteButton id={artEvent.id} /> : ""}
+                    <AddOrChangeValueButton_ReduxWrapped id={artEvent.id} amountOfTickets={artEvent.amountOfTickets} />
                 </ButtonBlock>
+                
 
             </DetailsMain>
         )

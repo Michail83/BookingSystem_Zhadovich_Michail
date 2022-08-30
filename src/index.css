@@ -18,6 +18,10 @@ code {
   position: relative;
 } */
 
+html {
+    font-size: 16px;
+}
+
 body {  
 	overflow: scroll;
   @supports (scrollbar-gutter: stable) {

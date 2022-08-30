@@ -1,19 +1,16 @@
-// import React, { Fragment } from "react";
-
-// import AddButton_ReduxWrapped from "./cartButton/AddButton";
-// import { useNavigate } from "react-router-dom";
-// import styled from "styled-components";
-// import { BlueButton } from "../StyledComponent/Button/BlueButton";
-// import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCartButton";
+import React, { Fragment } from "react";
+import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCartButton";
+import DeleteFromCartButton_ReduxWrapped from "./cartButton/DeleteFromCartButton";
 
 
 
 
 
-// const CartArtEventViewButtonBlock = (props) => {
+const CartArtEventViewButtonBlock = (props) => {
 
-//     return <Fragment>
-//         <ChangeValueInCartButton_ReduxWrapped {...props}/>
-//     </Fragment>
-// }
-// export default CartArtEventViewButtonBlock;
+    return <Fragment>
+        <ChangeValueInCartButton_ReduxWrapped id={props.id} amountOfTickets={props.amountOfTickets}/>
+        <DeleteFromCartButton_ReduxWrapped id={props.id}/>
+    </Fragment>
+}
+export default CartArtEventViewButtonBlock;
