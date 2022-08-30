@@ -7,8 +7,8 @@
 
 
 от ветки  master отличается  
-    * -  UseInMemoryDatabase вместо UseSqlServer
-    * - отключены транзакции(не поддерживаются UseInMemoryDatabase)
+ * UseInMemoryDatabase вместо UseSqlServer
+ * отключены транзакции(не поддерживаются UseInMemoryDatabase)
 
 база данных создается в памяти с тестовым содержимым.
 
