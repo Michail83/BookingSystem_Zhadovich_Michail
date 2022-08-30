@@ -38,7 +38,7 @@ const FormForButton = styled.form`
         width: 15%;
     }
 `;
-const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, amountOfTickets }) => {
+const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, amountOfTickets, deleteFromCart, deleteFromCartArray }) => {
 
     useEffect(() => {
         if (!curentReduxValue) {
