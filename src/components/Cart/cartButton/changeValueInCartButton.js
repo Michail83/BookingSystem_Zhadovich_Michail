@@ -102,6 +102,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => (
     {
         setCurrentReduxValue: (id, value) => (dispatch(actionCreator.changeCartItemValue({ id: id, quantity: value }))),
+        deleteFromCart: (id) => (dispatch(actionCreator.deleteFromCart(id))),
+        deleteFromCartArray: (id) => dispatch(actionCreator.deleteFromCartArray(id))
 
     });
 
