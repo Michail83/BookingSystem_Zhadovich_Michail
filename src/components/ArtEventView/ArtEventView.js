@@ -1,8 +1,4 @@
 import React from "react";
-// import { Link, useNavigate } from "react-router-dom"
-// import AddButton_ReduxWrapped from "../Cart/cartButton/AddButton"
-// import "./ArtEventView.css"
-// import ChangeValueInCartButton_ReduxWrapped from "../Cart/cartButton/changeValueInCartButton";
 import styled from "styled-components";
 
 const ButtonBlock = styled.div`
@@ -34,7 +30,7 @@ const AboutArtEvent = styled.div`
 `;
 
 
-function ArtEventView(props) { 
+function ArtEventView(props) {    
     return(
         <MainArtEventView >
             <ArtEventViewImage>
@@ -58,5 +54,3 @@ function ArtEventView(props) {
 }
 export default ArtEventView;
 
-
-{/* <td key={5}>{props.item.additionalInfo.map((info, index) => <p key={index} >{info }</p>)}</td> */}

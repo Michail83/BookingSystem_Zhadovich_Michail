@@ -1,29 +1,27 @@
-import React, { useState, useRef, useCallback, Fragment, useEffect } from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux";
-// import debounce from "lodash.debounce"
-
-import checkCartItemQuerry from "../JsFunction/CheckCartItemQuerry";
-import './changeValueButton.css'
-import axios from "axios";
-
-
 import actionCreator from "../../../Store/ActionsCreators/actionCreator";
+
 
 import styled from "styled-components";
 
 const MainBlock = styled.div`
-    display: flex;
+    /* display: flex;
     flex-flow: column wrap;
-    justify-content: space-around;
-    /* align-items: center; */
+    justify-content: space-around;   
     height: 100%;
     box-sizing: border-box;
-    flex-basis: 90%;
+    flex-basis: 90%; */
 `;
 const FormForButton = styled.form`
     border-radius: 2px;
+    border: 0;
     display:flex;
     flex-flow: row nowrap;
+    width: auto;
+    margin: 0.5rem 0.5rem;
+    max-width: 200px;
+    box-sizing: border-box;
     & :first-child{ margin-left: auto;}
     & :last-child{margin-right: auto; }
     
@@ -31,27 +29,16 @@ const FormForButton = styled.form`
         box-sizing: border-box;
     }
     & input{
-        width: 60%;
+        width: 70%;
+        &:focus{            
+            outline:none;
+        }
     }
     & button{        
         width: 15%;
     }
 `;
-
-const DeleteButton = styled.div`
-    text-align: center;
-    color: white;
-    opacity: 0.1;
-    background-color: red;
-    transition: 1s;
-    border-radius: 4px;
-    cursor: pointer;
-    
-    &:hover{
-        opacity: 1;        
-    }
-`;
-const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, deleteFromCart, deleteFromCartArray, id, amountOfTickets }) => {
+const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, amountOfTickets }) => {
 
     useEffect(() => {
         if (!curentReduxValue) {
@@ -86,25 +73,25 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, delet
         }
     }
 
-    function onInputHandler(event, id) {
+    function onInputHandler(event, id, input) {
         let newValue = Number.parseInt(event.target.value, 10);
 
-        if (Number.isNaN(newValue) || newValue > amountOfTickets || newValue < 1) {
-            console.log("catch   !!!NaN!!!!   or invalid number")
+        if (Number.isNaN(newValue) || newValue < 1) {
         } else {
-            setCurrentReduxValue(id, newValue)
+            if (newValue > amountOfTickets) {
+                setCurrentReduxValue(id, amountOfTickets)
+            } else {
+                setCurrentReduxValue(id, newValue)
+            }
         }
     }
 
     return (
-        <MainBlock>
-            <FormForButton className="changeValueButtonGroup" onClick={(event) => onFormClick(event, id)}>
-                <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
-                <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
-                <button id="increment" disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
-            </FormForButton>
-            <DeleteButton id="deletefromcart" onClick={() => { deleteFromCart(id); deleteFromCartArray(id); }}>DELETE </DeleteButton>
-        </MainBlock>
+        <FormForButton id="ChangeValueInCartButton" onClick={(event) => onFormClick(event, id)}>
+            <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
+            <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
+            <button id="increment" disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
+        </FormForButton>
     )
 }
 
@@ -115,8 +102,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => (
     {
         setCurrentReduxValue: (id, value) => (dispatch(actionCreator.changeCartItemValue({ id: id, quantity: value }))),
-        deleteFromCart: (id) => (dispatch(actionCreator.deleteFromCart(id))),
-        deleteFromCartArray: (id) => dispatch(actionCreator.deleteFromCartArray(id))
+
     });
 
 var ChangeValueInCartButton_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(ChangeValueInCartButton);

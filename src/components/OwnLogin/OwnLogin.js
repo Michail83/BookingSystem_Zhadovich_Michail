@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+
 import axios from "axios";
 import { connect } from "react-redux";
-import urls from "../../API_URL"
+import urls from "../../API_URL";
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
-import { tryLoadAuthData } from "../../function/tryLoadAuthData"
+import { tryLoadAuthData } from "../../function/tryLoadAuthData";
 
-import ExternalLoginList from "../ExternalLogin/ExternalLoginList";
 import styled from "styled-components";
 
 const LabelBlock = styled.div`
@@ -26,11 +25,8 @@ const Input = styled.input`
     display: block;
     width: 100%;
     box-sizing: border-box;
-    &:hover{
-        /* box-shadow: 0px 0px 4px 2px rgba(34, 60, 80, 0.43); */
+    &:hover{        
     }
-    
-
 `;
 const Label = styled.label`
     display:block;
@@ -44,32 +40,29 @@ const SubmitButton = styled.button`
     font-size: 1em;
 `;
 
-const OwnLogin = ({ setNoActive }) => {
+const OwnLogin = ({ setNoActiveModalWindow }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(true);
     const [result, setResult] = useState("");
 
-    // let navigate = useNavigate();
+
 
     const LoginHadler = async (event) => {
         event.preventDefault();
-        // console.log( email,password );
-
         try {
             let result = await axios.post(urls.login(), {
                 email: email,
                 password: password,
-                rememberMe: true
+                rememberMe: rememberMe
             });
             setResult(result.data);
             if (result.status == 200) {
-                setNoActive();
+                setNoActiveModalWindow();
                 tryLoadAuthData();
             }
         } catch (error) {
-            console.log(error);
             setResult(error.response.data);
         }
     }
@@ -85,7 +78,7 @@ const OwnLogin = ({ setNoActive }) => {
                     <Label>Password</Label>
                     <Input required type="password" value={password} onChange={(event) => { setPassword(event.target.value) }} />
                 </LabelBlock>
-
+                
 
                 <SubmitButton type="submit"  > Login</SubmitButton>
 
@@ -102,7 +95,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => (
     {
-        setNoActive: () => dispatch(actionCreator.setModalWindowForLoginActive(false))
+        setNoActiveModalWindow: () => dispatch(actionCreator.setModalWindowForLoginActive(false))
     });
 
 var OwnLogin_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(OwnLogin);
@@ -111,6 +104,7 @@ var OwnLogin_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(OwnLogi
 export default OwnLogin_ReduxWrapped;
 
 
+
 {/* <LabelBlock>
-                <LabelBlock> Remember <input required type="checkbox" value={rememberMe} onChange={(event) => { setRememberMe(event.target.value) }} /></LabelBlock>
+                    <LabelBlock> Remember <input required type="checkbox" value={rememberMe} onChange={(event) => { setRememberMe(event.target.value) }} /></LabelBlock>
                 </LabelBlock> */}

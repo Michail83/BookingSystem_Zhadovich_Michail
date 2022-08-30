@@ -1,9 +1,5 @@
- 
- 
- export default {
-    // base_api: 'https://bookingsystem-zhadovichmichail.herokuapp.com', 
-    
-    base_api: process.env.NODE_ENV=="development"?'https://localhost:5001':'https://bookingsystem-zhadovichmichail.herokuapp.com',     
+ const api_url = {
+    base_api: process.env.NODE_ENV==="development"?'https://localhost:5001':'https://bookingsystem-zhadovichmichail.herokuapp.com',     
     account : '/account',
     setid: (id)=>{
         if (!id) {
@@ -51,7 +47,7 @@
     },    
     getFullCheckedListForCart: function (enumerableINT) {
         let queryString = enumerableINT.reduce((current,item,index)=>{            
-            if (index==0) {
+            if (index===0) {
                 return current+item;              
             } else{
                 return current+ "&id="+ item;
@@ -73,7 +69,6 @@
     },
     getExternalLoginUrl : function(providerName, returnUrl){
         return this.base_api + "/account/externallogin?provider=" + providerName+ "&returnUrl=" +returnUrl
-    }
-
-   
+    }   
 }
+export default api_url

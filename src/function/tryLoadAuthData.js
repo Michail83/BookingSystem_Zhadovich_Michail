@@ -10,6 +10,6 @@ export const tryLoadAuthData = async () => {
             store.dispatch(actionsCreator.setAuth(result.data));
         }           
     } catch (e) {
-        console.log(`tryLoadAuthData    ${e}`)
+        // console.log(`Authentication error`)
     }
 }

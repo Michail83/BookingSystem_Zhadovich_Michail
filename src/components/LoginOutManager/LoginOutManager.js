@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"
+import React from "react";
 import "../UniversalHeader/UniversalHeader"
-// import axios from "axios";
 import LogoutBtn from "../Logout/LogoutBtn"
-// import urls from "../../API_URL"
-// import state from '../../Store/store'
 import { connect } from "react-redux";
 import store from "../../Store/store"
 import actionsCreator from "../../Store/ActionsCreators/actionCreator"
-
-// import { bindActionCreators } from "redux";
-// import SetIsAuthenticated from "../../Store/ActionsCreators/SetIsAuthenticated";
-// import store from "../../Store/store";
-
-
 
 const LogInOutManager = ({ auth }) => {
 

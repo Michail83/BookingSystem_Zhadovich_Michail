@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 
 export const YandMap = ({artEventItems})=>{
+    
 
     const state = { 
         center: [53.89364559280405,27.567232262565565], 
@@ -14,13 +15,14 @@ export const YandMap = ({artEventItems})=>{
     
     const createPlacemark = (artEvents)=> {        
       return  artEvents.map((artEvent)=>{
+        console.log(artEvent);
             return <Placemark key={artEvent.id}
                 defaultGeometry={[artEvent.latitude,artEvent.longitude]}
                 properties= {{
                     balloonContentHeader: artEvent.typeOfArtEvent,
-                    balloonContentBody: artEvent.iventName,
+                    balloonContentBody: artEvent.eventName,
                     balloonContentFooter:   artEvent.date,
-                    hintContent:  artEvent.iventName,
+                    hintContent:  artEvent.eventName,
                 }}
                 options ={{
                     preset : 'islands#redIcon',            
@@ -41,16 +43,16 @@ export const YandMap = ({artEventItems})=>{
     )
 }
 
-const mapStateToProps = state => ({
-    artEventItems: state.state.artEventItems,    
-    // isActive: state.state.iSmodalLoginWindowActive
-});
+// const mapStateToProps = state => ({
+//     artEventItems: state.state.artEventItems,    
+//     // isActive: state.state.iSmodalLoginWindowActive
+// });
 
-const mapDispatchToProps = dispatch => (
-    {
-        // setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
-    });
+// const mapDispatchToProps = dispatch => (
+//     {
+//         // setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
+//     });
 
-var YandMap_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(YandMap);
+// var YandMap_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(YandMap);
 
-export default YandMap_ReduxWrapped;
+// export default YandMap_ReduxWrapped;

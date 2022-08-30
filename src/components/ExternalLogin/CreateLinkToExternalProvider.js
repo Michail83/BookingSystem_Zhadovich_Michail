@@ -4,9 +4,7 @@ import API_URL from "../../API_URL";
 
 const ExternalLink =  styled.a`
     display: inline-block;
-    font-size: 1em;    
-    
-    /* margin: 1rem; */
+    font-size: 1em;
     padding:1vh;
     border: 1px solid black;
     border-radius: 4px;
@@ -19,10 +17,7 @@ const ExternalLink =  styled.a`
     &:visited{
         color:initial;
     }
-    
-
 `;
-
 
 function CreateLinkToExternalProvider(props){
     if (!props.providerName) {

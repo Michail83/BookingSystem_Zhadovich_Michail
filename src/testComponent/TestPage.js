@@ -88,8 +88,7 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
     return (
         <MainDiv>
             <YMaps>                
-                <div>
-                    My awesome application with maps!
+                <div>                    
                     <Map defaultState={{ 
                         center: [53.89364559280405,27.567232262565565], 
                         zoom: 9,
