@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -35,9 +36,9 @@ namespace BookingSystem.WEB.API
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            //_jwtTokenProvider = jwtTokenProvider;
             _configuration = configuration;
             _emailService = emailService;
+
             if (env.IsDevelopment())
             {
                 _hostsUrl = "/";
@@ -45,18 +46,39 @@ namespace BookingSystem.WEB.API
             else
             {
                 _hostsUrl = configuration.GetSection("BaseUri").Value;
-
             }
-
-
         }
 
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        //private readonly IJWTTokenProvider _jwtTokenProvider;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly string _hostsUrl;
+
+        [HttpGet]
+        [Route("RefreshConfirmationToken")]
+        public async Task<ActionResult> RefreshConfirmationToken(string email)
+        {
+            bool success = false;
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null && !user.EmailConfirmed)
+            {
+                var newConfirmationTokenTime = (user.ConfirmationTokenCreationTime ?? new DateTime(2000, 01, 01, 0, 0, 0)).AddMinutes(10);
+
+                if (newConfirmationTokenTime < DateTime.Now)
+                {
+                    var mailRequest = await CreateConfirmationEmailRequestAsync(user);
+                    success = await _emailService.SendEmailAsync(mailRequest);
+                    return Ok(new { success = true, CanTryIn = "" });
+                }
+                else
+                {
+                    return Ok(new { success = false, CanTryIn = newConfirmationTokenTime });
+                }
+
+            }
+            return Ok(new { success = false, CanTryIn = "" });
+        }
 
         [HttpPost]
         [Route("Register")]
@@ -68,21 +90,43 @@ namespace BookingSystem.WEB.API
             }
 
             User user = new User { UserName = regModel.UserName, Email = regModel.Email };
+
+
             var creationResult = await _userManager.CreateAsync(user, regModel.Password);
 
             if (!creationResult.Succeeded)
             {
+                bool isDuplicateEmail = creationResult.Errors.FirstOrDefault(
+                    error => error.Code.ToLower(System.Globalization.CultureInfo.InvariantCulture)
+                    ==
+                    "DuplicateEmail".ToLower(System.Globalization.CultureInfo.InvariantCulture)) != null;
+
+                bool isDuplicateUserName = creationResult.Errors.FirstOrDefault(
+                    error => error.Code.ToLower(System.Globalization.CultureInfo.InvariantCulture)
+                    ==
+                    "DuplicateUserName".ToLower(System.Globalization.CultureInfo.InvariantCulture)) != null;
+
+
+                if (isDuplicateEmail)
+                {
+                    return BadRequest(new[] { new { code = "EmailAlreadyExist", description = "This Email already exist", lastconfirmationTime = user.ConfirmationTokenCreationTime } });
+                }
+                else if (isDuplicateUserName)
+                {
+                    return BadRequest(new[] { new { code = "NameAlreadyExist", description = "This user name already exist" } });
+                }
                 return BadRequest(creationResult.Errors);
+
             }
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var emailConfirmationLink =
-                Url.Action("ConfirmEmail", "account",
-                new { token, email = user.Email }, Request.Scheme);
-            var mailRequest = new MailRequest { ToEmail = user.Email, Body = emailConfirmationLink, Subject = " test Booking system Email confirmation" };
+
+            var mailRequest = await CreateConfirmationEmailRequestAsync(user);
+
 
             try
             {
                 await _emailService.SendEmailAsync(mailRequest);
+
+
             }
             catch (System.Exception)
             {
@@ -114,29 +158,26 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest(ModelState.Values);
             }
-            var users = _userManager.Users.ToList();
+
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+
             if (user == null)
             {
-                return NotFound("email or password wrong");
+                return BadRequest(new { code = "wronglogin", description = "Email or password wrong" });
             }
 
-            if (await _userManager.IsEmailConfirmedAsync(user))
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, false);
+            if (result.Succeeded)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, false);
-                if (result.Succeeded)
-                {
-                    return Ok("Login success");
-                }
-                else
-                {
-                    return NotFound("email or password wrong");
-                }
+                return Ok("Login success");
+            }
+            else if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                return BadRequest(new { code = "notconfirmed", description = "This email is not confirmed" });
             }
             else
             {
-                var notConfirmed = new[] { new { code = "", description = "Please, confirm your email" } };
-                return BadRequest(notConfirmed);
+                return BadRequest(new { code = "wronglogin", description = "Email or password wrong" });
             }
         }
 
@@ -236,5 +277,34 @@ namespace BookingSystem.WEB.API
             var isAuthenticated = true;
             return Ok(new { isAuthenticated, userEmail, userName, isAdmin });
         }
+
+
+        /// <summary>
+        /// Create new  <see cref="MailRequest"/> with confirmation link for the specified user 
+        /// <para>
+        /// !!!  set new ConfirmationTokenCreationTime  for <paramref name="user"/>
+        /// </para>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns><see cref="MailRequest"/>  for SendEmailService </returns>
+        /// <exception cref="ArgumentException"> if email is null or confirmed</exception>
+        private async Task<MailRequest> CreateConfirmationEmailRequestAsync(User user)
+        {
+            if (user == null || user.EmailConfirmed)
+            {
+                throw new ArgumentException();
+            }
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var emailConfirmationLink = Url.Action("ConfirmEmail", "account", new { token, email = user.Email }, Request.Scheme);
+
+            user.ConfirmationTokenCreationTime = DateTime.Now;
+            await _userManager.UpdateAsync(user);
+
+            var mailRequest = new MailRequest { ToEmail = user.Email, Body = emailConfirmationLink, Subject = " test Booking system Email confirmation" };
+
+            return mailRequest;
+        }
+
     }
 }

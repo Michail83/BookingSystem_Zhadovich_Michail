@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { connect } from "react-redux";
+
 import urls from "../../API_URL"
 import styled from "styled-components";
 
@@ -44,42 +44,51 @@ const Label = styled.label`
 
 const Registration = () => {
 
-    const [userName, setUserName] = useState("qwe");
-    const [email, setEmail] = useState("Sklif83@tut.by");
-    const [password, setPassword] = useState("qwe123");
-    const [error, SetError] = useState([]);
-    // const [confirmPassword, setConfirmPassword] = useState();
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");    
+    const [resultMessage, SetResultMessage] = useState([]);
+
     let navigate = useNavigate();
+
+    const clearForm = () => {
+        setUserName("");
+        setEmail("");
+        setPassword("");
+    }
 
 
     const submitHandler = async (event) => {
         event.preventDefault();
         try {
-            
+
             let result = await axios.post(urls.register(), {
                 userName: userName,
                 email: email,
                 password: password
             });
-            navigate("/");
-           
+            SetResultMessage(<li> Confirmation link was sended to your email. Please, go and click it </li>);
+            clearForm();
+            // navigate("/");
+
         } catch (error) {
 
             switch (error.response.status) {
                 case 400:
-                    console.log(error.response.data);
+                    setPassword("");
+
                     let data = error.response.data;
-                    console.log(error.response.data);
-                    let errorsList = data.map((item) => {
-                        return (<li>{item.description} </li>)
+
+                    let errorsList = data.map((item, index) => {
+                        return (<li key={index}>{item.description} </li>)
                     });
-                    console.log(errorsList);
-                    SetError(errorsList);
-                    break;
-                case 503:
-                    SetError("Mail cannot send, , try later...")
+
+                    SetResultMessage(errorsList);
                     break;
 
+                case 503:
+                    SetResultMessage(<li>Mail cannot send, , try later...</li>)
+                    break;
             }
         }
     }
@@ -88,29 +97,29 @@ const Registration = () => {
         <MainBlock>
             <form onSubmit={submitHandler}>
                 <LabelBlock>
-                    <LabelBlock>
+                    {/* <LabelBlock> */}
                         <Label>Name</Label>
-                        <Input type="text" required onChange={(event) => setUserName(event.target.value)} />
+                        <Input type="text" required value={userName} onChange={(event) => setUserName(event.target.value)} />
                     </LabelBlock>
-                </LabelBlock>
+                {/* </LabelBlock> */}
 
                 <LabelBlock>
-                    <LabelBlock>
+                    {/* <LabelBlock> */}
                         <Label>Email</Label>
-                        <Input type="email" required onChange={(event) => setEmail(event.target.value)} />
-                    </LabelBlock>
+                        <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
+                    {/* </LabelBlock> */}
                 </LabelBlock>
 
                 <LabelBlock>
-                    <LabelBlock> 
+                    {/* <LabelBlock> */}
                         <Label>Password</Label>
-                        <Input type="password" id="password" required minLength={4} onChange={(event) => setPassword(event.target.value)} />
-                    </LabelBlock>
+                        <Input type="password" id="password" value={password} required minLength={4} onChange={(event) => setPassword(event.target.value)} />
+                    {/* </LabelBlock> */}
                 </LabelBlock>
                 <button type="submit"> Register</button>
             </form>
             <ul>
-                {error}
+                {resultMessage}
             </ul>
         </MainBlock>
     )

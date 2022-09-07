@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BookingSystem.Infrastructure
 {
@@ -32,18 +33,11 @@ namespace BookingSystem.Infrastructure
                     })
                     .AddEntityFrameworkStores<AppIdentityContext>()
                     .AddDefaultTokenProviders();
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromHours(12); 
+            });
 
-
-            //services.AddAuthentication(options =>
-            //    {
-            //        options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
-            //        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            //    })
-            //    .AddGoogle(options =>
-            //    {
-            //        options.ClientId = "888637803632-1f5fpip1a2dpfimfdj0nfaojeb20m4rd.apps.googleusercontent.com";
-            //        options.ClientSecret = "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";
-            //    });
 
             services.AddScoped<IJWTTokenProvider, JwtService>();
 
