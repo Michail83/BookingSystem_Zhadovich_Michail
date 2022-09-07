@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import urls from "../../API_URL";
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import { tryLoadAuthData } from "../../function/tryLoadAuthData";
+import CoutdownToRefreshConfirmation from "../CoutdownToRefreshConfirmation/CoutdownToRefreshConfirmation";
 
 import styled from "styled-components";
 
@@ -46,24 +47,29 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(true);
     const [result, setResult] = useState("");
-
+    const [isConfirmEnabled, SetIsConfirmEnabled] =useState(false);
 
 
     const LoginHadler = async (event) => {
         event.preventDefault();
         try {
+            SetIsConfirmEnabled(false);
             let result = await axios.post(urls.login(), {
                 email: email,
                 password: password,
                 rememberMe: rememberMe
             });
             setResult(result.data);
+            
             if (result.status == 200) {
                 setNoActiveModalWindow();
                 tryLoadAuthData();
             }
         } catch (error) {
-            setResult(error.response.data);
+            setPassword("");            
+            if (error.response.data.code ==="notconfirmed") {
+                SetIsConfirmEnabled(true);                
+            }else setResult(error.response.data.description);
         }
     }
 
@@ -78,13 +84,13 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
                     <Label>Password</Label>
                     <Input required type="password" value={password} onChange={(event) => { setPassword(event.target.value) }} />
                 </LabelBlock>
-                
-
                 <SubmitButton type="submit"  > Login</SubmitButton>
-
             </form>
-            <p>{result}</p>
+            <div>
+                {result && <p>{result}</p>}                
+                {isConfirmEnabled && <p><CoutdownToRefreshConfirmation email={email} password={password}/></p>}
 
+            </div>
         </div>
     )
 }

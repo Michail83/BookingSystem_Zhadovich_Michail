@@ -5,7 +5,7 @@ namespace BookingSystem.BusinessLogic.Interfaces
 {
     public interface IEmailService
     {
-        public Task SendEmailAsync(MailRequest mailRequest);
+        public Task<bool> SendEmailAsync(MailRequest mailRequest);
 
     }
 }

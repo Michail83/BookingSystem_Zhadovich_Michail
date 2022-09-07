@@ -14,11 +14,7 @@ const Flexblock = styled.div`
  box-sizing: border-box;
     display: flex;
     flex-flow: row wrap;
-
-
-    margin-top: 9rem;   
-    
-    
+    margin-top: 9rem;
 `;
 const NoResult = styled.div`
     padding: 1vh 1vw;

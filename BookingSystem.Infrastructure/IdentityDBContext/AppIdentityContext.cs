@@ -8,5 +8,9 @@ namespace BookingSystem.Infrastructure.IdentityDBContext
     {
         public AppIdentityContext(DbContextOptions<AppIdentityContext> options) : base(options)
         { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

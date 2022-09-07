@@ -69,6 +69,9 @@
     },
     getExternalLoginUrl : function(providerName, returnUrl){
         return this.base_api + "/account/externallogin?provider=" + providerName+ "&returnUrl=" +returnUrl
-    }   
+    },
+    refreshConfirmationEmail: function(email){
+        return this.base_api+"/account/RefreshConfirmationToken?email=" + email
+    }
 }
 export default api_url
