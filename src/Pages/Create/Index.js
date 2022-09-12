@@ -5,9 +5,11 @@ import OpenAirCreateForm from '../../components/CreateDifferentArtEvent/OpenAirC
 import ClassicMusicCreateForm from '../../components/CreateDifferentArtEvent/ClassicMusicCreateForm';
 import PartyCreateForm from '../../components/CreateDifferentArtEvent/PartyCreateForm';
 
+import WrapWithSuccessHandler from '../../components/CreateDifferentArtEvent/WrapWithSuccessHandler.js';
+
 const MainBlock = styled.div`
 max-width: 600px;
-margin: 15vh auto 0 auto; 
+margin: 6.5rem auto 0 auto; 
 border: 1px solid lightskyblue;
 
 border-radius: 4px;
@@ -50,11 +52,11 @@ function CreateEvent() {
 
     let Element;
     switch (currentTab) {
-        case 0: Element = OpenAirCreateForm;
+        case 0: Element = <WrapWithSuccessHandler CreateForm={OpenAirCreateForm}/>;
             break;
-        case 1: Element = PartyCreateForm;
+        case 1: Element = <WrapWithSuccessHandler CreateForm={PartyCreateForm}/>;
             break;
-        case 2: Element = ClassicMusicCreateForm;
+        case 2: Element = <WrapWithSuccessHandler CreateForm={ClassicMusicCreateForm}/>;
             break;
         default:
             (
@@ -76,11 +78,10 @@ function CreateEvent() {
 
                     {currentTab !== 2 ?
                         <TabsItem onClick={() => setcurrentTab(2)}>Classic Music</TabsItem>
-                        : <ActiveTabsItem onClick={() => setcurrentTab(2)}>Classic Music</ActiveTabsItem>
-                    }
+                        : <ActiveTabsItem onClick={() => setcurrentTab(2)}>Classic Music</ActiveTabsItem>}
 
                 </TabBlock>
-                <Element />
+                {Element}
             </BorderBlock>
         </MainBlock>
     );

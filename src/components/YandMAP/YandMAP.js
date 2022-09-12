@@ -15,7 +15,7 @@ export const YandMap = ({artEventItems})=>{
     
     const createPlacemark = (artEvents)=> {        
       return  artEvents.map((artEvent)=>{
-        console.log(artEvent);
+        
             return <Placemark key={artEvent.id}
                 defaultGeometry={[artEvent.latitude,artEvent.longitude]}
                 properties= {{

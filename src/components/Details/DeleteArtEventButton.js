@@ -1,14 +1,16 @@
 import React from "react";
-import {deleteArtEvent} from "./Functions/deleteArtEvent.js";
+import {deleteArtEventAsync} from "./Functions/deleteArtEvent.js";
 import { useNavigate } from "react-router-dom";
+import { RedButton } from "../StyledComponent/Button/RedButton.js";
 
-export const DeleteArtEventButton =({id})=>{
+export const DeleteArtEventButton = ({id})=>{
 
     const navigate = useNavigate();
-    const deleteAndNavigate=(id)=>{
-        if (deleteArtEvent(id)) {
+    const deleteAndNavigate= async (id)=>{        
+        
+        if (await deleteArtEventAsync(id)) {            
             navigate('/')
         }
     }
-    return  <button onClick={()=>deleteAndNavigate(id)} value={"DELETE"}>del</button>
+    return  <RedButton onClick={()=>deleteAndNavigate(id)}>DELETE EVENT</RedButton>
 }

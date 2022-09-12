@@ -12,7 +12,7 @@ import UniversalHeaderReduxWrapped from './components/UniversalHeader/UniversalH
 import HomePage from './Pages/Home/Index';
 import CreateEvent from './Pages/Create/Index';
 import DetailsPage from './Pages/Details/index';
-import LoginPage from './Pages/Login/index';
+// import LoginPage from './Pages/Login/index';
 import CartPage from "./Pages/CartPage/Index";
 import OrderPage from "./Pages/OrderPage/index";
 
@@ -37,7 +37,7 @@ function App({ authData, addDeleteArtEventButtonToState }) {
                 <Route path="/Create" element={<CreateEvent />}>   </Route>
                 <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
                 <Route path="/test" element={<Testpageauth />}>     </Route>
-                <Route path="/login" element={<LoginPage />}>     </Route>                
+                {/* <Route path="/login" element={<LoginPage />}>     </Route>                 */}
                 <Route path="/cart" element={<CartPage />}> </Route>
                 <Route path="/orders" element={<OrderPage />}> </Route>
                 <Route path='registration' element={<Registration />} />
@@ -53,10 +53,10 @@ function App({ authData, addDeleteArtEventButtonToState }) {
                 <UniversalHeaderReduxWrapped />
                 <Routes>
                     <Route path="/" element={<HomePage />}>      </Route>
-                    <Route path="/Create" element={<CreateEvent />}>   </Route>
+                    {/* <Route path="/Create" element={<CreateEvent />}>   </Route> */}
                     <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
-                    <Route path="/test" element={<Testpageauth />}>     </Route>
-                    <Route path="/login" element={<LoginPage />}>     </Route>                    
+                    {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
+                    {/* <Route path="/login" element={<LoginPage />}>     </Route> */}
                     <Route path="/cart" element={<CartPage />}> </Route>
                     <Route path="/orders" element={<OrderPage />}> </Route>
                     <Route path='registration' element={<Registration />} />

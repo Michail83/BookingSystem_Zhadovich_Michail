@@ -18,7 +18,9 @@ import ButtonWith from "../components/Cart/cartButton/AddButton"
 import urls from "../API_URL"
 
 import { YMaps, Map, Placemark } from "react-yandex-maps";
-import YandMap_ReduxWrapped from "../components/YandMAP/YandMAP";
+import YandMap, { YandMAP_TEST } from "../components/YandMAP/YandMAP_TEST";
+import YandMAP_TEST_JS  from "../components/YandMAP/YandMAP_CreateEvent";
+
 import ReactDOM from "react-dom";
 import * as keys from "../CONST/KeysForLocalStorage"
 
@@ -87,49 +89,15 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
 
     return (
         <MainDiv>
-            <YMaps>                
-                <div>                    
-                    <Map defaultState={{ 
-                        center: [53.89364559280405,27.567232262565565], 
-                        zoom: 9,
-                        controls: ['zoomControl', 'fullscreenControl'],
-                        }}
-                        modules={['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']}
-                    >
-                        <Placemark
-                        modules={['geoObject.addon.balloon']}
-                        defaultGeometry={[53.89364559280405,27.567232262565565]}
-                        properties= {{
-                            balloonContentHeader: "1balloonContentHeader",
-                            balloonContentBody: "test balloonContentBody",
-                            balloonContentFooter: "balloonContentFooter",
-                            hintContent: "test hintContent"
-                        }}
-                        options ={{
-                            preset : 'islands#redIcon',                            
-                        }}
-                        />
-                         <Placemark
-                        modules={['geoObject.addon.balloon']}
-                        defaultGeometry={[53.902575777784925,27.561308296096712]}
-                        properties= {{
-                            balloonContentHeader: "ПРА!!!",
-                            balloonContentBody: "ПЛО!!!!!!",
-                            balloonContentFooter: "ЗАВ!!!!",
-                            hintContent: "HINT"
-                        }}
-                        options ={{
-                            preset : 'islands#icon',                        
-                        }}
-                        />
-                        </Map>
-                </div>
-            </YMaps>
+
+            <YandMAP_TEST_JS>
+
+            </YandMAP_TEST_JS>
+            
             <button  onClick={()=>localStorage.clear()} >Clear localStorage</button>
             <button  onClick={()=>console.log(process.env.NODE_ENV)} >Get NODE_ENV</button>
             
-            <AbsoluteMessage>WARNING TEST</AbsoluteMessage>
-            {console.log(createArrayWithPageNumber(10, 100,10, 2,1))}
+            <AbsoluteMessage>WARNING TEST</AbsoluteMessage>            
         </MainDiv> 
     )
 }
