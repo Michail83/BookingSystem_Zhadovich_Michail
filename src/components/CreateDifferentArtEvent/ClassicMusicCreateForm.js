@@ -12,10 +12,10 @@ import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtE
 const defaultValues = {...defaultValuesCreateArtEvent, voice:"",concertName:"" } ;
 
 // ////////////////////////////////////////////////////////////////////
-const ClassicMusicCreateForm =()=>{
+const ClassicMusicCreateForm =({setStatusOfCreating})=>{
     console.log("render");
 
-    const [statusOfCreating, setStatusOfCreating] = useState("");
+    // const [statusOfCreating, setStatusOfCreating] = useState("");
 
     const {
         register,       
@@ -62,25 +62,31 @@ const ClassicMusicCreateForm =()=>{
         <Label> Place</Label>
         <Input type={"text"} {...register("place", {required: true, minLength:5})}  />
         {errors.place?.type==="required"&& <ErrorMessage>Place is required</ErrorMessage>}
+        {errors.place?.type==="minLength"&& <ErrorMessage>min length is 5 symbol's</ErrorMessage>}    
         
         <Label> Latitude</Label>
-        <Input type={"text"} {...register("latitude", {required: true})}  />        
+        <Input type={"number"} {...register("latitude", {required: true})}  />        
         
         <Label> Longitude</Label>
-        <Input type={"text"} {...register("longitude", {required: true})}  />
+        <Input type={"number"} {...register("longitude", {required: true})}  />
         {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
         
         
         <Label> Voice</Label>
         <Input type={"text"} {...register("voice", {required: true, minLength:2})}  />
         {errors.voice?.type==="required"&& <ErrorMessage>Voice is required</ErrorMessage>}
+        {errors.voice?.type==="minLength"&& <ErrorMessage>min length is 2 symbol's</ErrorMessage>} 
+        
 
         <Label> Concert Name</Label>
         <Input type={"text"} {...register("concertName", {required: true, minLength:2})}  />
         {errors.concertName?.type==="required"&& <ErrorMessage>Concert Name is required</ErrorMessage>}
+        {errors.concertName?.type==="minLength"&& <ErrorMessage>min length is 2 symbol's</ErrorMessage>} 
+        
 
 
-        <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
+        <SubmitButton type={"submit"} /> 
+        {/* <span>{statusOfCreating&&"Successfully created"}</span> */}
         </Form>
     )
 }

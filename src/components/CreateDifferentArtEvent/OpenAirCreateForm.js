@@ -1,83 +1,123 @@
-import React,{useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
-import { useForm } from "react-hook-form"; 
-// import { ErrorMessage } from "@hookform/error-message";
+import { useForm } from "react-hook-form";
 
-// import createNewArtEvent from "../createNewArtEvent";
 import API_URL from "../../API_URL";
 import axios from "axios";
-import {Input, Form, Label, ErrorMessage,SubmitButton} from "./StyledComponentsForCreateEvents"
+import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponentsForCreateEvents"
 import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
 
-const defaultValues = {...defaultValuesCreateArtEvent, headliner:""} ;
+import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent"
+
+import styled from "styled-components";
+
+const AbsoluteContainer = styled.div`
+    position:absolute;
+    width:100vw;
+    height: calc(100vh - 7.5rem);    
+    top:6.5rem;
+    left:0;    
+    background-color: #a0e0e8;
+`;
+
+const MapHeader = styled.h3`
+    text-align: center;
+`;
+
+const defaultValues = { ...defaultValuesCreateArtEvent, headliner: "" };
 
 // ////////////////////////////////////////////////////////////////////
-const OpenAirCreateForm =()=>{
-    console.log("render");
+const OpenAirCreateForm = ({ setStatusOfCreating }) => {
+    const [isMapShow, setIsMapShow] = useState(false);
 
-    const [statusOfCreating, setStatusOfCreating] = useState("");
 
     const {
-        register,       
+        register,
         handleSubmit,
         formState,
-        formState: { isSubmitSuccessful,errors }, 
+        setValue,
+        formState: { isSubmitSuccessful, errors },
         reset
     } = useForm(
-        {defaultValues: defaultValues 
-    });
+        {
+            defaultValues: defaultValues
+        });
 
     useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset({ ...defaultValues });
-    }
-  }, [formState, reset]);
+        if (formState.isSubmitSuccessful) {
+            reset({ ...defaultValues });
+        }
+    }, [formState, reset]);
 
-    const onSubmit =async (data, event)=>{ 
-        event.preventDefault()       
+    const onSubmit = async (data, event) => {
+        event.preventDefault()
         try {
-            let result = await axios.post(API_URL.openairs(),data); 
-            if (result.status==200) setStatusOfCreating(true);
+            let result = await axios.post(API_URL.openairs(), data);
+            if (result.status == 200) setStatusOfCreating(true);
         } catch (error) {
+            setStatusOfCreating(false);
             console.log(error);
         }
     }
+    const setPlace = (place) => {
+        setValue("place", place);
+    }
+    const setCoord = (coord) => {
+        setValue("latitude", coord[0]);
+        setValue("longitude", coord[1]);
+    }
 
-    return(
-       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label> ArtEvent name</Label>
-        <Input type={"text"} {...register("eventName", {required: true, minLength:2})}  />
-        {errors.eventName?.type==="required"&& <ErrorMessage>ArtEvent name is required</ErrorMessage>}
-        {errors.eventName?.type ==="minLength" && <ErrorMessage>min length is 2</ErrorMessage>}
-        
-        <Label> Date and Time</Label>
-        <Input type={"datetime-local"} {...register("date", {required: true})}  />
-        {errors.date?.type==="required"&& <ErrorMessage>Date is required</ErrorMessage>}
-       
-        <Label> Amount Of Tickets</Label>
-        <Input type={"number"} {...register("amountOfTickets", {required: true, min:1 })}  />
-        {errors.amountOfTickets?.type==="required"&& <ErrorMessage>quantity of tickets cannot be zero or lesser </ErrorMessage>}
-        {errors.amountOfTickets?.type==="min"&& <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
+    const onClickOnPlace = (event) => {
+        event.preventDefault();
+        setIsMapShow(true);
+        event.currentTarget.blur();
+    }
 
-        <Label> Place</Label>
-        <Input type={"text"} {...register("place", {required: true, minLength:5})}  />
-        {errors.place?.type==="required"&& <ErrorMessage>Place is required</ErrorMessage>}
-        
-        <Label> Latitude</Label>
-        <Input type={"text"} {...register("latitude", {required: true})}  />        
-        
-        <Label> Longitude</Label>
-        <Input type={"text"} {...register("longitude", {required: true})}  />
-        {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
-        
-        
-        <Label> headliner</Label>
-        <Input type={"text"} {...register("headliner", {required: true, minLength:2})}  />
-        {errors.headliner?.type==="required"&& <ErrorMessage>headliner is required</ErrorMessage>}
+    return (
+        <Fragment>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <Label> ArtEvent name</Label>
+                <Input type={"text"} {...register("eventName", { required: true, minLength: 2 })} />
+                {errors.eventName?.type === "required" && <ErrorMessage>ArtEvent name is required</ErrorMessage>}
+                {errors.eventName?.type === "minLength" && <ErrorMessage>min length is 2</ErrorMessage>}
 
+                <Label> Date and Time</Label>
+                <Input type={"datetime-local"} {...register("date", { required: true })} />
+                {errors.date?.type === "required" && <ErrorMessage>Date is required</ErrorMessage>}
 
-        <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
-        </Form>
+                <Label> Amount Of Tickets</Label>
+                <Input type={"number"} {...register("amountOfTickets", { required: true, min: 1 })} />
+                {errors.amountOfTickets?.type === "required" && <ErrorMessage>quantity of tickets cannot be zero or lesser </ErrorMessage>}
+                {errors.amountOfTickets?.type === "min" && <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
+
+                <Label> Place</Label>
+                <Input type={"text"}  {...register("place", { required: true })} onClick={onClickOnPlace} placeholder={"click and choose place on the map"} />
+                {errors.place?.type === "required"
+                    || errors.longitude?.type === "required"
+                    || errors.latitude?.type === "required"
+                    && <ErrorMessage>Place is required</ErrorMessage>}
+
+                <Input style={{ visibility: "hidden", position: "absolute", width: "100px" }} type={"text"} {...register("latitude", { required: true })} />
+                <Input style={{ visibility: "hidden", position: "absolute", width: "100px"  }} type={"text"} {...register("longitude", { required: true })} />
+
+                <Label> headliner</Label>
+                <Input type={"text"} {...register("headliner", { required: true, minLength: 2 })} />
+                {errors.headliner?.type === "required" && <ErrorMessage>headliner is required</ErrorMessage>}
+                {errors.headliner?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}
+
+                <SubmitButton type={"submit"} /> 
+
+                <Label>Image </Label>   
+                <Input type={"file"} {...register("image")}></Input>          
+
+            </Form>            
+            {isMapShow &&
+                <AbsoluteContainer>
+                    <MapHeader>Choose place on the map and click confirm button</MapHeader>
+                    <YandMAP_CreateEvent setIsMapShow={setIsMapShow} setPlace={setPlace} setCoord={setCoord} />
+                </AbsoluteContainer>}
+
+        </Fragment>
     )
 }
 export default OpenAirCreateForm;

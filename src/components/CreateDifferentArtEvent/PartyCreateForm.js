@@ -12,10 +12,10 @@ import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtE
 const defaultValues = {...defaultValuesCreateArtEvent, ageLimitation:""} ;
 
 // ////////////////////////////////////////////////////////////////////
-const PartyCreateForm =()=>{
+const PartyCreateForm =({setStatusOfCreating})=>{
     console.log("render");
 
-    const [statusOfCreating, setStatusOfCreating] = useState("");
+    // const [statusOfCreating, setStatusOfCreating] = useState("");
 
     const {
         register,       
@@ -62,12 +62,13 @@ const PartyCreateForm =()=>{
         <Label> Place</Label>
         <Input type={"text"} {...register("place", {required: true, minLength:5})}  />
         {errors.place?.type==="required"&& <ErrorMessage>Place is required</ErrorMessage>}
+        {errors.place?.type==="minLength"&& <ErrorMessage>min length is 5 symbol's</ErrorMessage>}    
         
         <Label> Latitude</Label>
-        <Input type={"text"} {...register("latitude", {required: true})}  />        
+        <Input type={"number"} {...register("latitude", {required: true})}  />        
         
         <Label> Longitude</Label>
-        <Input type={"text"} {...register("longitude", {required: true})}  />
+        <Input type={"number"} {...register("longitude", {required: true})}  />
         {errors.longitude?.type==="required"||errors.latitude?.type==="required"?<ErrorMessage>Please enter the coordinates</ErrorMessage>:""}
         
         
@@ -77,7 +78,8 @@ const PartyCreateForm =()=>{
         {errors.ageLimitation?.type==="min"||errors.ageLimitation?.type==="max"&& <ErrorMessage>Enter number between 0 and 99</ErrorMessage>}
 
 
-        <SubmitButton type={"submit"} /> <span>{statusOfCreating&&"Successfully created"}</span>
+        <SubmitButton type={"submit"} />
+         {/* <span>{statusOfCreating&&"Successfully created"}</span> */}
         </Form>
     )
 }
