@@ -26,6 +26,10 @@
     "use-state-if-mounted": "^1.0.7",
     "web-vitals": "^2.1.2"
   },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
