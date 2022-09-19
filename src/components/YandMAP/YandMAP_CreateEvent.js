@@ -27,12 +27,12 @@ const YandMAP_CreateEvent = ({ setPlace, setCoord, setIsMapShow }) => {
         // return () => {
         //     head.removeChild(script);
         //   }
-        ymaps.ready(init);
+        ymaps.ready(()=>init(window.ymaps));
     },
         []);
 
 
-    function init() {   
+    function init(ymaps) {   
         let thisCoord;
         let thisPlace;
         var myPlacemark;
