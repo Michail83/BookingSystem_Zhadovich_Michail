@@ -110,7 +110,7 @@ namespace UnitTests
         [Test]
         public void Check_AutoMapperArtEventViewModel_fromClassicMusic()
         {
-            var mapper = new AutoMapperArtEventBLToArtEventViewModel<ClassicMusicBL, ArtEventViewModel>(autoMapper);
+            var mapper = new AutoMapperBetweenArtEventBLAndArtEventViewModel<ClassicMusicBL, ArtEventViewModel>(autoMapper);
             artEventViewModel = new ArtEventViewModel
             {
                 Id = 1,
@@ -129,7 +129,7 @@ namespace UnitTests
         [Test]
         public void Check_AutoMapperArtEventViewModel_fromPartyBL()
         {
-            var mapper = new AutoMapperArtEventBLToArtEventViewModel<PartyBL, ArtEventViewModel>(autoMapper);
+            var mapper = new AutoMapperBetweenArtEventBLAndArtEventViewModel<PartyBL, ArtEventViewModel>(autoMapper);
 
             artEventViewModel = new ArtEventViewModel
             {
@@ -149,7 +149,7 @@ namespace UnitTests
         [Test]
         public void Check_AutoMapperArtEventViewModel_fromOpenAir()
         {
-            var mapper = new AutoMapperArtEventBLToArtEventViewModel<OpenAirBL, ArtEventViewModel>(autoMapper);
+            var mapper = new AutoMapperBetweenArtEventBLAndArtEventViewModel<OpenAirBL, ArtEventViewModel>(autoMapper);
 
             artEventViewModel = new ArtEventViewModel
             {
@@ -170,7 +170,7 @@ namespace UnitTests
         [Test]
         public void Check_AutoMapperOrderViewModel_fromOrderBL()
         {
-            var mapper = new AutoMapperArtEventBLToArtEventViewModel<OrderBL, OrderViewModel>(autoMapper);
+            var mapper = new AutoMapperBetweenArtEventBLAndArtEventViewModel<OrderBL, OrderViewModel>(autoMapper);
 
             var result = mapper.Map(orderBl);
             Assert.IsTrue(result.IsEqual(orderViewModel));

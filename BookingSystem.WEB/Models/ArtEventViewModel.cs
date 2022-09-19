@@ -13,5 +13,6 @@ namespace BookingSystem.WEB.Models
         public decimal Longitude { get; set; }
         public string TypeOfArtEvent { get; set; }
         public string[] AdditionalInfo { get; set; }
+        public string Image { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Data;
 using System.Threading.Tasks;
 
 
@@ -15,10 +18,12 @@ namespace BookingSystem.WEB.API
     public class OpenAirController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<OpenAirBL> _openAirService;
+        IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> _mapper;
 
-        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService)
+        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService, IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> mapper)
         {
             _openAirService = openAirService;
+            _mapper= mapper;
         }
 
         [HttpGet]
@@ -42,13 +47,14 @@ namespace BookingSystem.WEB.API
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OpenAirBL openAirBL)
+        public async Task<IActionResult> Post([FromForm] IncomingOpenAirArtEventViewModel openAirBL)
         {
             try
             {
-                await _openAirService.CreateAsync(openAirBL);   // ToDO  -  validate parameter,
-                return Ok(openAirBL);
+                await _openAirService.CreateAsync(_mapper.Map(openAirBL));   // ToDO  -  validate parameter,
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -58,6 +64,7 @@ namespace BookingSystem.WEB.API
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<ActionResult> Put([FromForm] OpenAirBL openAirBL)
         {
@@ -72,7 +79,7 @@ namespace BookingSystem.WEB.API
                 return BadRequest("read debug");
             }
         }
-
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         public ActionResult Delete([FromQuery] int id)
         {

@@ -8,42 +8,38 @@ import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import OrderItem from "./OrderItem";
 import styled from "styled-components";
 
-
-
 const OrderBlock = styled.div`
     border: 2px solid black;
     margin: 1vh;
 `;
 
 const TimeBlock=styled.div`
-    font-size: 3vh;
-    margin: 1vh;
+    font-size: 2rem;
+    margin: 0.5rem;
     padding-left: 3rem;
+    border: 1px solid skyblue;
+    border-radius: 6px;
+    background-color: skyblue;
 `;
-
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         getOrders();
-        console.log(orders);
+        
     }, [])
 
     const getOrders = async () => {
         try {
             let result = await axios.get(urls.getOrders());
             setOrders(result.data);
-            console.log(result.data);
-
 
         } catch (error) {
             console.log("Orders.getOrders  error =  " + error)
         }
     }
     let element;
-    console.log(orders.length);
-    console.log(orders);
 
     if (orders.length > 0) {
         element = orders.map((order) =>

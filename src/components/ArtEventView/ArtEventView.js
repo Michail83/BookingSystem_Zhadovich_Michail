@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { NoImageavailable } from "../../CONST/NoImageAvailable";
 
 const ButtonBlock = styled.div`
     display: flex;
@@ -13,27 +14,35 @@ const MainArtEventView = styled.div`
     border-bottom: 1px solid blue;
     padding: 1vh 1vw;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     flex: 0 1 100%;
-    align-items: stretch;
-    background-color:azure  ;
+    align-items: stretch;   
 `;
 const ArtEventViewImage = styled.div`
-    width: 18%;
-    flex-grow: 8;
-    background-color: bisque;
+  display:inline-block; 
+    
 `;
 const AboutArtEvent = styled.div`
     padding: 1vh 1vw;
-    width: 30%;
-    flex-grow: 40;
+    min-width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    &p{
+        margin: 0.5rem
+    }
+`;
+const IMAGE = styled.img`
+    object-fit: cover ;
+
 `;
 
-
-function ArtEventView(props) {    
+function ArtEventView(props) { 
     return(
         <MainArtEventView >
             <ArtEventViewImage>
+                <IMAGE src={props.image? `data:image/jpeg;base64,${props.image}`:NoImageavailable} width={"320px"} alt={NoImageavailable} title="image"/>
 
             </ArtEventViewImage>
             <AboutArtEvent>

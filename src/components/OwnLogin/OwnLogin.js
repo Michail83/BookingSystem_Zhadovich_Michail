@@ -41,6 +41,10 @@ const SubmitButton = styled.button`
     font-size: 1em;
 `;
 
+const WrongDataP = styled.p`
+color:red;
+`;
+
 const OwnLogin = ({ setNoActiveModalWindow }) => {
 
     const [email, setEmail] = useState("");
@@ -87,7 +91,7 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
                 <SubmitButton type="submit"  > Login</SubmitButton>
             </form>
             <div>
-                {result && <p>{result}</p>}                
+                {result && <WrongDataP >{result}</WrongDataP>}                
                 {isConfirmEnabled && <p><CoutdownToRefreshConfirmation email={email} password={password}/></p>}
 
             </div>
@@ -96,21 +100,13 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
 }
 
 const mapStateToProps = state => ({
-    // IsAuthenticated: state.auth.isAuthenticated,    
-    // isLoginWindowActive: state.state.iSmodalLoginWindowActive
+    
 });
 const mapDispatchToProps = dispatch => (
     {
         setNoActiveModalWindow: () => dispatch(actionCreator.setModalWindowForLoginActive(false))
     });
 
-var OwnLogin_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(OwnLogin);
-
+var OwnLogin_ReduxWrapped = connect(null, mapDispatchToProps)(OwnLogin);
 
 export default OwnLogin_ReduxWrapped;
-
-
-
-{/* <LabelBlock>
-                    <LabelBlock> Remember <input required type="checkbox" value={rememberMe} onChange={(event) => { setRememberMe(event.target.value) }} /></LabelBlock>
-                </LabelBlock> */}

@@ -1,14 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-
 import { useForm } from "react-hook-form";
-
 import API_URL from "../../API_URL";
 import axios from "axios";
 import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponentsForCreateEvents"
 import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
-
-import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent"
-
+import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
 
 const AbsoluteContainer = styled.div`
@@ -17,19 +13,16 @@ const AbsoluteContainer = styled.div`
     height: calc(100vh - 7.5rem);    
     top:6.5rem;
     left:0;    
-    background-color: #a0e0e8;
+    background-color: lightskyblue;
 `;
 
 const MapHeader = styled.h3`
     text-align: center;
 `;
-
 const defaultValues = { ...defaultValuesCreateArtEvent, headliner: "" };
 
-// ////////////////////////////////////////////////////////////////////
 const OpenAirCreateForm = ({ setStatusOfCreating }) => {
     const [isMapShow, setIsMapShow] = useState(false);
-
 
     const {
         register,
@@ -50,13 +43,28 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
     }, [formState, reset]);
 
     const onSubmit = async (data, event) => {
-        event.preventDefault()
+        event.preventDefault();
+        const config = {
+            headers: {
+              'content-type': 'multipart/form-data',
+            },
+          };
+          const formData = new FormData();    
+
+          formData.append('EventName', data.eventName);
+          formData.append('Date', data.date);
+          formData.append('AmountOfTickets', data.amountOfTickets);
+          formData.append('Place', data.place);
+          formData.append('Latitude', data.latitude);
+          formData.append('Longitude', data.longitude);
+          formData.append('HeadLiner', data.headliner);
+          formData.append('Image', data.image[0])        
+
         try {
-            let result = await axios.post(API_URL.openairs(), data);
+            let result = await axios.post(API_URL.openairs(), formData, config );
             if (result.status == 200) setStatusOfCreating(true);
         } catch (error) {
             setStatusOfCreating(false);
-            console.log(error);
         }
     }
     const setPlace = (place) => {
@@ -92,23 +100,22 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
 
                 <Label> Place</Label>
                 <Input type={"text"}  {...register("place", { required: true })} onClick={onClickOnPlace} placeholder={"click and choose place on the map"} />
-                {errors.place?.type === "required"
-                    || errors.longitude?.type === "required"
-                    || errors.latitude?.type === "required"
-                    && <ErrorMessage>Place is required</ErrorMessage>}
+                {errors.place?.type === "required" && <ErrorMessage>Place is required</ErrorMessage>}
+             
 
-                <Input style={{ visibility: "hidden", position: "absolute", width: "100px" }} type={"text"} {...register("latitude", { required: true })} />
-                <Input style={{ visibility: "hidden", position: "absolute", width: "100px"  }} type={"text"} {...register("longitude", { required: true })} />
+                <Input style={{position:"absolute", visibility:"hidden", width:"5%"}}  type={"number"} step={"any"} {...register("latitude", { required: true })} />
+                <Input style={{position:"absolute", visibility:"hidden", width:"5%"}}   type={"number"} step={"any"} {...register("longitude", { required: true })} />
 
                 <Label> headliner</Label>
                 <Input type={"text"} {...register("headliner", { required: true, minLength: 2 })} />
                 {errors.headliner?.type === "required" && <ErrorMessage>headliner is required</ErrorMessage>}
-                {errors.headliner?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}
-
-                <SubmitButton type={"submit"} /> 
+                {errors.headliner?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}                
 
                 <Label>Image </Label>   
-                <Input type={"file"} {...register("image")}></Input>          
+                <Input type={"file"} accept={"image/png, image/jpeg"} {...register("image",{required:true})} ></Input> 
+                {errors.image?.type === "required" && <ErrorMessage>Image is required</ErrorMessage>}     
+
+                <SubmitButton type={"submit"} >Create</SubmitButton>       
 
             </Form>            
             {isMapShow &&
@@ -121,7 +128,3 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
     )
 }
 export default OpenAirCreateForm;
-
-
-
-

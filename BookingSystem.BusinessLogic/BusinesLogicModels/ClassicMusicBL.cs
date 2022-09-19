@@ -3,16 +3,6 @@
     public class ClassicMusicBL : ArtEventBL
     {
         public string Voice { get; set; }
-        public string ConcertName { get; set; }
-        //public ClassicMusicBL() : base()
-        //{ }
-
-        //public ClassicMusicBL(ClassicMusic classicMusic) : base(classicMusic)
-        //{
-        //    this.Voice = classicMusic.Voice;
-        //    this.ConcertName = classicMusic.ConcertName;
-        //}
-
-
+        public string ConcertName { get; set; } 
     }
 }

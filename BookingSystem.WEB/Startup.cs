@@ -12,11 +12,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace BookingSystem.WEB
@@ -45,6 +48,12 @@ namespace BookingSystem.WEB
         {
             services.AddAutoMapper(typeof(BysinessLayerAutoMapperProfile), typeof(WebAutoMapperProfile));
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.Configure<RequestLocalizationOptions>((options) => 
+            {
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") };
+            });
 
             services.ADDInfrastructureServices(Configuration);
             
@@ -75,8 +84,12 @@ namespace BookingSystem.WEB
 
             services.AddBusinessLayerAndDataLayerServices(Configuration);
 
-            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperArtEventBLToArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
-            services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperArtEventBLToArtEventViewModel<OrderBL, OrderViewModel>>();
+            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
+            services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<OrderBL, OrderViewModel>>();
+
+            services.AddScoped<IMapper<IncomingOpenAirArtEventViewModel,OpenAirBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingOpenAirArtEventViewModel, OpenAirBL>>();
+            services.AddScoped<IMapper<IncomingPartyArtEventViewModel, PartyBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingPartyArtEventViewModel, PartyBL>>();
+            services.AddScoped<IMapper< IncomingClassicMusicArtEventViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>> ();
 
 
             services.AddMemoryCache();
@@ -113,6 +126,7 @@ namespace BookingSystem.WEB
                 
                 app.UseHsts();
             }
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

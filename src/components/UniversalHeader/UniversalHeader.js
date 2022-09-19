@@ -89,7 +89,7 @@ const UniversalHeader = ({ isAdmin, cartMap, isAuth }) => {
 
                 <NavBarItem onClick={() => navigate("/")} navPath="/" currentPath={location.pathname} >Events</NavBarItem>
                 {cartMap.size != 0 ? <NavBarItem onClick={() => navigate("/cart")} navPath="/cart" currentPath={location.pathname}>Cart </NavBarItem> : ""}
-                {isAdmin ? <NavBarItem onClick={() => navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
+                {false ? <NavBarItem onClick={() => navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
                 {isAuth ? <NavBarItem onClick={() => navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem> : ""}
                 <LogInOutItem>
                     <DisplayUserName_ReduxWrapped />
