@@ -27,7 +27,7 @@ const YandMAP_CreateEvent = ({ setPlace, setCoord, setIsMapShow }) => {
         // return () => {
         //     head.removeChild(script);
         //   }
-        ymaps.ready(()=>init(window.ymaps));
+        window.ymaps.ready(()=>init(window.ymaps));
     },
         []);
 
