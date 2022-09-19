@@ -14,21 +14,25 @@ const MapCotainer = styled.div`
 const YandMAP_CreateEvent = ({ setPlace, setCoord, setIsMapShow }) => {
 
 
-    const [coordState, setCoordState] = useState([]); /////   
-
-
+    const [coordState, setCoordState] = useState([]); /////
     useEffect(() => {
-        init();
+        // const head = document.querySelector("head");
+        // const script = document.createElement('script');
+        // script.src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=913cb368-b557-4cb7-9840-91e7dfa600b2";
+        // script.type="text/javascript";
+        // script.async=true;
+        // script.onload = ()=> ymaps.ready(init);
+        // head.appendChild(script);
+        
+        // return () => {
+        //     head.removeChild(script);
+        //   }
+        ymaps.ready(init);
     },
         []);
 
-    // const setCreateFormValue = (coord, place) => {
 
-    //     setPlace(place);
-    //     setCoord(coord);
-    // }
-
-    function init() {
+    function init() {   
         let thisCoord;
         let thisPlace;
         var myPlacemark;

@@ -22,6 +22,14 @@ import Testpageauth from './testComponent/TestPage';
 
 function App({ authData, addDeleteArtEventButtonToState }) {
     useEffect(() => {
+        const head = document.querySelector("head");
+        const script = document.createElement('script');
+        script.src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=913cb368-b557-4cb7-9840-91e7dfa600b2";
+        script.type="text/javascript";
+        script.async=true;        
+        head.appendChild(script);
+
+
         // localStorage.clear();
         tryLoadAuthData()
     }, [])

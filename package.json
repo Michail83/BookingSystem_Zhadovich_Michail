@@ -24,9 +24,9 @@
     "redux": "^4.1.2",
     "styled-components": "^5.3.5",
     "use-state-if-mounted": "^1.0.7",
-    "web-vitals": "^2.1.2"
+    "web-vitals": "^2.1.2",
+    "ymaps": "^0.2.1"
   },
-  
   "engines": {
     "node": "16.x",
     "npm": "8.x"
