@@ -33,9 +33,9 @@ export const YandMap = ({artEventItems})=>{
     }
     
     return(
-        <div>
+        <div style={{width:"320px", height:"320px"}}>
              <YMaps>                                   
-                    <Map defaultState={state} modules={modules}>
+                    <Map defaultState={state} modules={modules} width={"100%"} height={"100%"}>
                     {createPlacemark(artEventItems)}
                     </Map>                
             </YMaps>

@@ -1,5 +1,7 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +16,12 @@ namespace BookingSystem.WEB.API
     public class PartyController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<PartyBL> _partyService;
+        IMapper<IncomingPartyArtEventViewModel, PartyBL> _mapper;
 
-        public PartyController(IBusinessLayerCRUDServiceAsync<PartyBL> openAirService)
+        public PartyController(IBusinessLayerCRUDServiceAsync<PartyBL> openAirService, IMapper<IncomingPartyArtEventViewModel, PartyBL> mapper)
         {
             _partyService = openAirService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -42,27 +46,14 @@ namespace BookingSystem.WEB.API
             }
         }
 
+        
+        [Authorize(Roles ="admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PartyBL partyBL)
+        public async Task<IActionResult> Post([FromForm] IncomingPartyArtEventViewModel incoming)
         {
             try
             {
-                await _partyService.CreateAsync(partyBL);   //ToDO  -  validate parameter,
-                return Ok(partyBL);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
-                return BadRequest("read debug");
-            }
-        }
-
-        [HttpPut]
-        public async Task<ActionResult> Put([FromForm] PartyBL partyBL)
-        {
-            try
-            {
-                await _partyService.UpdateAsync(partyBL);    //ToDo  validate
+                await _partyService.CreateAsync(_mapper.Map(incoming));   //ToDO  -  validate parameter,
                 return Ok();
             }
             catch (Exception ex)
@@ -71,10 +62,28 @@ namespace BookingSystem.WEB.API
                 return BadRequest("read debug");
             }
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut]
+        public async Task<ActionResult> Put([FromForm] PartyBL partyBL)
+        {
+            throw new NotImplementedException();
+            //try
+            //{
+            //    await _partyService.UpdateAsync(partyBL);    //ToDo  validate
+            //    return Ok();
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
+            //    return BadRequest("read debug");
+            //}
+        }
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         public ActionResult Delete([FromQuery] int id)
         {
-            return NoContent();
+            return BadRequest();
         }
     }
 }

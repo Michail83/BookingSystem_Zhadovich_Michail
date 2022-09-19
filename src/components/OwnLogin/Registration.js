@@ -96,25 +96,22 @@ const Registration = () => {
     return (
         <MainBlock>
             <form onSubmit={submitHandler}>
-                <LabelBlock>
-                    {/* <LabelBlock> */}
+                <LabelBlock>                   
                         <Label>Name</Label>
                         <Input type="text" required value={userName} onChange={(event) => setUserName(event.target.value)} />
                     </LabelBlock>
-                {/* </LabelBlock> */}
+                
 
-                <LabelBlock>
-                    {/* <LabelBlock> */}
+                <LabelBlock>                    
                         <Label>Email</Label>
                         <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
-                    {/* </LabelBlock> */}
+                    
                 </LabelBlock>
 
-                <LabelBlock>
-                    {/* <LabelBlock> */}
+                <LabelBlock>                    
                         <Label>Password</Label>
                         <Input type="password" id="password" value={password} required minLength={4} onChange={(event) => setPassword(event.target.value)} />
-                    {/* </LabelBlock> */}
+                   
                 </LabelBlock>
                 <button type="submit"> Register</button>
             </form>

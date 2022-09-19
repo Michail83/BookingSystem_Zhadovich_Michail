@@ -34,9 +34,9 @@ export const ErrorMessage= styled.h4`
     margin-top: -8px;
     color: red;
     position: absolute ;
-    z-index: 100;
+    /* z-index: 100; */
 `;
-export const SubmitButton= styled.input`
+export const SubmitButton= styled.button`
   margin-top:13px;
 `;
 

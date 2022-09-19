@@ -1,10 +1,12 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-
+using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.API
@@ -15,10 +17,12 @@ namespace BookingSystem.WEB.API
     public class ClassicMusicController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<ClassicMusicBL> _partyService;
+        IMapper<IncomingClassicMusicArtEventViewModel, ClassicMusicBL> _mapper;
 
-        public ClassicMusicController(IBusinessLayerCRUDServiceAsync<ClassicMusicBL> openAirService)
+        public ClassicMusicController(IBusinessLayerCRUDServiceAsync<ClassicMusicBL> openAirService, IMapper<IncomingClassicMusicArtEventViewModel, ClassicMusicBL> mapper)
         {
             _partyService = openAirService;
+            _mapper=mapper;
         }
 
 
@@ -45,13 +49,14 @@ namespace BookingSystem.WEB.API
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ClassicMusicBL classicMusicBL)
+        public async Task<IActionResult> Post([FromForm] IncomingClassicMusicArtEventViewModel incoming)
         {
             try
             {
-                await _partyService.CreateAsync(classicMusicBL);   //ToDO  -  validate parameter,
-                return Ok(classicMusicBL);
+                await _partyService.CreateAsync(_mapper.Map(incoming));   //ToDO  -  validate parameter,
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -60,26 +65,18 @@ namespace BookingSystem.WEB.API
                 throw;
             }
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<ActionResult> Put([FromForm] ClassicMusicBL classicMusicBL)
         {
-            try
-            {
-                await _partyService.UpdateAsync(classicMusicBL);    //ToDo  validate
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
-                return BadRequest("read debug");
-            }
+            throw new NotImplementedException();
+           
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return NoContent();
-            //RedirectToAction("Delete", "ArtEventsController", id);
+            return BadRequest();
         }
     }
 }

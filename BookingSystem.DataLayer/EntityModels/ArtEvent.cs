@@ -12,6 +12,7 @@ namespace BookingSystem.DataLayer.EntityModels
         public string Place { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public byte[] Image { get; set; }
 
         public List<Order> Orders { get; set; } = new List<Order>();
         public List<OrderAndArtEvent> OrderAndArtEvents { get; set; } = new List<OrderAndArtEvent>();

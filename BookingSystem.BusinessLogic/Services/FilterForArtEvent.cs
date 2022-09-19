@@ -29,7 +29,7 @@ namespace BookingSystem.BusinessLogic.Services
             }
             if (!String.IsNullOrEmpty(pagesState?.NameForFilter))
             {
-                result = result.Where(artEvent => artEvent.EventName.Contains(pagesState.NameForFilter));
+                result = result.Where(artEvent => artEvent.EventName.Contains(pagesState.NameForFilter.Trim(), StringComparison.InvariantCultureIgnoreCase));
             }
             return result;
         }

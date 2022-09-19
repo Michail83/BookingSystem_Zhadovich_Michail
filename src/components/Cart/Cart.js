@@ -31,6 +31,19 @@ const AbsoluteMessage = styled.div`
     top:20%;
     left: 25%;
 `;
+const CreateOrderBuntton = styled.button`
+margin: 3px auto;
+
+font-size: 2rem;
+`;
+const NeedAuthMessage = styled.div`
+    display: inline-block;
+    margin: 3px auto;
+    font-size: 2rem;
+    color: red;
+
+`;
+
 
 const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearCart})=>{
 
@@ -40,25 +53,25 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
     const navigate = useNavigate();
     
     const CreateOrderHandler = async ()=>{
-        try {
-            // console.log(mapToOrderData(cartMap));
-
+        const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")
+                    
+    }, 5000); 
+        try {     
+            setMessage("processing...")      
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
 
-            if (result.status==200) {
-
-                console.log("ORDER WAS CREATED");
+            if (result.status==200) {                
                 setMessage("ORDER WAS CREATED");
                 clearCart();
-                setTimeout(() => {setMessage("")
-                    
-                }, 5000);               
-                
-                // navigate("/")                
+                clearMessageAfter5Sec();
+                         
             }
 
         } catch (error) {
+            setMessage("Error");
             console.log("CreateOrderHandler =          " + error);
+            clearMessageAfter5Sec();
+
         }       
     }
 
@@ -97,9 +110,9 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
             } else {
                 elemenList = fullCartArray.map((item) => (<CartArtEventView key={item.id} {...item}/>));
                 if (isAuthenticated) {
-                    button = <button onClick={CreateOrderHandler}>Create Order</button>
+                    button = <CreateOrderBuntton onClick={CreateOrderHandler}>Create Order</CreateOrderBuntton>
                 } else {
-                    button = <div>Need Authentication</div>;  
+                    button = <NeedAuthMessage>Need Authentication</NeedAuthMessage>;  
                 }                                                      
             }
         }            

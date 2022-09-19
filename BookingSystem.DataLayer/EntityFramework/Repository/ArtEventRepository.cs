@@ -75,13 +75,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             return _dbSet.AsNoTracking();
         }
 
-        /// <summary>
-        /// Is it meaningless?   Check
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns>ArtEvent </returns>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="EFCoreDbException"> All  SqlException  </exception>
+
         public async Task<ArtEvent> GetAsync(int ID)
         {
             try

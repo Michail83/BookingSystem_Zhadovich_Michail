@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { YandMap } from "../YandMAP/YandMAP";
 import loadData from './Functions/LoadData';
 import AddOrChangeValueButton_ReduxWrapped from "../Cart/cartButton/AddOrChangeValueButton";
+import { NoImageavailable } from "../../CONST/NoImageAvailable";
+
 
 const DetailsMain = styled.div`
-    margin-top: 14vh;
+    margin-top: 7.5rem;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
@@ -14,9 +16,7 @@ const DetailsMain = styled.div`
     border-bottom: 1px solid lightskyblue; 
 `;
 const ImageBlock = styled.div`
-    width: 18%;
-    aspect-ratio: 1/1;
-    background-color: aqua;
+    display:inline-block; 
 `;
 
 const MapBlock = styled.div`
@@ -45,6 +45,10 @@ const ButtonBlock = styled.div`
     justify-content: center;
     /* margin: 0 auto; */
 `;
+const IMAGE = styled.img`
+    object-fit: cover;
+
+`;
 
 const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {    
     const [artEvent, setArtEvent] = useState();
@@ -57,8 +61,8 @@ const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
         return (
 
             <DetailsMain>
-                <ImageBlock>Image will be here...
-
+                <ImageBlock>
+                <IMAGE src={artEvent.image? `data:image/jpeg;base64,${artEvent.image}`:NoImageavailable} width={"320px"} alt={NoImageavailable} title="image"/>
                 </ImageBlock>
 
                 <DataBlock>
@@ -92,15 +96,10 @@ const ArtEventDetails = ({ url, ConcreteIventData, DeleteButton }) => {
 
 
 const mapStateToProps = state => ({
-    DeleteButton: state.admins.DeleteArtEventButton,
-    // isActive: state.state.iSmodalLoginWindowActive
+    DeleteButton: state.admins.DeleteArtEventButton,    
 });
 
-const mapDispatchToProps = dispatch => (
-    {
-        // setArtEventItems:(artItems)=> dispatch(actionCreator.SetArtEventItems(artItems))        
-    });
 
-const ArtEventDetails_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(ArtEventDetails);
+const ArtEventDetails_ReduxWrapped = connect(mapStateToProps, null)(ArtEventDetails);
 
 export default ArtEventDetails_ReduxWrapped;

@@ -51,7 +51,7 @@ const ModalWindowForLogin = ({ isActive, setNoActive }) => {
             >
                 <ModalWindow onClick={setNoActive} >
                     <ModalContent onClick={(e) => e.stopPropagation()} >
-                        <ExternalLoginList />
+                        {/* <ExternalLoginList /> */}
                         <OwnLogin />
                         <div>
                             <Link to={"/Registration"} onClick={setNoActive}>Registration</Link>

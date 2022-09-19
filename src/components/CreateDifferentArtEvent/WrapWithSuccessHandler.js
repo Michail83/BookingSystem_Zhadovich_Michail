@@ -20,20 +20,12 @@ font-size:large;
 
 const WrapWithSuccessHandler = ({ CreateForm }) => {
     const [statusOfCreating, setStatusOfCreating] = useState(null);
-    // useEffect(()=>{
-    //     setStatusOfCreating(null)
-    // },[CreateForm]);
-
-
     
         let result = <BigSuccessful>Event was created successfully. Do you want to create <BlueButton onClick={() => setStatusOfCreating(null)}>More </BlueButton> </BigSuccessful>
 
         if (statusOfCreating==null) result = <CreateForm setStatusOfCreating={setStatusOfCreating} />
-        else if (statusOfCreating==false) result= <BigError>Event was not created. Something wrong in data that you entered</BigError>
+        else if (statusOfCreating==false) result= <BigError>Event was not created. Something wrong in data that you entered<BlueButton onClick={() => setStatusOfCreating(null)}>Again </BlueButton> </BigError>
         
-    
-
-
     return (
         <Fragment>
             {result}
