@@ -4,8 +4,15 @@ using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Data;
 using System.Threading.Tasks;
+
+using BookingSystem.WEB.StaticClasses;
+
+using BookingSystem.DataLayer.EntityFramework.Repository;
+using BookingSystem.DataLayer.EntityModels;
+using BookingSystem.DataLayer.Interfaces;
 
 
 
@@ -19,11 +26,13 @@ namespace BookingSystem.WEB.API
     {
         IBusinessLayerCRUDServiceAsync<OpenAirBL> _openAirService;
         IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> _mapper;
+        IRepositoryAsync<OpenAir> _repository;
 
-        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService, IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> mapper)
+        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService, IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> mapper, IRepositoryAsync<OpenAir> repository)
         {
             _openAirService = openAirService;
             _mapper= mapper;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -56,17 +65,52 @@ namespace BookingSystem.WEB.API
                 return BadRequest(ModelState);
             }
 
+            var binaryImage = openAirBL.Image.ToImage().ResizeImage(new System.Drawing.Size(320, 240)).ToByteArray();
+            if (binaryImage.Length==0)
+            {
+                return BadRequest("Imafe lenght==0");
+            }
+
+            var openAir = new OpenAir 
+            {
+                Date = openAirBL.Date,
+                AmountOfTickets = openAirBL.AmountOfTickets,
+                 EventName = openAirBL.EventName,
+                 HeadLiner = openAirBL.HeadLiner,
+                 Latitude = openAirBL.Latitude,
+                 Longitude = openAirBL.Longitude,
+                 Place = openAirBL.Place,
+                 Image= binaryImage
+
+            };
             try
             {
-                await _openAirService.CreateAsync(_mapper.Map(openAirBL));   // ToDO  -  validate parameter,
-                return Ok(openAirBL);
+                await _repository.CreateAsync(openAir);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   // ToDo  delete after
-                return BadRequest("read debug");
-                throw;
+
+                return BadRequest(ex);
             }
+           
+
+            return Ok(openAir);
+
+
+
+            //try
+            //{
+            //    await _openAirService.CreateAsync(_mapper.Map(openAirBL)); 
+
+            //    // ToDO  -  validate parameter,
+            //    return Ok(openAirBL);
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   // ToDo  delete after
+            //    return BadRequest("read debug");
+            //    throw;
+            //}
         }
 
         [Authorize(Roles = "admin")]
