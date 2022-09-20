@@ -9,12 +9,17 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Drawing;
 
+using System.Drawing.Drawing2D;
+
+using System.Drawing.Imaging;
+
 using BookingSystem.WEB.StaticClasses;
 
 using BookingSystem.DataLayer.EntityFramework.Repository;
 using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.DataLayer.Interfaces;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace BookingSystem.WEB.API
 {
@@ -67,7 +72,35 @@ namespace BookingSystem.WEB.API
             var resultArray = new List<string>();
             resultArray.Add(openAirBL.Image.Length.ToString());
 
-            var imageStage1= openAirBL.Image.ToImage();
+            //var imageStage1= openAirBL.Image.ToImage();
+
+
+            Image imageStage1 = null;
+            try
+            {
+                using var stream = new MemoryStream();
+                resultArray.Add("stage1.1");
+                openAirBL.Image.CopyTo(stream);
+                resultArray.Add("stage1.2");
+                imageStage1 = Image.FromStream(stream);
+                resultArray.Add("stage1.3");
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+            
+
+
+
+
+
+
+
+
+
+
             if (imageStage1==null)
             {
                 return BadRequest(resultArray);
