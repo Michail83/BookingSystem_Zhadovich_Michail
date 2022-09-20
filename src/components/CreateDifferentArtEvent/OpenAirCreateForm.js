@@ -88,7 +88,7 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
     return (
         <Fragment>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Label> ArtEvent name   2</Label>
+                <Label> ArtEvent name   3</Label>
                 <Input type={"text"} {...register("eventName", { required: true, minLength: 2 })} />
                 {errors.eventName?.type === "required" && <ErrorMessage>ArtEvent name is required</ErrorMessage>}
                 {errors.eventName?.type === "minLength" && <ErrorMessage>min length is 2</ErrorMessage>}

@@ -7,15 +7,14 @@ using System;
 using System.IO;
 using System.Data;
 using System.Threading.Tasks;
+using System.Drawing;
 
 using BookingSystem.WEB.StaticClasses;
 
 using BookingSystem.DataLayer.EntityFramework.Repository;
 using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.DataLayer.Interfaces;
-
-
-
+using System.Collections.Generic;
 
 namespace BookingSystem.WEB.API
 {
@@ -65,11 +64,23 @@ namespace BookingSystem.WEB.API
                 return BadRequest(ModelState);
             }
 
-           
-            var binaryImage = openAirBL.Image.ToImage().ResizeImage(new System.Drawing.Size(320, 240)).ToByteArray();
-            if (binaryImage.Length==0)
+            var resultArray = new List<string>();
+            resultArray.Add(openAirBL.Image.Length.ToString());
+
+            var imageStage1= openAirBL.Image.ToImage();
+            resultArray.Add(imageStage1.PhysicalDimension.ToString());
+
+             var imageStage2 = imageStage1.ResizeImage(new Size(320, 240));
+            resultArray.Add(imageStage2.PhysicalDimension.ToString());
+
+
+            var imageStage3 = imageStage2.ToByteArray();
+            resultArray.Add(imageStage3.Length.ToString());
+
+
+            if (imageStage3.Length==0)
             {
-                return BadRequest(openAirBL.Image.Length);
+                return BadRequest(resultArray);
             }
 
             var openAir = new OpenAir 
@@ -81,7 +92,7 @@ namespace BookingSystem.WEB.API
                  Latitude = openAirBL.Latitude,
                  Longitude = openAirBL.Longitude,
                  Place = openAirBL.Place,
-                 Image= binaryImage
+                 Image= imageStage3
 
             };
             try
