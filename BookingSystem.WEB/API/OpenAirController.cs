@@ -88,7 +88,7 @@ namespace BookingSystem.WEB.API
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.ToString());
             }
             
 
