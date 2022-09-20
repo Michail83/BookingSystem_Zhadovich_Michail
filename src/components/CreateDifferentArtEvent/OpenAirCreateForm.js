@@ -68,6 +68,7 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
             }
         } catch (error) {
             setStatusOfCreating(false);
+            console.log(error.response.data)
         }
     }
     const setPlace = (place) => {
@@ -102,7 +103,7 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
                 {errors.amountOfTickets?.type === "min" && <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
 
                 <Label> Place</Label>
-                <Input type={"text"}  {...register("place", { required: true })} onClick={onClickOnPlace} placeholder={"click and choose place on the map"} />
+                <Input type={"text"}  {...register("place", { required: true })} onClick={(event)=>{onClickOnPlace(event); errors.place=""; }} placeholder={"click and choose place on the map"} />
                 {errors.place?.type === "required" && <ErrorMessage>Place is required</ErrorMessage>}
              
 
@@ -115,7 +116,7 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
                 {errors.headliner?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}                
 
                 <Label>Image </Label>   
-                <Input type={"file"} accept={"image/png, image/jpeg"} {...register("image",{required:true})} ></Input> 
+                <Input type={"file"} accept={"image/png, image/jpeg"} {...register("image")} ></Input> 
                 {errors.image?.type === "required" && <ErrorMessage>Image is required</ErrorMessage>}     
 
                 <SubmitButton type={"submit"} >Create</SubmitButton>       
