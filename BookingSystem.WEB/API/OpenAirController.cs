@@ -68,13 +68,26 @@ namespace BookingSystem.WEB.API
             resultArray.Add(openAirBL.Image.Length.ToString());
 
             var imageStage1= openAirBL.Image.ToImage();
+            if (imageStage1==null)
+            {
+                return BadRequest(resultArray);
+            }
             resultArray.Add(imageStage1.PhysicalDimension.ToString());
 
              var imageStage2 = imageStage1.ResizeImage(new Size(320, 240));
+            if (imageStage2 == null)
+            {
+                return BadRequest(resultArray);
+            }
             resultArray.Add(imageStage2.PhysicalDimension.ToString());
 
 
             var imageStage3 = imageStage2.ToByteArray();
+            if (imageStage3 == null)
+            {
+                return BadRequest(resultArray);
+            }
+
             resultArray.Add(imageStage3.Length.ToString());
 
 

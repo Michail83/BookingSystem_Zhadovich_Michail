@@ -68,7 +68,7 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
             }
         } catch (error) {
             setStatusOfCreating(false);
-            console.log(error.response.data)
+            console.log(error?.response?.data)
         }
     }
     const setPlace = (place) => {
