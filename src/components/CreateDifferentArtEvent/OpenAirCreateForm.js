@@ -62,7 +62,10 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
 
         try {
             let result = await axios.post(API_URL.openairs(), formData, config );
-            if (result.status == 200) setStatusOfCreating(true);
+            if (result.status == 200) {
+                setStatusOfCreating(true);
+                console.log(result.data)
+            }
         } catch (error) {
             setStatusOfCreating(false);
         }

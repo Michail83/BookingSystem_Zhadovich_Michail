@@ -51,10 +51,11 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IncomingOpenAirArtEventViewModel openAirBL)
         {
+
             try
             {
                 await _openAirService.CreateAsync(_mapper.Map(openAirBL));   // ToDO  -  validate parameter,
-                return Ok();
+                return Ok(openAirBL);
             }
             catch (Exception ex)
             {

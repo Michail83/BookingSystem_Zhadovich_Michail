@@ -48,6 +48,7 @@ const MainTableForArtEvents = ({
             setPaginationData(paginationData);
 
             setArtEventItems(result.data);
+            
         } catch (err) {
             console.log("error in MainTableForArtEvents => loadArtEvents  " + err);
             setError(err);

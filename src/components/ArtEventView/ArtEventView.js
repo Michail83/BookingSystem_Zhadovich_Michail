@@ -8,6 +8,7 @@ const ButtonBlock = styled.div`
     align-items: stretch;
     justify-content: center;
     width: 12%;
+    min-width: 6rem;
     flex-grow: 5;
 `;
 const MainArtEventView = styled.div`
@@ -20,7 +21,10 @@ const MainArtEventView = styled.div`
     align-items: stretch;   
 `;
 const ArtEventViewImage = styled.div`
-  display:inline-block; 
+    width:320px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     
 `;
 const AboutArtEvent = styled.div`
@@ -29,13 +33,12 @@ const AboutArtEvent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    &p{
+    & *{
         margin: 0.5rem
     }
 `;
-const IMAGE = styled.img`
+const IMAGE = styled.img` 
     object-fit: cover ;
-
 `;
 
 function ArtEventView(props) { 
