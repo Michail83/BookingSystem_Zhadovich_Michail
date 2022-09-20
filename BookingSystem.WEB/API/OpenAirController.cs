@@ -51,6 +51,10 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IncomingOpenAirArtEventViewModel openAirBL)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             try
             {
