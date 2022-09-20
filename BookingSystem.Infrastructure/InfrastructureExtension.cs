@@ -3,6 +3,7 @@ using BookingSystem.Infrastructure.IdentityDBContext;
 using BookingSystem.Infrastructure.Interfaces;
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,12 @@ namespace BookingSystem.Infrastructure
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
                 options.TokenLifespan = TimeSpan.FromHours(12); 
+            });
+            services.ConfigureApplicationCookie(options =>
+            {         
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(180);                 
+                options.SlidingExpiration = true;
             });
 
 

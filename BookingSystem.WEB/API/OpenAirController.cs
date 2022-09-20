@@ -65,10 +65,11 @@ namespace BookingSystem.WEB.API
                 return BadRequest(ModelState);
             }
 
+           
             var binaryImage = openAirBL.Image.ToImage().ResizeImage(new System.Drawing.Size(320, 240)).ToByteArray();
             if (binaryImage.Length==0)
             {
-                return BadRequest("Imafe lenght==0");
+                return BadRequest(openAirBL.Image.Length);
             }
 
             var openAir = new OpenAir 
