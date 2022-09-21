@@ -66,15 +66,28 @@ namespace BookingSystem.WEB.API
         {
             try
             {
-                await _openAirService.CreateAsync(_mapper.Map(openAirBL));
+                var test1 = openAirBL.Image.ToImage();
+                var test2 = test1.ResizeImage(640, 480);
+                var test3 = test2.ToByteArray();
 
-                // ToDO  -  validate parameter,
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest($"test    ==== {ex.Message}");
+            }
+            
+
+            try
+            {
+                await _openAirService.CreateAsync(_mapper.Map(openAirBL));
+                
                 return Ok(openAirBL);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   // ToDo  delete after
-                return BadRequest(ex.Message);
+                
+                return BadRequest($"exception message {ex.Message}   innerExeption message {ex.InnerException?.Message}");
                
             }
         }
