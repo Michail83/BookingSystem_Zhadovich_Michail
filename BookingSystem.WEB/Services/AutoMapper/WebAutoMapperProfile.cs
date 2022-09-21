@@ -39,7 +39,7 @@ namespace BookingSystem.WEB.Services.AutoMapper
 
 
             CreateMap<IncomingBaseArtEventViewModel, ArtEventBL>().
-                ForMember(dest => dest.Image, source => source.MapFrom(src => src.Image.ToByteArrayWithResize(320, 240)))
+                ForMember(dest => dest.Image, source => source.MapFrom(src => src.Image.ToByteArrayWithResize(640, 480)))
                 .Include<IncomingOpenAirArtEventViewModel, OpenAirBL>()
                 .Include<IncomingPartyArtEventViewModel, PartyBL>()
                 .Include<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>();

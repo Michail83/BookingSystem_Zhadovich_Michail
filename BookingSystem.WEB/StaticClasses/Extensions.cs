@@ -6,6 +6,8 @@ using System.Drawing.Drawing2D;
 
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
+using System.Security.Policy;
+using SkiaSharp;
 
 namespace BookingSystem.WEB.StaticClasses
 {
@@ -13,13 +15,12 @@ namespace BookingSystem.WEB.StaticClasses
     {
         public static byte[] ToByteArrayWithResize(this IFormFile formFile, int newWidth, int newHeight)
         {
-            var newSize = new Size { Height = newHeight, Width = newWidth };
-            var imageData = formFile.ToImage().ResizeImage(newSize).ToByteArray();
 
-            return imageData;
+           var byteArray =   formFile.ToImage().ResizeImage(newWidth, newHeight).ToByteArray();
+            return byteArray;
         }
 
-        public static  Image ToImage(this IFormFile formFile)
+        public static  SKBitmap ToImage(this IFormFile formFile)
         {
             if (formFile == null ||
 
@@ -32,62 +33,48 @@ namespace BookingSystem.WEB.StaticClasses
             {
                 return null;
             }
-            Image image = null;
-            try
-            {
-                using var stream = new MemoryStream();
-                formFile.CopyTo(stream);
-                image = Image.FromStream(stream);
-            }
-            catch (Exception)
-            {
-                return image;
-            }
-            return image;
+            
+            using var memoryStream = new MemoryStream();
+
+            formFile.CopyTo(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+           
+            //using var skManagedstream = new SKManagedStream(memoryStream);
+         
+            var bitmap = SKBitmap.Decode(bytes);            
+
+            return bitmap;
         }
 
-        public static Image ResizeImage(this Image image, Size size)
+        public static SKBitmap ResizeImage(this SKBitmap image, int newWidth, int newHeight)
         {
-            if (image == null)
-                return null;
-            
-            if (image.Height<=size.Height && image.Width<=size.Width)            
+            if (image.Height <= newHeight && image.Width <= newWidth)
                 return image;
-            
-            double ratio;            
+            double ratio;
 
-            if (image.Height >= image.Width)            
-                ratio = (double)size.Width / image.Width;            
-            else            
-                ratio = (double)size.Height / image.Height;                
-           
-            int newWidth = (int)(image.Width * ratio);
-            int newHeight = (int)(image.Height * ratio);
+            if (image.Height <= image.Width)
+                ratio = (double)newWidth / image.Width;
+            else
+                ratio = (double)newWidth / image.Height;
 
-            var resultImage = new Bitmap(newWidth, newHeight);
+            int targetWidth = (int)(image.Width * ratio);
+            int targetHeight = (int)(image.Height * ratio);
 
-            using var graphic = Graphics.FromImage(resultImage);
-            graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graphic.SmoothingMode = SmoothingMode.HighQuality;
-            graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            graphic.CompositingQuality = CompositingQuality.HighQuality;
-            graphic.DrawImage(image, 0, 0, newWidth, newHeight);
-            
+            var resultImage = new SKBitmap(targetWidth, targetHeight, true);
+
+            image.ScalePixels(resultImage, SKFilterQuality.High);
+
             return resultImage;
         }
 
-        public static byte[] ToByteArray(this Image image)
-        {           
-            if (image==null)
-            {
-                return new byte[0];
-            }
-            var stream = new MemoryStream();
-            image.Save(stream, ImageFormat.Jpeg);
-            var arrayResult = stream.ToArray();
+        public static byte[] ToByteArray(this SKBitmap image)
+        {            
+            using var memoryStream = new MemoryStream();
+            using var sKManagetWstream = new SKManagedWStream(memoryStream);
+            image.Encode(sKManagetWstream, SKEncodedImageFormat.Jpeg, 100);
+            byte[] result = memoryStream.ToArray();
 
-            return arrayResult;
+            return result;
         }
-
     }
 }

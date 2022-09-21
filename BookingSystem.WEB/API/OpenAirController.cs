@@ -64,111 +64,19 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IncomingOpenAirArtEventViewModel openAirBL)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var resultArray = new List<string>();
-            resultArray.Add(openAirBL.Image.Length.ToString());
-
-            //var imageStage1= openAirBL.Image.ToImage();
-
-
-            Image imageStage1 = null;
             try
             {
-                using var stream = new MemoryStream();
-                resultArray.Add("stage1.1");
-                openAirBL.Image.CopyTo(stream);
-                resultArray.Add("stage1.2");
-                imageStage1 = Image.FromStream(stream);
-                resultArray.Add("stage1.3");
+                await _openAirService.CreateAsync(_mapper.Map(openAirBL));
+
+                // ToDO  -  validate parameter,
+                return Ok(openAirBL);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   // ToDo  delete after
+                return BadRequest(ex.Message);
+               
             }
-            
-
-
-
-
-
-
-
-
-
-
-            if (imageStage1==null)
-            {
-                return BadRequest(resultArray);
-            }
-            resultArray.Add(imageStage1.PhysicalDimension.ToString());
-
-             var imageStage2 = imageStage1.ResizeImage(new Size(320, 240));
-            if (imageStage2 == null)
-            {
-                return BadRequest(resultArray);
-            }
-            resultArray.Add(imageStage2.PhysicalDimension.ToString());
-
-
-            var imageStage3 = imageStage2.ToByteArray();
-            if (imageStage3 == null)
-            {
-                return BadRequest(resultArray);
-            }
-
-            resultArray.Add(imageStage3.Length.ToString());
-
-
-            if (imageStage3.Length==0)
-            {
-                return BadRequest(resultArray);
-            }
-
-            var openAir = new OpenAir 
-            {
-                Date = openAirBL.Date,
-                AmountOfTickets = openAirBL.AmountOfTickets,
-                 EventName = openAirBL.EventName,
-                 HeadLiner = openAirBL.HeadLiner,
-                 Latitude = openAirBL.Latitude,
-                 Longitude = openAirBL.Longitude,
-                 Place = openAirBL.Place,
-                 Image= imageStage3
-
-            };
-            try
-            {
-                await _repository.CreateAsync(openAir);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex);
-            }
-           
-
-            return Ok(openAir);
-
-
-
-            //try
-            //{
-            //    await _openAirService.CreateAsync(_mapper.Map(openAirBL)); 
-
-            //    // ToDO  -  validate parameter,
-            //    return Ok(openAirBL);
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   // ToDo  delete after
-            //    return BadRequest("read debug");
-            //    throw;
-            //}
         }
 
         [Authorize(Roles = "admin")]
