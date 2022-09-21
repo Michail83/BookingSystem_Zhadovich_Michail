@@ -74,7 +74,7 @@ namespace BookingSystem.WEB.API
             catch (Exception ex)
             {
 
-                return BadRequest($"test    ==== {ex.Message}");
+                return BadRequest($"test    ==== {ex.ToString()},  INNER {ex.InnerException?.ToString()}");
             }
             
 
