@@ -1,7 +1,7 @@
 
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import { Link, useNavigate } from "react-router-dom"
 // import "../UniversalHeader/UniversalHeader"
 import axios from "axios";
@@ -11,11 +11,11 @@ import axios from "axios";
 import { connect } from "react-redux";
 // import SetIsAuthenticated from "../Store/ActionsCreators/SetIsAuthenticated";
 import actionCreator from "../Store/ActionsCreators/actionCreator";
-// import store from "../Store/store";
-// import state from '../Store/store'
-// import store from "../Store/store";
+import store from "../Store/store";
+
 import ButtonWith from "../components/Cart/cartButton/AddButton"
-import urls from "../API_URL"
+import urls from "../API_URL";
+
 
 import { YMaps, Map, Placemark } from "react-yandex-maps";
 import YandMap, { YandMAP_TEST } from "../components/YandMAP/YandMAP_TEST";
@@ -87,15 +87,26 @@ const TestPage = ({ IsAuthenticated, state, onClickTrue, onClickFalse, allCart, 
     //     console.log(cartMap);
     // }
 
+    const ref1 = useRef();
+    const ref2 = useRef();
+
+
     return (
         <MainDiv>
 
-            <YandMAP_TEST_JS>
+            {/* <YandMAP_TEST_JS>
 
-            </YandMAP_TEST_JS>
+            </YandMAP_TEST_JS> */}
             
             <button  onClick={()=>localStorage.clear()} >Clear localStorage</button>
             <button  onClick={()=>console.log(process.env.NODE_ENV)} >Get NODE_ENV</button>
+     
+            <button onClick={()=>{store.dispatch(actionCreator.changeCartItemValue({id:47, quantity:""})) }}>send to cart</button>
+            <div>
+                <span></span>
+                <span></span>
+            </div>
+            
             
             <AbsoluteMessage>WARNING TEST</AbsoluteMessage>            
         </MainDiv> 

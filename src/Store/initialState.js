@@ -1,6 +1,4 @@
 import { getCartMapFromLocalStorage } from '../function/getCartMapFromLocalStorage';
-// import { FieldsNameForCreateArtEvent } from '../CONST/FieldsNameForBaseCreateForm';
-// import { HEADLINER } from '../CONST/FieldsNameForOPENAIRCreateForm';
 
 export const initialAuth = () => {
     return {
@@ -40,21 +38,3 @@ export const initialState = {
 export const initialAdmins = {
     DeleteArtEventButton: "",
 }
-
-// export const initialCreatingTempData={
-//     [FieldsNameForCreateArtEvent.AMOUNTOFTICKET]:"",
-//     [FieldsNameForCreateArtEvent.ARTEVENTNAME]:"",
-//     [FieldsNameForCreateArtEvent.DATETIME]:"",
-//     [FieldsNameForCreateArtEvent.LATITUDE]:"",
-//     [FieldsNameForCreateArtEvent.LONGITUDE]:"",
-//     [FieldsNameForCreateArtEvent.PLACE]:""
-// }
-// export const initialCreatingParty={
-
-// }
-// export const initialCreatingOpenAir={
-//     [HEADLINER]:""
-// }
-// export const initialCreatingClasicMusic={
-
-// }

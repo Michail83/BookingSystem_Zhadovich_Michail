@@ -4,8 +4,9 @@ import { setCartMapToLocalStorage } from "../../function/setCartMapToLocalStorag
 
 export const syncLocalStorageMidlleware = store => next => action => {
     next(action);
-    if ((action.type === actionList.addToCart || action.type === actionList.changeCartItemValue || action.type === actionList.deleteFromCart)) {
+    if ((action.type === actionList.addToCart || action.type === actionList.changeCartItemValue || action.type === actionList.deleteFromCart ||actionList.clearCart)) {
         let cartMap = store.getState().cart.cartMap;
+
         setCartMapToLocalStorage(cartMap);
     }    
 }

@@ -33,8 +33,9 @@ import * as actionTypeList from "../Actions/actionTypeList"
         type: actionTypeList.setAuth,
         authData
     }),
-    clearCart: ()=>({
-        type: actionTypeList.clearCart
+    clearCart: (cartMap)=>({        
+        type: actionTypeList.clearCart,
+        payload: cartMap
     }),
     SetArtEventItems: (artEventItems)=>({
         type: actionTypeList.SetArtEventItems,
@@ -55,14 +56,7 @@ import * as actionTypeList from "../Actions/actionTypeList"
     setBaseCreatingData:(additionData)=>({
         type: actionTypeList.setBaseCreatingData,
         payload:additionData
-    }),
-    // ClearALLTempCreatingData:()=>({
-    //     type: actionTypeList.ClearALLTempCreatingData
-    // }),
-    // setAdditionalOpenAirCreatingData:(AdditionalOpenAirCreatingData)=>({
-    //     type: actionTypeList.setAdditionalOpenAirCreatingData,
-    //     payload:AdditionalOpenAirCreatingData
-    // }),
+    }),    
     setFilteringDataToDefault:()=>({
         type: actionTypeList.setFilteringDataToDefault
     }),

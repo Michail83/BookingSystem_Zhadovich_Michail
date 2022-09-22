@@ -43,6 +43,7 @@ function App({ authData, addDeleteArtEventButtonToState }) {
 
 
         if (authData.isAuthenticated && authData.isAdmin) {
+            localStorage.clear();
 
             addDeleteArtEventButtonToState();
             setRoutes(<Fragment>
@@ -52,7 +53,9 @@ function App({ authData, addDeleteArtEventButtonToState }) {
                     <Route path="/Create" element={<CreateEvent />}>   </Route>
                     <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
                     {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
-                    {/* <Route path="/login" element={<LoginPage />}>     </Route>                 */}
+                    
+
+                    
                     <Route path="/cart" element={<CartPage />}> </Route>
                     <Route path="/orders" element={<OrderPage />}> </Route>
                     <Route path='registration' element={<Registration />} />
@@ -71,7 +74,7 @@ function App({ authData, addDeleteArtEventButtonToState }) {
                         {/* <Route path="/Create" element={<CreateEvent />}>   </Route> */}
                         <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
                         {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
-                        {/* <Route path="/login" element={<LoginPage />}>     </Route> */}
+                        
                         <Route path="/cart" element={<CartPage />}> </Route>
                         <Route path="/orders" element={<OrderPage />}> </Route>
                         <Route path='registration' element={<Registration />} />
