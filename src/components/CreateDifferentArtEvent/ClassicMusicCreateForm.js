@@ -6,6 +6,7 @@ import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponen
 import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
 import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
+import { unAuthorizedHandler } from "../../function/unAuthorizedHandler";
 
 const AbsoluteContainer = styled.div`
     position:absolute;
