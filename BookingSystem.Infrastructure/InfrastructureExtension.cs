@@ -45,8 +45,7 @@ namespace BookingSystem.Infrastructure
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
                 
-                options.SlidingExpiration = true;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(180);
+                options.SlidingExpiration = true;                
 
                 options.Events.OnRedirectToLogin = context =>
                 {
