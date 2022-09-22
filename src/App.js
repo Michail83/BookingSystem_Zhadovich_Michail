@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -12,7 +12,6 @@ import UniversalHeaderReduxWrapped from './components/UniversalHeader/UniversalH
 import HomePage from './Pages/Home/Index';
 import CreateEvent from './Pages/Create/Index';
 import DetailsPage from './Pages/Details/index';
-// import LoginPage from './Pages/Login/index';
 import CartPage from "./Pages/CartPage/Index";
 import OrderPage from "./Pages/OrderPage/index";
 
@@ -21,6 +20,8 @@ import Testpageauth from './testComponent/TestPage';
 
 
 function App({ authData, addDeleteArtEventButtonToState }) {
+
+    const [routes, setRoutes] = useState("");
     useEffect(() => {
         const head = document.querySelector("head");
         const script = document.createElement('script');
@@ -32,47 +33,58 @@ function App({ authData, addDeleteArtEventButtonToState }) {
 
         // localStorage.clear();
         tryLoadAuthData()
-    }, [])
+    }, []);
+    
+    useEffect(()=>{
+        createRoutes();
+    },[authData]);
 
-    let routes;
-    if (authData.isAuthenticated && authData.isAdmin) {
-
-        addDeleteArtEventButtonToState();
-        routes = (<Fragment>
-            <UniversalHeaderReduxWrapped />
-            <Routes>
-                <Route path="/" element={<HomePage />}>      </Route>
-                <Route path="/Create" element={<CreateEvent />}>   </Route>
-                <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
-                <Route path="/test" element={<Testpageauth />}>     </Route>
-                {/* <Route path="/login" element={<LoginPage />}>     </Route>                 */}
-                <Route path="/cart" element={<CartPage />}> </Route>
-                <Route path="/orders" element={<OrderPage />}> </Route>
-                <Route path='registration' element={<Registration />} />
-                <Route path='*' element={<HomePage />}> </Route>
+    const createRoutes=()=>{
 
 
-            </Routes>
-        </Fragment>);
+        if (authData.isAuthenticated && authData.isAdmin) {
 
-    } else {        
-        routes = (
-            <Fragment>
+            addDeleteArtEventButtonToState();
+            setRoutes(<Fragment>
                 <UniversalHeaderReduxWrapped />
                 <Routes>
                     <Route path="/" element={<HomePage />}>      </Route>
-                    {/* <Route path="/Create" element={<CreateEvent />}>   </Route> */}
+                    <Route path="/Create" element={<CreateEvent />}>   </Route>
                     <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
                     {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
-                    {/* <Route path="/login" element={<LoginPage />}>     </Route> */}
+                    {/* <Route path="/login" element={<LoginPage />}>     </Route>                 */}
                     <Route path="/cart" element={<CartPage />}> </Route>
                     <Route path="/orders" element={<OrderPage />}> </Route>
                     <Route path='registration' element={<Registration />} />
                     <Route path='*' element={<HomePage />}> </Route>
+    
+    
                 </Routes>
-            </Fragment>
-        )
+            </Fragment>);
+    
+        } else {        
+            setRoutes(
+                <Fragment>
+                    <UniversalHeaderReduxWrapped />
+                    <Routes>
+                        <Route path="/" element={<HomePage />}>      </Route>
+                        {/* <Route path="/Create" element={<CreateEvent />}>   </Route> */}
+                        <Route path="/details/:eventid" element={<DetailsPage />}>   </Route>
+                        {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
+                        {/* <Route path="/login" element={<LoginPage />}>     </Route> */}
+                        <Route path="/cart" element={<CartPage />}> </Route>
+                        <Route path="/orders" element={<OrderPage />}> </Route>
+                        <Route path='registration' element={<Registration />} />
+                        <Route path='*' element={<HomePage />}> </Route>
+                    </Routes>
+                </Fragment>
+            )
+        }
     }
+
+    
+
+
     return (
         <Fragment>
             {routes}

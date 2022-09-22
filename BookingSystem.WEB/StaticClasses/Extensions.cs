@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Drawing2D;
-
-using System.Threading.Tasks;
-using System.Drawing.Imaging;
-using System.Security.Policy;
 using SkiaSharp;
+using System.IO;
 
 namespace BookingSystem.WEB.StaticClasses
 {
@@ -16,11 +9,11 @@ namespace BookingSystem.WEB.StaticClasses
         public static byte[] ToByteArrayWithResize(this IFormFile formFile, int newWidth, int newHeight)
         {
 
-           var byteArray =   formFile.ToImage().ResizeImage(newWidth, newHeight).ToByteArray();
+            var byteArray = formFile.ToImage().ResizeImage(newWidth, newHeight).ToByteArray();
             return byteArray;
         }
 
-        public static  SKBitmap ToImage(this IFormFile formFile)
+        public static SKBitmap ToImage(this IFormFile formFile)
         {
             if (formFile == null ||
 
@@ -29,19 +22,17 @@ namespace BookingSystem.WEB.StaticClasses
                 formFile.ContentType.ToLower() != "image/pjpeg" &&
                 formFile.ContentType.ToLower() != "image/gif" &&
                 formFile.ContentType.ToLower() != "image/x-png" &&
-                formFile.ContentType.ToLower() != "image/png" )
+                formFile.ContentType.ToLower() != "image/png")
             {
                 return null;
             }
-            
+
             using var memoryStream = new MemoryStream();
 
             formFile.CopyTo(memoryStream);
-            byte[] bytes = memoryStream.ToArray();
-           
-            //using var skManagedstream = new SKManagedStream(memoryStream);
-         
-            var bitmap = SKBitmap.Decode(bytes);            
+            byte[] bytes = memoryStream.ToArray();           
+
+            var bitmap = SKBitmap.Decode(bytes);
 
             return bitmap;
         }
@@ -68,7 +59,7 @@ namespace BookingSystem.WEB.StaticClasses
         }
 
         public static byte[] ToByteArray(this SKBitmap image)
-        {            
+        {
             using var memoryStream = new MemoryStream();
             using var sKManagetWstream = new SKManagedWStream(memoryStream);
             image.Encode(sKManagetWstream, SKEncodedImageFormat.Jpeg, 100);
