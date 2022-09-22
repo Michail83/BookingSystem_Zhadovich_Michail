@@ -11,8 +11,6 @@ export const getCartMapFromLocalStorage = () => {
         
     } catch (e) {
         console.log(`getMapFromLocalStorage. error= ${e}`);
-    }
-    //console.log("getCartMapFromLocalStorage ");
+    } 
     return cartMap;
 }
-/*export default getCartMapFromLocalStorage;*/

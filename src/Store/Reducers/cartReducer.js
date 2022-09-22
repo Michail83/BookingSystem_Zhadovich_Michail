@@ -5,16 +5,22 @@ function cartReducer(state = initialCart, action) {
     switch (action.type) {
         case actionTypeList.addToCart:
             return { ...state, cartMap: addToCart(state.cartMap, action.id) };
+
         case actionTypeList.changeCartItemValue:
             return { ...state, cartMap: changeCartItemValue(state.cartMap, action.cart) };
+
         case actionTypeList.deleteFromCart:
             return { ...state, cartMap: deleteFromCart(state.cartMap, action.id) };
+
         case actionTypeList.setFullCartArray:
             return { ...state, fullCartArray: action.fullCartArray };
+
         case actionTypeList.deleteFromCartArray:
             return { ...state, fullCartArray: deleteFromCartArrayById(state.fullCartArray, action.id) };
-        case actionTypeList.clearCart:
-            return { ...state, cartMap: new Map() }
+
+        case actionTypeList.clearCart:   
+
+            return { ...state, cartMap: action.payload || new Map() }
 
         default: return state;
     }
@@ -48,4 +54,5 @@ function deleteFromCart(cartMap, id) {
 function deleteFromCartArrayById(cartArray, id) {
     return cartArray.filter((item) => item.id !== id);
 }
+
 export default cartReducer;

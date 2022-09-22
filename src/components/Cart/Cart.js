@@ -53,9 +53,8 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
     const navigate = useNavigate();
     
     const CreateOrderHandler = async ()=>{
-        const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")
-                    
-    }, 5000); 
+        const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")}, 5000); 
+
         try {     
             setMessage("processing...")      
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
@@ -83,15 +82,30 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
             setIsLoading(true);
             let arrayOfKeys = Array.from(cartMap.keys(), (key) => key);            
             const result = await axios.get(urls.getFullCheckedListForCart(arrayOfKeys));
-            setFullCartArray(result.data);            
+            if (result.status === 200) {
+                setFullCartArray(result.data); 
+                
+                let newCartMapArray = result.data.map((artEvent)=>[artEvent.id, cartMap.get(artEvent.id) ]);
+                console.log(newCartMapArray);
+                let newMap = new Map(newCartMapArray);
+                console.log(newMap);
+                
+                clearCart(newMap);
 
-        } catch (error) {            
+            }
+            
+
+
+        } catch (error) {      
+
             setErrorMessage(error);
         }
         finally {
             setIsLoading(false);
         }
     },[]);
+
+
 
     let elemenList=[];
     let button = "";
@@ -128,12 +142,12 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
 
 const mapStateToProps=(state)=> ({ 
     isAuthenticated:state.auth.isAuthenticated,
-    cartMap: state.cart.cartMap,
-    fullCartArray: state.cart.fullCartArray
+    cartMap:        state.cart.cartMap,
+    fullCartArray:  state.cart.fullCartArray
 }); 
 const mapDispatchToProps = dispatch => ({
     setFullCartArray: (fullCartArray) => dispatch(actionCreator.setFullCartArray(fullCartArray)),
-    clearCart: () => dispatch(actionCreator.clearCart())
+    clearCart: (newMap) => dispatch(actionCreator.clearCart(newMap))
 });
 
 let Cart_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(Cart);

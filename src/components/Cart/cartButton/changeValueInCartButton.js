@@ -2,17 +2,8 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux";
 import actionCreator from "../../../Store/ActionsCreators/actionCreator";
 
-
 import styled from "styled-components";
 
-const MainBlock = styled.div`
-    /* display: flex;
-    flex-flow: column wrap;
-    justify-content: space-around;   
-    height: 100%;
-    box-sizing: border-box;
-    flex-basis: 90%; */
-`;
 const FormForButton = styled.form`
     border-radius: 2px;
     border: 0;
