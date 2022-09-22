@@ -65,6 +65,7 @@ const ClassicMusicCreateForm = ({ setStatusOfCreating }) => {
             if (result.status == 200) setStatusOfCreating(true);
         } catch (error) {
             setStatusOfCreating(false);
+            unAuthorizedHandler(error.response.status);
         }
     }
     const setPlace = (place) => {

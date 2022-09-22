@@ -64,11 +64,12 @@ const OpenAirCreateForm = ({ setStatusOfCreating }) => {
             let result = await axios.post(API_URL.openairs(), formData, config );
             if (result.status == 200) {
                 setStatusOfCreating(true);
-                console.log(result.data)
+                
             }
         } catch (error) {
             setStatusOfCreating(false);
-            console.log(error?.response?.data)
+            unAuthorizedHandler(error.response.status);
+            
         }
     }
     const setPlace = (place) => {
