@@ -4,11 +4,13 @@ using BookingSystem.Infrastructure.Interfaces;
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace BookingSystem.Infrastructure
 {
@@ -39,10 +41,19 @@ namespace BookingSystem.Infrastructure
                 options.TokenLifespan = TimeSpan.FromHours(12); 
             });
             services.ConfigureApplicationCookie(options =>
-            {         
+            {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(180);                 
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
+                
                 options.SlidingExpiration = true;
+                options.Cookie.Expiration = TimeSpan.FromMinutes(180);
+
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
+
             });
 
 
