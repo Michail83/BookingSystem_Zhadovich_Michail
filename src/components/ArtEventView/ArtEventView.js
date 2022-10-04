@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { NoImageavailable } from "../../CONST/NoImageAvailable";
+import { StyledSpan } from "./StyledSpan";
+import { AddititionalInfoRender } from "./AddititionalInfoRender";
 
 const ButtonBlock = styled.div`
     display: flex;
@@ -13,7 +15,7 @@ const ButtonBlock = styled.div`
 `;
 const MainArtEventView = styled.div`
     border-bottom: 1px solid blue;
-    padding: 1vh 1vw;
+    padding: 3px 3px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -28,18 +30,20 @@ const ArtEventViewImage = styled.div`
     
 `;
 const AboutArtEvent = styled.div`
-    padding: 1vh 1vw;
+    padding: 3px 3px;
     min-width: 55%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    & *{
-        margin: 0.5rem
+    margin-left: 1rem;
+    &*{
+        margin: 0.4rem
     }
 `;
 const IMAGE = styled.img` 
     object-fit: cover ;
 `;
+
 
 function ArtEventView(props) { 
     return(
@@ -49,12 +53,13 @@ function ArtEventView(props) {
 
             </ArtEventViewImage>
             <AboutArtEvent>
-                <h3>{props.eventName}</h3>
-                <p>{props.typeOfArtEvent}</p>
-                <div>{props.additionalInfo.map((info, index) => <p key={index} >{info }</p>)}</div>
-                <p>{new Date(props.date).toLocaleString()}</p>                
-                <h5>{props.amountOfTickets}</h5>
-                <p>{props.place}</p>
+                <StyledSpan>{props.typeOfArtEvent}:  </StyledSpan><h3> {props.eventName}</h3>
+
+                <AddititionalInfoRender {...props}/>
+
+                <StyledSpan> Date:  </StyledSpan><p> {new Date(props.date).toLocaleString()}</p>
+                <StyledSpan>Tickets left:  </StyledSpan><h5>{props.amountOfTickets}</h5>
+                <StyledSpan>address:  </StyledSpan><p> {props.place}</p>
 
             </AboutArtEvent>
             <ButtonBlock >

@@ -1,5 +1,5 @@
 import React from "react";
-import "../UniversalHeader/UniversalHeader"
+import "../UniversalHeader/UserHeader"
 import LogoutBtn from "../Logout/LogoutBtn"
 import { connect } from "react-redux";
 import store from "../../Store/store"

@@ -1,10 +1,6 @@
 import React from "react";
 import ArtEventDetails from "./ArteEventDetails";
-
-const PartySpecific = (props) =>
-    <div>
-        <div>{props.ageLimitation}</div>        
-    </div>
+import PartySpecific from "./ArtEventSpecificPart/PartySpecific";
 
 function PartyDetails(props) {
     return (

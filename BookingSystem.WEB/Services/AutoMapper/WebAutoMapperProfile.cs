@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using BookingSystem.WEB.StaticClasses;
 using System.Threading.Tasks;
+using BookingSystem.Infrastructure.Models;
 
 namespace BookingSystem.WEB.Services.AutoMapper
 {
@@ -48,6 +49,7 @@ namespace BookingSystem.WEB.Services.AutoMapper
             CreateMap<IncomingOpenAirArtEventViewModel, OpenAirBL>();
             CreateMap<IncomingPartyArtEventViewModel, PartyBL>();
             CreateMap<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>();
+            CreateMap<User, UserViewModel>();
 
         }
     }

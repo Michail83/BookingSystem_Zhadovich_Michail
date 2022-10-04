@@ -14,7 +14,7 @@ import styled from "styled-components";
 const MainFilterPanelWrapped =styled.div`
     box-sizing: border-box;
     position: fixed;
-
+    min-width:500px;
     top: 5.9rem;
 
     width: 100%;
@@ -22,19 +22,21 @@ const MainFilterPanelWrapped =styled.div`
 `;
 const MainFilterPanel =styled.div`
     display: flex;
-    flex-direction: row;
+    min-width:500px;
+    flex-flow: row nowrap;
     justify-content:center;
-    align-items: stretch;
+    align-items: flex-start;
     border-bottom: 1px solid rgba(30, 117, 204, 0.877);    
-    padding: 0.5%;
-    margin: -5px 0 0 0 ;
-    
-    height: 40px;     
-    & select,input[type="text"],button {
+    padding: 0.5rem;
+    margin: -5px 0 0 0 ;    
+    height: 52px;   
+
+    & select,input[type="text"],button, div {
         box-sizing: border-box;
         
-        margin: 0.5rem 1%;
+        margin: 0.5rem;
     }
+
     & select,
   input[type="text"] {
     width: auto;
@@ -53,9 +55,23 @@ const MainFilterPanel =styled.div`
         cursor:pointer;
     }
     & button {
-        width: 9%;
-    }    
+        width: 3rem;
+        display:block;
+    }     
 `;
+const DivWrap = styled.div`
+    box-sizing:border-box;
+    position: relative; 
+`;
+const SpanFilter = styled.span`
+    position:absolute;
+    z-index:100;
+    top:-10px;
+    left: 0.5rem ;
+    font-size: smaller;
+    font-style: italic;
+`;
+
 
 const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefault }) => {
 
@@ -87,19 +103,35 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
     return (
         <MainFilterPanelWrapped>
             <MainFilterPanel>
+               
 
-                <input className="filterElementSize" placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))} ></input>
+                <DivWrap>
+                    <SpanFilter>Filter name</SpanFilter>
+                    <input id="filterName"  placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))}/>
+                </DivWrap>
 
-                <select className="filterElementSize" value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
+                <DivWrap>
+                <SpanFilter>type filter</SpanFilter>
+                <select id="typeFilter"   value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                     {createTypeFilterOptions(ListOfArtEventType)}
                 </select>
-
-                <select className="filterElementSize" value={sort} onChange={(event) => setSort(event.target.value)}>
+                </DivWrap>
+                
+                <DivWrap>
+                <SpanFilter>Sort by</SpanFilter>
+                <select  value={sort} onChange={(event) => setSort(event.target.value)}>
                     {createSortOptions(ListOfSortOptions)}
                 </select>
+                </DivWrap>
+                
+                <DivWrap>
                 <button type="button" disabled={IsApplyDisabled()} onClick={() => setfilteringData(nameFilter, typeFilter, sort)} >Apply</button>
-
+                </DivWrap>
+                
+                <DivWrap>
                 <button type="button" disabled={IsResetDisabled()} onClick={() => resetFilter()}>Reset</button>
+                </DivWrap>
+                
 
                 <div>{IsApplyDisabled()}</div>
             </MainFilterPanel>

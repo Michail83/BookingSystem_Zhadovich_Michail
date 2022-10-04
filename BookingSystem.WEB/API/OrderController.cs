@@ -34,6 +34,7 @@ namespace BookingSystem.WEB.API
 
 
         }
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
@@ -41,20 +42,23 @@ namespace BookingSystem.WEB.API
             var result = _mapperOrderBLtoViewModel.Map(orderBl);
             return Ok(result);
         }
+        [Authorize]
         [Route("GetAsync")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var resultBL = await _orderBLService.GetAllAsync(GetCurrentUserEmail());
-            var resultViewModel = new List<OrderViewModel>();
-
-            foreach (var item in resultBL)
-            {
-                resultViewModel.Add(_mapperOrderBLtoViewModel.Map(item));
-            }
+            var resultViewModel = await GetOrdersAsync(GetCurrentUserEmail());
             return Ok(resultViewModel);
         }
-
+        [Authorize(Roles ="admin")]
+        [Route("GetOrdersForAdminAsync")]
+        [HttpGet]
+        public async Task<IActionResult> GetOrdersForAdminAsync(string email)
+        {
+            var resultViewModel = await GetOrdersAsync(email);
+            return Ok(resultViewModel);
+        }
+        [Authorize]
         [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
@@ -76,6 +80,17 @@ namespace BookingSystem.WEB.API
         private string GetCurrentUserEmail()
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.Email);
+        }
+        private async Task<List<OrderViewModel>> GetOrdersAsync(string email) 
+        {
+            var resultBL = await _orderBLService.GetAllAsync(email);
+            var resultViewModel = new List<OrderViewModel>();
+
+            foreach (var item in resultBL)
+            {
+                resultViewModel.Add(_mapperOrderBLtoViewModel.Map(item));
+            }
+            return resultViewModel;
         }
     }
 }

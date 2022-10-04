@@ -1,8 +1,6 @@
 import React from "react";
 import ArtEventDetails from "./ArteEventDetails";
-
-const OpenAirSpecific = (props) =>
-   <p>{props.headLiner}</p>
+import OpenAirSpecific from "./ArtEventSpecificPart/OpenAirSpecific";
    
 function OpenAirDetails(props) {
     return (

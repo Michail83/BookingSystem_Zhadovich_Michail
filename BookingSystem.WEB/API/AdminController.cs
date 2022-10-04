@@ -1,6 +1,8 @@
-﻿//using Microsoft.AspNetCore.Authentication;
+﻿//using BookingSystem.Infrastructure.Models;
+//using Microsoft.AspNetCore.Authentication;
 //using Microsoft.AspNetCore.Authentication.Cookies;
 //using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Identity;
 //using Microsoft.AspNetCore.Mvc;
 //using System.Threading.Tasks;
 
@@ -10,14 +12,14 @@
 //    [ApiController]
 //    public class AdminController : ControllerBase
 //    {
-//        //UserManager<User> _usermanager;
-//        //RoleManager<IdentityRole> _rolemanager;
+//        UserManager<User> _usermanager;
+//        RoleManager<IdentityRole> _rolemanager;
 
 //        /*UserManager<User> usermanager*//*, RoleManager<IdentityRole> rolemanager*/
-//        public AdminController()
+//        public AdminController( UserManager<User> usermanager, RoleManager<IdentityRole> rolemanager)
 //        {
-//            //_usermanager = usermanager;
-//            //_rolemanager = rolemanager;
+//            _usermanager = usermanager;
+//            _rolemanager = rolemanager;
 //        }
 
 
@@ -27,7 +29,7 @@
 //        public async Task<ActionResult<string>> Test()
 //        {
 //            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-//            return Ok($"{result.Succeeded }+ {User.Identity.IsAuthenticated}  +{User.Identity.Name}");
+//            return Ok($"{result.Succeeded}+ {User.Identity.IsAuthenticated}  +{User.Identity.Name}");
 //        }
 
 //        [Authorize]

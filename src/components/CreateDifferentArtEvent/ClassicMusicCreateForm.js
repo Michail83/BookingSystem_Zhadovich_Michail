@@ -2,11 +2,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import API_URL from "../../API_URL";
 import axios from "axios";
-import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponentsForCreateEvents"
+import { Input, Form, Label, ErrorMessage, SubmitButton, Select } from "./StyledComponentsForCreateEvents"
 import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
 import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
 import { unAuthorizedHandler } from "../../function/unAuthorizedHandler";
+
+import { VoiseList } from "../../CONST/VoiseList";
 
 const AbsoluteContainer = styled.div`
     position:absolute;
@@ -107,10 +109,18 @@ const ClassicMusicCreateForm = ({ setStatusOfCreating }) => {
                 <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("latitude", { required: true })} />
                 <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("longitude", { required: true })} />
 
+
                 <Label> Voice</Label>
+                <Select {...register("voice")}>
+                    {VoiseList.map((voice)=><option key={voice.value} value={voice.value} >{voice.name}</option>)}
+                </Select>
+
+
+                {/* <Label> Voice</Label>
                 <Input type={"text"} {...register("voice", { required: true, minLength: 2 })} />
+
                 {errors.voice?.type === "required" && <ErrorMessage>Voice is required</ErrorMessage>}
-                {errors.voice?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}
+                {errors.voice?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>} */}
 
 
                 <Label> Concert Name</Label>

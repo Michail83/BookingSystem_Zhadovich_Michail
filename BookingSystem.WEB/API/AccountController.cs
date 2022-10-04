@@ -18,8 +18,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using BookingSystem.BusinessLogic.Services;
+
 namespace BookingSystem.WEB.API
 {
+
     [Route("account")]
     [ApiController]
     [EnableCors("LocalForDevelopmentAllowAll")]
@@ -31,13 +36,17 @@ namespace BookingSystem.WEB.API
                                  SignInManager<User> signInManager,
                                  UserManager<User> userManager,
                                  IEmailService emailService,
-                                 IWebHostEnvironment env
+                                 IWebHostEnvironment env,
+                                 OrderBLService orderBLService,
+                                 IMapper<User, UserViewModel> mapper
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
+            _mapper = mapper;
+            _orderBLService=orderBLService;
 
             if (env.IsDevelopment())
             {
@@ -54,6 +63,9 @@ namespace BookingSystem.WEB.API
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly string _hostsUrl;
+        private readonly IMapper<User, UserViewModel> _mapper;
+        private readonly OrderBLService _orderBLService;
+
 
         [HttpGet]
         [Route("RefreshConfirmationToken")]
@@ -145,6 +157,12 @@ namespace BookingSystem.WEB.API
                 return NotFound("User not found");
             }
             var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+            if (confirmResult.Succeeded == true)
+            {
+                await _signInManager.SignInAsync(user, false);
+                return Redirect(_hostsUrl);
+            }
+
 
             return Ok(confirmResult);
         }
@@ -269,15 +287,53 @@ namespace BookingSystem.WEB.API
 
         [Authorize]
         [Route("loginfo")]
-        public IActionResult LogInfo()
+        public async Task<IActionResult> LogInfo()
         {
             var userEmail = HttpContext.User.FindFirstValue(ClaimTypes.Email);
             var userName = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             var isAdmin = HttpContext.User.IsInRole("admin");
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            var isLocked = user?.IsLocked;
+
             var isAuthenticated = true;
-            return Ok(new { isAuthenticated, userEmail, userName, isAdmin });
+            return Ok(new { isAuthenticated, userEmail, userName, isAdmin, isLocked });
         }
 
+
+        [Authorize(Roles = "admin")]
+        [Route("GetUsers")]
+
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = _userManager.Users.Where((user)=> user.NormalizedEmail != HttpContext.User.FindFirstValue(ClaimTypes.Email).ToUpper()).ToList();
+           
+            List<UserViewModel> userViewModels = new();
+
+            foreach (var user in users)
+            {
+                var userV = _mapper.Map(user);
+                userV.OrdersCount = await _orderBLService.GetOrdersCount(userV.Email);
+
+                userViewModels.Add(userV);
+            }
+            return Ok(userViewModels);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        [Route("ToogleLockUser")]
+        public async Task<IActionResult> ToogleLockUser(string Id)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(user=>user.Id == Id);
+            if (user==null)            
+                return BadRequest();
+
+            user.IsLocked = !user.IsLocked;
+            await _userManager.UpdateAsync(user);
+           
+            return Ok(_mapper.Map(user));
+        }
 
         /// <summary>
         /// Create new  <see cref="MailRequest"/> with confirmation link for the specified user 
