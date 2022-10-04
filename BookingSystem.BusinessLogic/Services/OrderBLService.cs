@@ -50,6 +50,12 @@ namespace BookingSystem.BusinessLogic.Services
             }
             return orderBLs;
         }
+        public async Task<int> GetOrdersCount(string email)
+        {
+            var orderCount = await _orderRepository.GetAll(email).CountAsync();
+
+            return orderCount;
+        }
 
         public Task<OrderBL> GetAsync(int id, string currentUserEmail)
         {
@@ -75,7 +81,7 @@ namespace BookingSystem.BusinessLogic.Services
 
                 await _mailService.SendEmailAsync(mailRequest);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return;
             }
@@ -84,8 +90,17 @@ namespace BookingSystem.BusinessLogic.Services
 
         private async Task<bool> UpdateOrderAsync(OrderBL order)
         {
+            try
+            {
+                await _orderRepository.UpdateAsync(_mapperOrderBL_toOrder.Map(order));
+            }
+            catch (Exception)
+            {
 
-            await _orderRepository.UpdateAsync(_mapperOrderBL_toOrder.Map(order));
+                return false;
+            }
+            
+
             return true;
         }
     }

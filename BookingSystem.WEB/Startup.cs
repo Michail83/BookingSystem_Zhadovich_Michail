@@ -3,6 +3,7 @@ using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.BusinessLogic.Services.AutoMapper;
 using BookingSystem.Infrastructure;
+using BookingSystem.Infrastructure.Models;
 using BookingSystem.WEB.Models;
 using BookingSystem.WEB.Services;
 using BookingSystem.WEB.Services.AutoMapper;
@@ -67,7 +68,7 @@ namespace BookingSystem.WEB
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                      options.CallbackPath = new PathString("/signin-rnuto45");
 
-                     options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+                     //options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
                      
                  })
                 .AddFacebook("facebook", options =>
@@ -90,6 +91,7 @@ namespace BookingSystem.WEB
             services.AddScoped<IMapper<IncomingOpenAirArtEventViewModel,OpenAirBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingOpenAirArtEventViewModel, OpenAirBL>>();
             services.AddScoped<IMapper<IncomingPartyArtEventViewModel, PartyBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingPartyArtEventViewModel, PartyBL>>();
             services.AddScoped<IMapper< IncomingClassicMusicArtEventViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>> ();
+            services.AddScoped<IMapper<User, UserViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<User, UserViewModel>>();
 
 
             services.AddMemoryCache();
@@ -114,7 +116,19 @@ namespace BookingSystem.WEB
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        { 
+        {
+            app.Use(async (context, next) => {
+                if (!context.Request.IsHttps)
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    await context.Response.WriteAsync("HTTPS required!");
+                }
+                else
+                {
+                    await next();
+                }
+            });
+            //app.Run(async (context) =>  await context.Response.WriteAsync("xyz"));
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -127,7 +141,7 @@ namespace BookingSystem.WEB
                 app.UseHsts();
             }
             app.UseRequestLocalization();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

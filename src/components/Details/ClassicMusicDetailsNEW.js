@@ -1,11 +1,6 @@
 import React from "react";
 import ArtEventDetails from "./ArteEventDetails";
-
-const ClassicMusicSpecific = (props) =>
-    <div>
-        <div>{props.voice}</div>
-        <div>{props.concertName}</div>
-    </div>
+import ClassicMusicSpecific from "./ArtEventSpecificPart/ClassicMusicSpecific";
 
 function ClassicMusicDetails(props) {
     return (

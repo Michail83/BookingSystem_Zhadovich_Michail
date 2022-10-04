@@ -1,8 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom"
-// import AddButton_ReduxWrapped from "../Cart/cartButton/AddButton"
 
-// import ChangeValueInCartButton_ReduxWrapped from "../Cart/cartButton/changeValueInCartButton";
 import ArtEventView from "../ArtEventView/ArtEventView";
 import HomeArtEventButtonBlock from "./HomeArtEventButtonBlock"; 
 

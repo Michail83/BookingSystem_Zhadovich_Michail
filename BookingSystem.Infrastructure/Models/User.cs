@@ -7,5 +7,6 @@ namespace BookingSystem.Infrastructure.Models
     {
         public string Role;
         public DateTime? ConfirmationTokenCreationTime { get; set; } = null;
+        public bool IsLocked { get; set; } = false;
     }
 }

@@ -29,3 +29,5 @@ export const setAdditionalOpenAirCreatingData = "setAdditionalOpenAirCreatingDat
 export const setCurrentPage ="SetCurrentPage";
 export const setPaginationData ="SetPaginationData";
 
+export const setUsersList="setUsersList";
+

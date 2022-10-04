@@ -5,7 +5,8 @@ export const initialAuth = () => {
         isAuthenticated: null,
         userName: "",
         userEmail: "",
-        isAdmin: false
+        isAdmin: false,
+        isLocked: null
     }
 }
 export const initialCart = {
@@ -37,4 +38,5 @@ export const initialState = {
 
 export const initialAdmins = {
     DeleteArtEventButton: "",
+    userList:[]
 }

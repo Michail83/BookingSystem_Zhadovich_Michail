@@ -1,4 +1,5 @@
-import * as actionTypeList from "../Actions/actionTypeList"
+import { act } from "react-dom/test-utils";
+import * as actionTypeList from "../Actions/actionTypeList";
 
  const actionsCreater  = {
     setIdToken: (token) => ({
@@ -67,6 +68,10 @@ import * as actionTypeList from "../Actions/actionTypeList"
     setPaginationData:(paginationData)=>({
         type:actionTypeList.setPaginationData,
         payload:paginationData
+    }),
+    setUsersList:(userList)=>({
+        type:actionTypeList.setUsersList,
+        payload:userList
     })
 
 

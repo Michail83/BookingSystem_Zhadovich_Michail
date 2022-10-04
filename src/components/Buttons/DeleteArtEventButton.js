@@ -1,5 +1,5 @@
 import React from "react";
-import {deleteArtEventAsync} from "./Functions/deleteArtEvent.js";
+import {deleteArtEventAsync} from "../Details/Functions/deleteArtEvent.js";
 import { useNavigate } from "react-router-dom";
 import { RedButton } from "../StyledComponent/Button/RedButton.js";
 

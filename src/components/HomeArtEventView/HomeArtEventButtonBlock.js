@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
-import { BlueButton } from "../StyledComponent/Button/BlueButton";
+import React from "react";
 import AddOrChangeValueButton_ReduxWrapped from "../Cart/cartButton/AddOrChangeValueButton";
+import { DetailsButton } from "../Buttons/DetailsButton"
 
 const HomeArtEventButtonBlock = (props) => {
 
-    const navigate = useNavigate();
-    return <Fragment>
-        <AddOrChangeValueButton_ReduxWrapped id={props.id} amountOfTickets={props.amountOfTickets} />
-        <BlueButton onClick={() => navigate(`/details/${props.id}`)}>Details</BlueButton>
-    </Fragment>
+    return (
+        <>
+            <AddOrChangeValueButton_ReduxWrapped id={props.id} amountOfTickets={props.amountOfTickets} />
+            <DetailsButton id={props.id}>Details</DetailsButton>
+        </>
+    )
 }
 export default HomeArtEventButtonBlock;

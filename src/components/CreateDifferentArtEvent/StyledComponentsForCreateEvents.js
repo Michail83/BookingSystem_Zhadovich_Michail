@@ -11,6 +11,18 @@ export const Input = styled.input`
   margin-bottom: 10px;
   font-size: 14px;
 `;
+export const Select = styled.select`
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid black;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+`;
+
+
 export const Form = styled.form`
   /* background: #0e101c; */
   /* max-width: 400px; */

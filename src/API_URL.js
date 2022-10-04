@@ -72,6 +72,15 @@
     },
     refreshConfirmationEmail: function(email){
         return this.base_api+"/account/RefreshConfirmationToken?email=" + email
+    },
+    getUsers: function(){        
+        return this.base_api + "/account/GetUsers"
+    },
+    toggleUserLock: function(id){
+        return this.base_api+ `/account/ToogleLockUser?id=${id}`
+    },
+    getOrdersForAdmin: function(email){
+        return `${this.base_api}/api/Order/GetOrdersForAdminAsync?email=${email}`;
     }
 }
 export default api_url

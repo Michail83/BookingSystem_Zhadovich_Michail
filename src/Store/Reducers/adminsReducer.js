@@ -5,6 +5,9 @@ import * as actionTypeList from "../Actions/actionTypeList";
      switch (action.type) {
          case actionTypeList.setDeleteArtEventButton: return {...state, DeleteArtEventButton:action.DeleteArtEventButton };
          case actionTypeList.clearAdmins : return {...initialAdmins};
+
+        case actionTypeList.setUsersList: return {...state, userList:action.payload};
+
        
         default: return state;
     }
