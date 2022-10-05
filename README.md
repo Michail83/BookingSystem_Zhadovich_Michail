@@ -5,17 +5,21 @@
  * установить Node.js
  * в Visual studio сменить launch profile  с   IIS Express на  BookingSystem.WEB
 
-
 от ветки  master отличается  
  * UseInMemoryDatabase вместо UseSqlServer
  * отключены транзакции(не поддерживаются UseInMemoryDatabase)
 
 база данных создается в памяти с тестовым содержимым.
 
-**данные на дефолтного администратора берутся из appsettings.json - "DefaultAdmin".**
-* Email      Sklif83@tut.by
-* Password   asdf1234
-
+### тестовые пользователи
+**данные берутся из appsettings.json - "DefaultUsers".**
+* Sklif83@tut.by    администратор
+* test1@tut.by      заблокированный пользователь
+* test2@tut.by      активный пользователь
+* пароль везде   asdf1234
 
 адрес приложения
-https://localhost:5001 
+https://localhost:5001
+
+опубликована 
+https://bookingsystem-zhadovichmichail.herokuapp.com/
