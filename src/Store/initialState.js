@@ -32,6 +32,7 @@ export const partOfInitialState_PaginationData = {
 
 export const initialState = {
     iSmodalLoginWindowActive: false,
+    origin:"",
     artEventItems: [],
     filteringData: { ...partOfInitialState_FilteringData, ...partOfInitialState_PaginationData }
 }

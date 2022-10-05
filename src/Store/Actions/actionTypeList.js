@@ -30,4 +30,5 @@ export const setCurrentPage ="SetCurrentPage";
 export const setPaginationData ="SetPaginationData";
 
 export const setUsersList="setUsersList";
+export const setOriginLocation = "setOriginLocation";
 
