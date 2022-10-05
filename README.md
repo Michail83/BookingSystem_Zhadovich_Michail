@@ -5,6 +5,8 @@
 
 * Установить node.js
 * Visual Studio сменить launch profile  с IIS Express на BookingSystem.WEB
+пароль везде -asdf1234
+
 
 ### База данных
 в этой ветке бд в памяти
@@ -12,6 +14,6 @@
  *  Sklif83@tut.by  - администратор
  *  test1@tut.by - заблокированный пользователь
  *  test2@tut.by - активный пользователь
-пароль везде -asdf1234
+
      
      
