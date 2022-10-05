@@ -97,7 +97,7 @@ const ClassicMusicCreateForm = ({ setStatusOfCreating }) => {
                 {errors.amountOfTickets?.type === "min" && <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
 
                 <Label> Place</Label>
-                <Input type={"text"} {...register("place", { required: true, minLength: 5 })} onClick={onClickOnPlace} placeholder={"click and choose place on the map"} />
+                <Input type={"text"} {...register("place", { required: true, minLength: 5 })} onClick={(event)=>{onClickOnPlace(event); errors.place=""; }} placeholder={"click and choose place on the map"} />
                 {errors.place?.type === "required" && <ErrorMessage>Place is required</ErrorMessage>}
 
                 <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("latitude", { required: true })} />
@@ -105,18 +105,12 @@ const ClassicMusicCreateForm = ({ setStatusOfCreating }) => {
 
 
                 <Label> Voice</Label>
-                <Select {...register("voice")}>
-                    {VoiseList.map((voice)=><option key={voice.value} value={voice.value} >{voice.name}</option>)}
+               
+                <Select  {...register("voice", {required:true})  } >
+                    {VoiseList.map((voice)=><option key={voice.value} value={voice.value} selected={voice.selected}>{voice.name}</option>)}
                 </Select>
-
-
-                {/* <Label> Voice</Label>
-                <Input type={"text"} {...register("voice", { required: true, minLength: 2 })} />
-
                 {errors.voice?.type === "required" && <ErrorMessage>Voice is required</ErrorMessage>}
-                {errors.voice?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>} */}
-
-
+                
                 <Label> Concert Name</Label>
                 <Input type={"text"} {...register("concertName", { required: true, minLength: 2 })} />
                 {errors.concertName?.type === "required" && <ErrorMessage>Concert Name is required</ErrorMessage>}

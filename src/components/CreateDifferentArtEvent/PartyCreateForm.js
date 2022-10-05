@@ -95,7 +95,7 @@ const PartyCreateForm = ({ setStatusOfCreating }) => {
                 {errors.amountOfTickets?.type === "min" && <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
 
                 <Label> Place</Label>
-                <Input type={"text"} {...register("place", { required: true, minLength: 5 })} onClick={onClickOnPlace} placeholder={"click and choose place on the map"} />
+                <Input type={"text"} {...register("place", { required: true, minLength: 5 })} onClick={(event)=>{onClickOnPlace(event); errors.place=""; }} placeholder={"click and choose place on the map"} />
                 {errors.place?.type === "required" && <ErrorMessage>Place is required</ErrorMessage>}
                
                 <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("latitude", { required: true })} />
@@ -104,7 +104,8 @@ const PartyCreateForm = ({ setStatusOfCreating }) => {
                 <Label> ageLimitation</Label>
                 <Input type={"number"} step={1} {...register("ageLimitation", { required: true, min: 0, max: 99})} />
                 {errors.ageLimitation?.type === "required" && <ErrorMessage>headliner is required</ErrorMessage>}
-                {errors.ageLimitation?.type === "min" || errors.ageLimitation?.type === "max" && <ErrorMessage>Enter number between 0 and 99</ErrorMessage>}
+                {console.log(errors.ageLimitation)}
+                {(errors.ageLimitation?.type === "min" || errors.ageLimitation?.type === "max") && <ErrorMessage>Enter number between 0 and 99</ErrorMessage>}
 
                 <Label>Image </Label>
                 <Input type={"file"} accept={"image/png, image/jpeg"} {...register("image", { required: true })} ></Input>

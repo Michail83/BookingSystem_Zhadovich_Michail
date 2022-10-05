@@ -109,21 +109,23 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
 
                 <DivWrap>
                     <SpanFilter>Filter by name</SpanFilter>
-                    <input id="filterName"  placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))}/>
+                    <input  placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))}/>
                 </DivWrap>
 
                 <DivWrap>
                 <SpanFilter>Filter by type </SpanFilter>
-                <select id="typeFilter"   value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
+                <select  value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                     {createTypeFilterOptions(ListOfArtEventType)}
                 </select>
                 </DivWrap>
                 
                 <DivWrap>
                 <SpanFilter>Sort by</SpanFilter>
+
                 <select  value={sort} onChange={(event) => setSort(event.target.value)}>
                     {createSortOptions(ListOfSortOptions)}
                 </select>
+
                 </DivWrap>
                 
                 <DivWrap>
