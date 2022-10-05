@@ -72,6 +72,10 @@ import * as actionTypeList from "../Actions/actionTypeList";
     setUsersList:(userList)=>({
         type:actionTypeList.setUsersList,
         payload:userList
+    }),
+    setOriginLocation:(originLocation)=>({
+        type: actionTypeList.setOriginLocation,
+        payload: originLocation
     })
 
 

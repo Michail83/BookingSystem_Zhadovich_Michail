@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import actionsCreator from "../src/Store/ActionsCreators/actionCreator";
 import { tryLoadAuthData } from "./function/tryLoadAuthData";
+import { getCurrentLocation } from './function/getCurrentLocation';
 import Registration from './components/OwnLogin/Registration';
 
 import UserHeader_ReduxWrapped from './components/UniversalHeader/UserHeader.js';
@@ -30,6 +31,8 @@ function App({ authData}) {
 
     const [routes, setRoutes] = useState("");
     useEffect(() => {
+        getCurrentLocation();        
+        
         const head = document.querySelector("head");
         const script = document.createElement('script');
         script.src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=913cb368-b557-4cb7-9840-91e7dfa600b2";
