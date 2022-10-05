@@ -18,7 +18,7 @@ const Flexblock = styled.div`
  box-sizing: border-box;
     display: flex;
     flex-flow: row wrap;
-    margin-top: 16vh;
+    /* margin-top: 7rem; */
     /* background-color: rgba(87, 169, 252, 0.822); */
 `;
 

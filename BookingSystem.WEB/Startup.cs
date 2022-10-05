@@ -117,18 +117,18 @@ namespace BookingSystem.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.Use(async (context, next) => {
-                if (!context.Request.IsHttps)
-                {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    await context.Response.WriteAsync("HTTPS required!");
-                }
-                else
-                {
-                    await next();
-                }
-            });
-            //app.Run(async (context) =>  await context.Response.WriteAsync("xyz"));
+            //app.Use(async (context, next) => {
+            //    if (!context.Request.IsHttps)
+            //    {
+            //        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            //        await context.Response.WriteAsync("HTTPS required!");
+            //    }
+            //    else
+            //    {
+            //        await next();
+            //    }
+            //});
+            
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
@@ -141,7 +141,7 @@ namespace BookingSystem.WEB
                 app.UseHsts();
             }
             app.UseRequestLocalization();
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

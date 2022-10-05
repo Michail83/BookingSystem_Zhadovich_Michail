@@ -17,7 +17,7 @@ const MainUser = styled.div`
     display: flex;
     flex-flow : row nowrap ;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     border-bottom: 1px solid lightskyblue;
     &:hover{
         background-color:#f7f7f7;

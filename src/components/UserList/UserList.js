@@ -10,10 +10,10 @@ import styled from "styled-components";
 const MainUserList = styled.div`
     display:flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 
 
-    width: 45rem;
+    /* width: 45rem; */
     min-width:500px;
     margin: 8rem auto 0 auto; 
     border: 1px solid lightskyblue;

@@ -2,12 +2,9 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { connect } from 'react-redux';
 
-
 import LogInOutManager_connected from "../LoginOutManager/LoginOutManager.js"
 import ModalWindowForLogin_ReduxWrapped from "../ModalWindowForLogin/ModalWindowForLogin";
 import DisplayUserName_ReduxWrapped from "../DisplayUserName/DisplayUserName";
-
-import styled from "styled-components";
 
 import {Navbar,UserNameField,NavBarItem, MainUniversalHeader,LogInOutItem} from "../StyledComponent/Header/HeaderStyledComponent"
 
@@ -34,21 +31,11 @@ const AdminHeader = ({cartMap, isAuth }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    // isAdmin: state.auth.isAdmin,
+const mapStateToProps = state => ({    
     cartMap: state.cart.cartMap,
     isAuth: state.auth.isAuthenticated
 
 });
-const mapDispatchToProps = dispatch => (
-    {
-    });
-var AdminHeader_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(AdminHeader);
+
+var AdminHeader_ReduxWrapped = connect(mapStateToProps, null)(AdminHeader);
 export default AdminHeader_ReduxWrapped;
-
-                // {/* {isAdmin ? <NavBarItem onClick={() => navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""} */}
-                // {false ? <NavBarItem onClick={() => navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
-
-                // {cartMap.size != 0 ? <NavBarItem onClick={() => navigate("/cart")} navPath="/cart" currentPath={location.pathname}>Cart </NavBarItem> : ""}  
-
-                // {isAuth ? <NavBarItem onClick={() => navigate("/orders")} navPath="/orders" currentPath={location.pathname}>Orders</NavBarItem> : ""}
