@@ -27,7 +27,7 @@ export const Form = styled.form`
   /* background: #0e101c; */
   /* max-width: 400px; */
   margin: 0 auto;
-  max-width: 500px;  
+  width: 500px;  
 `;
 
 export const Label=styled.label`

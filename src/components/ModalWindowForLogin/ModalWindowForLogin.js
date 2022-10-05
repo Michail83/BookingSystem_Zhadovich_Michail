@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import "./ModalWindowForLogin.css";
 import ExternalLoginList from "../ExternalLogin/ExternalLoginList";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OwnLogin from "../OwnLogin/OwnLogin";
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import styled from "styled-components";
 
@@ -49,8 +49,8 @@ const ModalWindowForLogin = ({ isActive, setNoActive }) => {
                 classNames="modal"
                 unmountOnExit
             >
-                <ModalWindow onClick={setNoActive} >
-                    <ModalContent onClick={(e) => e.stopPropagation()} >
+                <ModalWindow onMouseDown={setNoActive} >
+                    <ModalContent onMouseDown={(e) => e.stopPropagation()} >
                         {/* <ExternalLoginList /> */}
                         <OwnLogin />
                         <div>

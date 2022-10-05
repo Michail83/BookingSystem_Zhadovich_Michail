@@ -25,7 +25,7 @@ export const MainUniversalHeader = styled.div`
     top: 0rem;
     z-index: 1000;
     width: 100%;
-    min-width:500px;
+    min-width:800px;
     height: 6rem;
     background-color: white;
     padding: 0 1rem 1rem 1rem;

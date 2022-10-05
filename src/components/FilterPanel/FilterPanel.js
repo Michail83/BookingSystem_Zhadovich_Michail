@@ -14,7 +14,9 @@ import styled from "styled-components";
 const MainFilterPanelWrapped =styled.div`
     box-sizing: border-box;
     position: fixed;
+   
     min-width:500px;
+    max-width: 1200px;
     top: 5.9rem;
 
     width: 100%;
@@ -28,8 +30,8 @@ const MainFilterPanel =styled.div`
     align-items: flex-start;
     border-bottom: 1px solid rgba(30, 117, 204, 0.877);    
     padding: 0.5rem;
-    margin: -5px 0 0 0 ;    
-    height: 52px;   
+    margin: -2px auto 0 auto ;    
+    height: 45px;   
 
     & select,input[type="text"],button, div {
         box-sizing: border-box;
@@ -106,12 +108,12 @@ const FilterPanel = ({ filteringData, setfilteringData, setfilteringDataToDefaul
                
 
                 <DivWrap>
-                    <SpanFilter>Filter name</SpanFilter>
+                    <SpanFilter>Filter by name</SpanFilter>
                     <input id="filterName"  placeholder="Event's name..." type="text" value={nameFilter} onChange={(event) => (setNameFilter(event.target.value))}/>
                 </DivWrap>
 
                 <DivWrap>
-                <SpanFilter>type filter</SpanFilter>
+                <SpanFilter>Filter by type </SpanFilter>
                 <select id="typeFilter"   value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                     {createTypeFilterOptions(ListOfArtEventType)}
                 </select>

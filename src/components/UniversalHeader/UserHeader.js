@@ -2,15 +2,14 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { connect } from 'react-redux';
 
-
 import LogInOutManager_connected from "../LoginOutManager/LoginOutManager.js"
 import ModalWindowForLogin_ReduxWrapped from "../ModalWindowForLogin/ModalWindowForLogin";
 import DisplayUserName_ReduxWrapped from "../DisplayUserName/DisplayUserName";
-import styled from "styled-components";
+
 
 import {Navbar,UserNameField,NavBarItem, MainUniversalHeader,LogInOutItem} from "../StyledComponent/Header/HeaderStyledComponent"
 
-const UniversalHeader = ({ isAdmin, cartMap, isAuth }) => {
+const UniversalHeader = ({cartMap, isAuth }) => {
     const location = useLocation();
     const navigate = useNavigate();
     return (
@@ -32,16 +31,11 @@ const UniversalHeader = ({ isAdmin, cartMap, isAuth }) => {
 }
 
 const mapStateToProps = state => ({
-    isAdmin: state.auth.isAdmin,
+    
     cartMap: state.cart.cartMap,
     isAuth: state.auth.isAuthenticated
 
 });
-const mapDispatchToProps = dispatch => (
-    {
-    });
-var UniversalHeader_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(UniversalHeader);
-export default UniversalHeader_ReduxWrapped;
 
-                // {/* {isAdmin ? <NavBarItem onClick={() => navigate("/Create")} navPath="/Create" currentPath={location.pathname}>Create Event</NavBarItem> : ""} */}
-                // {false ? <NavBarItem onClick={() => navigate("/test")} navPath="/test" currentPath={location.pathname} >TestPage</NavBarItem> : ""}
+var UniversalHeader_ReduxWrapped = connect(mapStateToProps, null)(UniversalHeader);
+export default UniversalHeader_ReduxWrapped;

@@ -3,19 +3,13 @@ import { useForm } from "react-hook-form";
 import API_URL from "../../API_URL";
 import axios from "axios";
 import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponentsForCreateEvents"
+import { MapAbsoluteContainer } from "../StyledComponent/Map/MapAbsoluteContainer";
 import { defaultValuesCreateArtEvent } from "../../CONST/DefaultValuesCreateArtEvent";
 import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
 import { unAuthorizedHandler } from "../../function/unAuthorizedHandler";
 
-const AbsoluteContainer = styled.div`
-    position:absolute;
-    width:100vw;
-    height: calc(100vh - 7.5rem);    
-    top:6.5rem;
-    left:0;    
-    background-color: #a0e0e8;
-`;
+
 
 const MapHeader = styled.h3`
     text-align: center;
@@ -120,10 +114,10 @@ const PartyCreateForm = ({ setStatusOfCreating }) => {
 
             </Form>
             {isMapShow &&
-                <AbsoluteContainer>
+                <MapAbsoluteContainer>
                     <MapHeader>Choose place on the map and click confirm button</MapHeader>
                     <YandMAP_CreateEvent setIsMapShow={setIsMapShow} setPlace={setPlace} setCoord={setCoord} />
-                </AbsoluteContainer>}
+                </MapAbsoluteContainer>}
 
         </Fragment>
     )
