@@ -9,12 +9,19 @@ import { Provider } from 'react-redux';
 import store from './Store/store'
 
 
+function redirectToHTTPS() {
+  if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) <= -1 && window.location.protocol === "http:") {
+    window.location.href = "https://" + window.location.host + "/";
+  }
+}
+redirectToHTTPS();
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <App />
-      </Provider>        
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

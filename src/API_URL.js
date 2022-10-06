@@ -1,8 +1,8 @@
- import store from "./Store/store";
+//  import store from "./Store/store";
 
  const api_url = {
-    base_api: store.getState().state.origin,
-    // process.env.NODE_ENV==="development"?'http://localhost:5000':'http://bookingsystem-zhadovichmichail.herokuapp.com',     
+    base_api: process.env.NODE_ENV==="development"?'https://localhost:5001':'https://bookingsystem-zhadovichmichail.herokuapp.com',
+    
     account : '/account',
     setid: (id)=>{
         if (!id) {

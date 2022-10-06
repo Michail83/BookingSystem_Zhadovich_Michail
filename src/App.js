@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import actionsCreator from "../src/Store/ActionsCreators/actionCreator";
+// import actionsCreator from "../src/Store/ActionsCreators/actionCreator";
 import { tryLoadAuthData } from "./function/tryLoadAuthData";
-import { getCurrentLocation } from './function/getCurrentLocation';
+// import { getCurrentLocation } from './function/getCurrentLocation';
 import Registration from './components/OwnLogin/Registration';
 
 import UserHeader_ReduxWrapped from './components/UniversalHeader/UserHeader.js';
@@ -31,7 +31,7 @@ function App({ authData}) {
 
     const [routes, setRoutes] = useState("");
     useEffect(() => {
-        getCurrentLocation();        
+        // getCurrentLocation();        
         
         const head = document.querySelector("head");
         const script = document.createElement('script');
