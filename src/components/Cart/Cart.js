@@ -1,25 +1,18 @@
 import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-
-import ChangeValueInCartButton_ReduxWrapped from "./cartButton/changeValueInCartButton"
 import "./Cart.css"
-import urls from "../../API_URL"
-// import RowInMainTable from "../RowInMainTable/RowInMainTable";    
+import urls from "../../API_URL"   
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import { mapToOrderData } from "../../function/mapToOrderData";
 import CartArtEventView from "./CartArtEventView";
 import styled from "styled-components";
-
-
 import { useNavigate } from "react-router-dom"
 
 const Flexblock = styled.div`
  box-sizing: border-box;
     display: flex;
-    flex-flow: row wrap;
-    /* margin-top: 7rem; */
-    /* background-color: rgba(87, 169, 252, 0.822); */
+    flex-flow: row wrap;   
 `;
 
 const AbsoluteMessage = styled.div`
@@ -41,16 +34,14 @@ const NeedAuthMessage = styled.div`
     margin: 3px auto;
     font-size: 2rem;
     color: red;
-
 `;
 
-
-const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearCart})=>{
+const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearCart})=>{
 
     const [isLoading, setIsLoading] = useState(true);                
     const [errorMessage, setErrorMessage] = useState(null);
     const [message, setMessage] = useState("");
-    const navigate = useNavigate();
+    
     
     const CreateOrderHandler = async ()=>{
         const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")}, 5000); 
@@ -59,18 +50,14 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
             setMessage("processing...")      
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
 
-            if (result.status==200) {                
-                setMessage("ORDER WAS CREATED");
-                clearCart();
-                clearMessageAfter5Sec();
-                         
+            if (result.status==200) {
+                clearCart();                 
+                setIsSuccess(true);                       
             }
 
         } catch (error) {
-            setMessage("Error");
-            console.log("CreateOrderHandler =          " + error);
-            clearMessageAfter5Sec();
-
+            setIsSuccess(false);            
+            // clearMessageAfter5Sec();
         }       
     }
 
@@ -91,10 +78,7 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
                 console.log(newMap);
                 
                 clearCart(newMap);
-
-            }
-            
-
+            } 
 
         } catch (error) {      
 
@@ -104,8 +88,6 @@ const Cart = ({ cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearC
             setIsLoading(false);
         }
     },[]);
-
-
 
     let elemenList=[];
     let button = "";

@@ -16,7 +16,7 @@
                 _pageSize = (value < _maxPageSize && value > 0) ? value : _pageSize;
             }
         }
-        public string SortBy { get; set; } = "Id";
+        public string SortBy { get; set; } = "AmountOfTickets";
         public string NameForFilter { get; set; }
         public string TypeForFilter { get; set; }
     }

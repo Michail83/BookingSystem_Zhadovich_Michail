@@ -8,7 +8,7 @@ export const YandMap = ({artEventItems})=>{
 
     const state = { 
         center: [53.89364559280405,27.567232262565565], 
-        zoom: 9,
+        zoom: 10,
         controls: ['zoomControl', 'fullscreenControl'],
         }
     const modules = ['control.ZoomControl', 'control.FullscreenControl', 'geoObject.addon.balloon', 'geoObject.addon.hint']

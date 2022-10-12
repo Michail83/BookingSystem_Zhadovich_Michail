@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import urls from "../../API_URL"
-// import RowInMainTable from "../RowInMainTable/RowInMainTable";    
+import urls from "../../API_URL"  
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
-// import "./Orders.css";
 import ArtEventViewForOrder from "./ArtEventViewForOrder";
 import styled from "styled-components";
+import { dateTimeStringToLocaleDateTime } from "../../function/dateTimeStringToLocaleDateTime";
 
 const OrderBlock = styled.div`
     border: 2px solid black;
     margin: 1vh;
 `;
-
 const TimeBlock=styled.div`
     font-size: 2rem;
     margin: 0.5rem;
@@ -21,7 +19,6 @@ const TimeBlock=styled.div`
     border-radius: 6px;
     background-color: skyblue;
 `;
-
 const OrdersBase = ({getOrders, email}) => {
     const [orders, setOrders] = useState([]);
 
@@ -36,7 +33,7 @@ const OrdersBase = ({getOrders, email}) => {
         element = orders.map((order) =>
 
             <OrderBlock key={order.id} className="order">
-                <TimeBlock>{new Date(order.timeOfCreation).toLocaleString()}         {email}</TimeBlock>
+                <TimeBlock>{dateTimeStringToLocaleDateTime(order.timeOfCreation)}         {email}</TimeBlock>
                 <div>
                     {order.listOfReservedEventTickets.map(reservedEventTickets => {
 

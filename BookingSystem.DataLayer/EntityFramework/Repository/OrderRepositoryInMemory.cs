@@ -26,7 +26,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         }
 
         //   неожиданное поведение??  -   ИЗМЕНЯЕТ ДАННЫЕ в  ArtEvents
-        public async Task CreateAsync(Order order)
+        public async Task<Order> CreateAsync(Order order)
         {
 
             try
@@ -36,7 +36,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                 foreach (var orderAndArtEvent in order.OrderAndArtEvents)
                 {
                     var artEventToChange = _artEvents.First(artEvent => artEvent.Id == orderAndArtEvent.ArtEventId);
-                    artEventToChange.AmountOfTickets = artEventToChange.AmountOfTickets - orderAndArtEvent.NumberOfBookedTicket;
+                    artEventToChange.AmountOfTickets -= orderAndArtEvent.NumberOfBookedTicket;
                     if (artEventToChange.AmountOfTickets < 0)
                     {
                         _dbContext.Dispose();
@@ -48,9 +48,10 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception("artEventToChange.AmountOfTickets<0", innerException: ex);
+                throw new ArgumentException("artEventToChange.AmountOfTickets<0", innerException: ex);
 
             }
+            return order;
 
         }
 
@@ -76,10 +77,11 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
             return order;
         }
 
-        public async Task UpdateAsync(Order order)
+        public async Task<Order> UpdateAsync(Order order)
         {
             _orders.Update(order);
             await _dbContext.SaveChangesAsync();
+            return order;
         }
     }
 }

@@ -3,8 +3,10 @@ using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.DataLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BookingSystem.BusinessLogic.Services
@@ -71,15 +73,46 @@ namespace BookingSystem.BusinessLogic.Services
         {
             try
             {
-                await _orderRepository.CreateAsync(_mapperOrderBL_toOrder.Map(orderBL));
+                var order = _mapperOrderToOrderBL.Map(await _orderRepository.CreateAsync(_mapperOrderBL_toOrder.Map(orderBL)));
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine($"<h2> User {orderBL.UserEmail} created order<h2>");
+                sb.Append(@"<table>");
+
+                sb.Append(@"<thead>
+                                <th> Title </th>
+                                <th> Ordered count </th>
+                                <th> Date  </th>
+                                <th> Time  </th>
+
+                                <th>Place</th>
+                            </thead>");
+                foreach (var orderedItem in order.ListOfReservedEventTickets)
+                {
+                    sb.Append(@"<tr>");
+
+                    sb.Append($"<td>{orderedItem.ArtEventBL.EventName}</td>");
+                    sb.Append($"<td>{orderedItem.Quantity}</td>");
+                    sb.Append($"<td>{orderedItem.ArtEventBL.Date.ToShortDateString()}</td>");
+                    sb.Append($"<td>{orderedItem.ArtEventBL.Date.ToShortTimeString()}</td>");
+
+                    sb.Append($"<td>{orderedItem.ArtEventBL.Place}</td>");
+                    sb.Append(@"</tr>");
+                }
+                sb.Append(@"<table>");
+                sb.Append(@"<h6>Thank you for you order</h6.");
+
+
                 MailRequest mailRequest = new MailRequest
                 {
                     ToEmail = orderBL.UserEmail,
-                    Body = $"User {orderBL.UserEmail} created order",
+
+                    Body = sb.ToString(),
+
                     Subject = "Order was created by     bookingsystem-zhadovichmichail.herokuapp.com"
                 };
 
-                await _mailService.SendEmailAsync(mailRequest);
+                await _mailService.SendEmailAsync(mailRequest, true);
             }
             catch (Exception ex)
             {

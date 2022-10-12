@@ -28,13 +28,16 @@
             '&PageSize=' + filteringData.pageSize  
     },
     parties: function (id) {
-        return this.base_api+'/Parties'+this.setid(id);
+         return this.base_api+'/Parties'+this.setid(id);
+        // return this.getArtEvents(id)
     },
     classicmusics: function (id) {
-        return this.base_api+'/classicMusic'+this.setid(id);
+         return this.base_api+'/classicMusic'+this.setid(id);
+        // return this.getArtEvents(id)
     },
     openairs : function (id) {
         return this.base_api+'/openAirs'+this.setid(id);
+        // return this.getArtEvents(id)
     },
     getExternalProviderName: function(){
         return this.base_api+'/account/getexternalproviders'

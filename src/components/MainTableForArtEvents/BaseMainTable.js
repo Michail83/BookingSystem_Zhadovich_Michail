@@ -17,14 +17,15 @@ const Flexblock = styled.div`
     margin-top: 9rem;
 `;
 const NoResult = styled.div`
-    padding: 1vh 1vw;
+    padding: 1rem;
     font-size: 4rem;
     font-weight: bold;
+    margin: 0 auto;
 `;
 const ShowLoading = styled.div`
     position: absolute;
-    top: 45vh;
-    left: 30vw;
+    top: 50%;
+    left: 25%;
     z-index: 1000;
     font-size: 10rem;
     opacity: 0.3;
@@ -63,7 +64,7 @@ const BaseMainTable = ({
     }, [sortBy, nameForFilter, typeForFilter,currentPage, pageSize]);
 
     const createComponent = () => {
-        let content = "NO content";
+        let content = <NoResult>Error when loading art event</NoResult>;
         if (loading) {
             return <ShowLoading>Loading...</ShowLoading>
         } else {
