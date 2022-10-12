@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { NoImageavailable } from "../../CONST/NoImageAvailable";
-import { StyledSpan } from "./StyledSpan";
-import { AddititionalInfoRender } from "./AddititionalInfoRender";
+// import { NoImageavailable } from "../../CONST/NoImageAvailable";
+// import { StyledSpan } from "./StyledSpan";
+// import { AddititionalInfoRender } from "./AddititionalInfoRender";
+import ArtEventDataBlock from "./PartOfArtEventView/ArtEventDataBlock";
+import ArtEventImageBlock from "./PartOfArtEventView/ArtEventImageBlock";
+
 
 const ButtonBlock = styled.div`
     display: flex;
@@ -22,52 +25,33 @@ const MainArtEventView = styled.div`
     flex: 0 1 100%;
     align-items: stretch;   
 `;
-const ArtEventViewImage = styled.div`
-    width:320px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+// const ArtEventViewImage = styled.div`
+//     width:320px;
+//     display:flex;
+//     align-items: center;
+//     justify-content: center;
     
-`;
-const AboutArtEvent = styled.div`
-    padding: 3px 3px;
-    min-width: 55%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 1rem;
-    &*{
-        margin: 0.4rem
-    }
-`;
-const IMAGE = styled.img` 
-    object-fit: cover ;
-`;
+// `;
 
+// 
 
 function ArtEventView(props) { 
     return(
         <MainArtEventView >
+            <ArtEventImageBlock {...props}/>
+
+{/* 
             <ArtEventViewImage>
                 <IMAGE src={props.image? `data:image/jpeg;base64,${props.image}`:NoImageavailable} width={"320px"} alt={NoImageavailable} title="image"/>
+            </ArtEventViewImage> */}
 
-            </ArtEventViewImage>
-            <AboutArtEvent>
-                <StyledSpan>{props.typeOfArtEvent}:  </StyledSpan><h3> {props.eventName}</h3>
-
-                <AddititionalInfoRender {...props}/>
-
-                <StyledSpan> Date:  </StyledSpan><p> {new Date(props.date).toLocaleString()}</p>
-                <StyledSpan>Tickets left:  </StyledSpan><h5>{props.amountOfTickets}</h5>
-                <StyledSpan>address:  </StyledSpan><p> {props.place}</p>
-
-            </AboutArtEvent>
-            <ButtonBlock >
+            <ArtEventDataBlock {...props}/>
+            
+            <ButtonBlock>
                 {<props.buttonBlock {...props}/>}
-
             </ButtonBlock>
+
         </MainArtEventView>              
     )    
 }
 export default ArtEventView;
-

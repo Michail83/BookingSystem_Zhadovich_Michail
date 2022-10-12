@@ -1,9 +1,10 @@
 import React from "react";
-import { StyledSpan } from "./StyledSpan";
+import { StyledSpan } from "./StyledTag/StyledSpan";
 
 
 export const AddititionalInfoRender = ({typeOfArtEvent, additionalInfo})=>{
-    let result;
+    let result;   
+
     switch (typeOfArtEvent) {
         case "ClassicMusic":
             result = <>

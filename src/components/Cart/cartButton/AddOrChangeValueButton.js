@@ -7,6 +7,8 @@ import DeleteFromCartButton_ReduxWrapped from "./DeleteFromCartButton";
 
 
 const AddOrChangeValueButton = ({id, amountOfTickets, IsExistInCart }) => {
+    
+    console.log(amountOfTickets);
 let result;
 if (IsExistInCart) {
     result = 
@@ -16,7 +18,7 @@ if (IsExistInCart) {
         <DeleteFromCartButton_ReduxWrapped id={id}/>
     </Fragment>    
 } else {
-    result = <AddButton_ReduxWrapped id={id}/>    
+    result = <AddButton_ReduxWrapped id={id} amountOfTickets={amountOfTickets}/>    
 }
     return (
         result

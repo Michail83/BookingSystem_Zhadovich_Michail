@@ -63,7 +63,7 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
         {            
-            if (orderData.Count() == 0)
+            if (!orderData.Any())
             {
                 return BadRequest("No orderData");
             }

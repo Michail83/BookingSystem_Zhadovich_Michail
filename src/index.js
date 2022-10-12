@@ -8,8 +8,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './Store/store'
 
-console.log(window.location.href);
-
 function redirectToHTTPS() {
   if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) <= -1 && window.location.protocol === "http:") {
     window.location.href = "https://" + window.location.host + "/";

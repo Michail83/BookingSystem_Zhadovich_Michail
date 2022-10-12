@@ -7,5 +7,8 @@ namespace BookingSystem.BusinessLogic.Interfaces
     {
         public Task<bool> SendEmailAsync(MailRequest mailRequest);
 
+        public Task<bool> SendEmailAsync(MailRequest mailRequest, bool isHtmlBody);
+
+
     }
 }
