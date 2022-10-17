@@ -9,7 +9,10 @@ import WrapWithSuccessHandler from '../../components/CreateDifferentArtEvent/Wra
 
 const MainCreate = styled.div`
     background-color: whitesmoke;
+
     margin:-0.5rem;
+
+
 `;
 
 const MainBlock = styled.div`
