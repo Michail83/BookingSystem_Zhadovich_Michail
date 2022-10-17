@@ -17,7 +17,7 @@ const MainFilterPanelWrapped =styled.div`
    
     min-width:500px;
     max-width: 1200px;
-    top: 5.9rem;
+    /* top: 5.9rem; */
 
     width: 100%;
     background-color: white;
