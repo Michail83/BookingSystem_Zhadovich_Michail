@@ -9,11 +9,15 @@ import WrapWithSuccessHandler from '../../components/CreateDifferentArtEvent/Wra
 
 const MainCreate = styled.div`
     background-color: whitesmoke;
+
+    margin:-0.5rem;
+
+
 `;
 
 const MainBlock = styled.div`
 max-width: 600px;
-margin: 6.5rem auto 0 auto; 
+margin: 0rem auto 0 auto; 
 border: 1px solid lightskyblue;
 border-radius: 4px;
 background-color:lightskyblue;
