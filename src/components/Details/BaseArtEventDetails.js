@@ -18,13 +18,14 @@ const DetailsMain = styled.div`
 
 const MapBlock = styled.div`
     width: auto;    
-    border: 1px solid whitesmoke;
+    /* border: 1px solid whitesmoke; */
     border-radius: 1px;  
 `;
 
 const ButtonBlock = styled.div`
     box-sizing: border-box;
-    border: 0;    
+    border: 1px solid whitesmoke;
+    /* border: 0;     */
     width: 100%;
     padding:0;
     display:flex;

@@ -7,14 +7,19 @@ import PartyCreateForm from '../../components/CreateDifferentArtEvent/PartyCreat
 
 import WrapWithSuccessHandler from '../../components/CreateDifferentArtEvent/WrapWithSuccessHandler.js';
 
+const MainCreate = styled.div`
+    background-color: whitesmoke;
+`;
+
 const MainBlock = styled.div`
 max-width: 600px;
 margin: 6.5rem auto 0 auto; 
 border: 1px solid lightskyblue;
-
 border-radius: 4px;
 background-color:lightskyblue;
 `
+
+
 const TabsItem = styled.div`
     display: inline-block;
     font-size: 16px;
@@ -65,7 +70,8 @@ function CreateEvent() {
             break;
     }
     return (
-        <MainBlock>
+        <MainCreate>
+            <MainBlock>
             <BorderBlock>
                 <TabBlock>
                     {currentTab !== 0 ?
@@ -84,6 +90,7 @@ function CreateEvent() {
                 {Element}
             </BorderBlock>
         </MainBlock>
+        </MainCreate>
     );
 }
 export default CreateEvent;

@@ -1,16 +1,11 @@
 import React from 'react';
+import WrapForPay from '../../components/Orders/WrapForPay';
 
-import  Orders from '../../components/Orders/Orders';
-import styled from 'styled-components';
-
-const MainBlock = styled.div`
-margin-top: 16vh;
-`;
 
 const OrderPage = () => {
     return (
-        <MainBlock>
-            <Orders />
-        </MainBlock>)
+        <>
+            <WrapForPay />
+        </>)
 }
 export default OrderPage;

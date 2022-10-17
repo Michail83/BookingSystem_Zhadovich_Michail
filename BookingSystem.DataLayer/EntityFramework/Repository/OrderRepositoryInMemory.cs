@@ -73,15 +73,20 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
 
         public async Task<Order> GetAsync(int ID, string email)
         {
-            var order = await _orders.FirstOrDefaultAsync(order => order.Id == ID && order.UserEmail == email);
+            var order = await _orders.AsNoTracking().FirstOrDefaultAsync(order => order.Id == ID && order.UserEmail == email);
             return order;
         }
 
         public async Task<Order> UpdateAsync(Order order)
         {
-            _orders.Update(order);
+            var _order = await _orders.FirstOrDefaultAsync((ord) => ord.Id == order.Id);
+            _order.IsPaid = order.IsPaid;
+            _order.PaidOrder = order.PaidOrder;
             await _dbContext.SaveChangesAsync();
             return order;
+            //_orders.Update(order);
+            //await _dbContext.SaveChangesAsync();
+            //return order;
         }
     }
 }

@@ -27,7 +27,7 @@ export const MainUniversalHeader = styled.div`
     width: 100%;
     min-width:800px;
     height: 6rem;
-    background-color: white;
+    background-color: whitesmoke;
     padding: 0 1rem 1rem 1rem;
     margin: 0;   
 `;

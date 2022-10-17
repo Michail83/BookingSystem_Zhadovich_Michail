@@ -6,14 +6,13 @@ import ChangeValueInCartButton_ReduxWrapped from "./changeValueInCartButton";
 import DeleteFromCartButton_ReduxWrapped from "./DeleteFromCartButton";
 
 
-const AddOrChangeValueButton = ({id, amountOfTickets, IsExistInCart }) => {
+const AddOrChangeValueButton = ({id, amountOfTickets, IsExistInCart, price }) => {
     
-    console.log(amountOfTickets);
 let result;
 if (IsExistInCart) {
     result = 
     <Fragment>
-        <ChangeValueInCartButton_ReduxWrapped id={id} amountOfTickets={amountOfTickets}/>
+        <ChangeValueInCartButton_ReduxWrapped id={id} amountOfTickets={amountOfTickets} price={price}/>
         
         <DeleteFromCartButton_ReduxWrapped id={id}/>
     </Fragment>    

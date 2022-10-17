@@ -4,6 +4,7 @@ using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.DataLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,7 +49,16 @@ namespace BookingSystem.BusinessLogic.Services
 
             foreach (var order in orderList)
             {
-                orderBLs.Add(_mapperOrderToOrderBL.Map(order));
+                OrderBL orderBL;
+                if (order.IsPaid)
+                {
+                    orderBL = JsonConvert.DeserializeObject<OrderBL>(order.PaidOrder);
+                }
+                else
+                {
+                    orderBL = _mapperOrderToOrderBL.Map(order);
+                }                
+                orderBLs.Add(orderBL);
             }
             return orderBLs;
         }
@@ -58,16 +68,18 @@ namespace BookingSystem.BusinessLogic.Services
 
             return orderCount;
         }
-
-        public Task<OrderBL> GetAsync(int id, string currentUserEmail)
+                
+        public async Task<OrderBL> GetAsync(int id, string currentUserEmail)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.GetAll(currentUserEmail).FirstOrDefaultAsync(order=>order.Id==id);
+            if (order==null)
+            {
+                return null;
+            }                       
+            return _mapperOrderToOrderBL.Map(order);
         }
 
-        public Task UpdateAsync(OrderBL artEvevnt)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task CreateAsync(OrderBL orderBL)
         {
@@ -121,7 +133,7 @@ namespace BookingSystem.BusinessLogic.Services
 
         }
 
-        private async Task<bool> UpdateOrderAsync(OrderBL order)
+        public async Task<bool> UpdateAsync(OrderBL order)
         {
             try
             {

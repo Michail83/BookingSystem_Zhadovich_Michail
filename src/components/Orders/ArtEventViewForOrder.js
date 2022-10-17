@@ -3,8 +3,8 @@ import ArtEventView from "../ArtEventView/ArtEventView";
 import OrderInfo from "./OrderInfo";
 
 
-const OrderItem =(props)=>{
-    console.log(props);
+const ArtEventViewForOrder =(props)=>{
+   
 
     let newProps ={...props,buttonBlock: OrderInfo } 
 
@@ -12,4 +12,4 @@ const OrderItem =(props)=>{
         <ArtEventView {...newProps}/>
     )
 }
-export default OrderItem;
+export default ArtEventViewForOrder;

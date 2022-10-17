@@ -47,7 +47,6 @@ const BaseMainTable = ({
             let paginationData = JSON.parse(result.headers["pagestateinfo"]);
             
             setPaginationData(paginationData);
-
             setArtEventItems(result.data);
             
         } catch (err) {
@@ -75,6 +74,10 @@ const BaseMainTable = ({
         }
         if (artEventItems.length) {
             content = artEventItems.map((item) => (<ArtEventType key={item.id} {...item} />));
+            content = <>
+                {content}
+                <PaginationPanel_ReduxWrapped />
+            </>
         } else {
             content = <NoResult>No result</NoResult>;
         }
@@ -86,7 +89,7 @@ const BaseMainTable = ({
             <FilterPanel_ReduxWrapped />
             <Flexblock>
                 {createComponent()}
-                <PaginationPanel_ReduxWrapped />
+                {/* <PaginationPanel_ReduxWrapped /> */}
             </Flexblock>
         </Fragment>
     )
@@ -113,3 +116,4 @@ const mapDispatchToProps = dispatch => (
 var BaseMainTable_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(BaseMainTable);
 
 export default BaseMainTable_ReduxWrapped;
+

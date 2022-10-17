@@ -10,7 +10,7 @@ const FormForButton = styled.form`
     display:flex;
     flex-flow: row nowrap;
     width: auto;
-    margin: 0.5rem 0.5rem;
+    margin: 0.5rem;
     max-width: 200px;
     box-sizing: border-box;
     & :first-child{ margin-left: auto;}
@@ -20,16 +20,19 @@ const FormForButton = styled.form`
         box-sizing: border-box;
     }
     & input{
-        width: 70%;
+        width: 75%;
         &:focus{            
             outline:none;
         }
     }
     & button{        
-        width: 15%;
+        width: 25px;
     }
 `;
-const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, amountOfTickets, deleteFromCart, deleteFromCartArray }) => {
+const PriceWrap =styled.div`
+    margin: 0.5rem;
+`;
+const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, price, amountOfTickets, deleteFromCart, deleteFromCartArray }) => {
 
     useEffect(() => {
         if (!curentReduxValue) {
@@ -78,11 +81,15 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, a
     }
 
     return (
-        <FormForButton id="ChangeValueInCartButton" onClick={(event) => onFormClick(event, id)}>
-            <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
-            <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
-            <button id="increment" disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
-        </FormForButton>
+        <>
+            <FormForButton id="ChangeValueInCartButton" onClick={(event) => onFormClick(event, id)}>
+                <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
+                <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
+                <button id="increment" disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
+            </FormForButton>
+            <PriceWrap>Total cost: {curentReduxValue*price} USD</PriceWrap>
+            
+        </>
     )
 }
 

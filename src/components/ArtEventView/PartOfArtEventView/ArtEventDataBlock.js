@@ -14,6 +14,7 @@ return (
                 <AddititionalInfoRender {...props}/>
                 <StyledSpan> Date:  </StyledSpan><p> {dateTimeStringToLocaleDateTime(props.date)}</p>
                 <StyledSpan>Tickets left:  </StyledSpan><h5>{props.amountOfTickets}</h5>
+                <StyledSpan>Price:  </StyledSpan><h5>{props.price}</h5>
                 <StyledSpan>address:  </StyledSpan><p> {props.place}</p>
  </AboutArtEventDiv>   
 )

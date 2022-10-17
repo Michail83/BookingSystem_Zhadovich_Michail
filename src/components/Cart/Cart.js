@@ -36,7 +36,7 @@ const NeedAuthMessage = styled.div`
     color: red;
 `;
 
-const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenticated, clearCart})=>{
+const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenticated, setNewCart})=>{
 
     const [isLoading, setIsLoading] = useState(true);                
     const [errorMessage, setErrorMessage] = useState(null);
@@ -44,14 +44,14 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
     
     
     const CreateOrderHandler = async ()=>{
-        const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")}, 5000); 
+        // const clearMessageAfter5Sec =()=>setTimeout(() => {setMessage("")}, 5000); 
 
         try {     
             setMessage("processing...")      
           let result =   await axios.post(urls.createOrder(), mapToOrderData(cartMap));
 
             if (result.status==200) {
-                clearCart();                 
+                setNewCart();                 
                 setIsSuccess(true);                       
             }
 
@@ -72,12 +72,9 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
             if (result.status === 200) {
                 setFullCartArray(result.data); 
                 
-                let newCartMapArray = result.data.map((artEvent)=>[artEvent.id, cartMap.get(artEvent.id) ]);
-                console.log(newCartMapArray);
-                let newMap = new Map(newCartMapArray);
-                console.log(newMap);
-                
-                clearCart(newMap);
+                let newCartMapArray = result.data.map((artEvent)=>[artEvent.id, cartMap.get(artEvent.id) ]);                
+                let newMap = new Map(newCartMapArray);                
+                setNewCart(newMap);
             } 
 
         } catch (error) {      
@@ -89,13 +86,13 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
         }
     },[]);
 
-    let elemenList=[];
+    const createElements = ()=>{
+        let elemenList=[];
     let button = "";
 
     //кошмар какой то 
     if (isLoading) {
-        elemenList = <div>Loading....</div>  ;
-             
+        elemenList = <div>Loading....</div>
     } else {
          if (    errorMessage   ) {
         elemenList="fail";  
@@ -113,11 +110,19 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
             }
         }            
     }
+    elemenList = <>
+    {elemenList}
+    {button}
+    </>
+    return  elemenList ;
+
+    }
+    
+
         return(
             <Flexblock>
             <AbsoluteMessage>{message}</AbsoluteMessage>       
-            {elemenList}   
-            {button}
+            {createElements()}            
             </Flexblock>
     )
 }
@@ -129,7 +134,7 @@ const mapStateToProps=(state)=> ({
 }); 
 const mapDispatchToProps = dispatch => ({
     setFullCartArray: (fullCartArray) => dispatch(actionCreator.setFullCartArray(fullCartArray)),
-    clearCart: (newMap) => dispatch(actionCreator.clearCart(newMap))
+    setNewCart: (newMap) => dispatch(actionCreator.clearCart(newMap))
 });
 
 let Cart_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(Cart);
