@@ -2,6 +2,8 @@ using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.BusinessLogic.Services.AutoMapper;
+using BookingSystem.BusinessLogic.Services.Paypal;
+
 using BookingSystem.Infrastructure;
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.WEB.Models;
@@ -93,6 +95,9 @@ namespace BookingSystem.WEB
             services.AddScoped<IMapper< IncomingClassicMusicArtEventViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>> ();
             services.AddScoped<IMapper<User, UserViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<User, UserViewModel>>();
 
+            services.AddSingleton<PayPalAuthService>();
+            services.AddScoped<PayPalService>();
+           
 
             services.AddMemoryCache();
 

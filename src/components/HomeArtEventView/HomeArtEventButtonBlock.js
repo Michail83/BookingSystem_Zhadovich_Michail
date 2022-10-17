@@ -6,7 +6,7 @@ const HomeArtEventButtonBlock = (props) => {
 
     return (
         <>
-            <AddOrChangeValueButton_ReduxWrapped id={props.id} amountOfTickets={props.amountOfTickets} />
+            <AddOrChangeValueButton_ReduxWrapped {...props}/>
             <DetailsButton id={props.id}>Details</DetailsButton>
         </>
     )

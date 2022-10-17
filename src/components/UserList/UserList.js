@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import actionsCreater from "../../Store/ActionsCreators/actionCreator";
 import User from "../User/User";
 
+
 import styled from "styled-components";
 
 const MainUserList = styled.div`
@@ -49,10 +50,10 @@ const UserList = ({ userList, setUserList }) => {
             return result;
         }
     };
-    return (
+    return (        
         <MainUserList>
             {toRender()}
-        </MainUserList>
+        </MainUserList>       
     )
 }
 const mapStateToProps = state => ({

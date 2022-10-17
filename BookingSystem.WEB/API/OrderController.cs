@@ -36,7 +36,7 @@ namespace BookingSystem.WEB.API
         }
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromQuery] int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var orderBl = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
             var result = _mapperOrderBLtoViewModel.Map(orderBl);
@@ -61,7 +61,7 @@ namespace BookingSystem.WEB.API
         [Authorize]
         [Route("Create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
+        public async Task<IActionResult> Create([FromBody] IEnumerable<IncomingOrderViewModel> orderData)
         {            
             if (!orderData.Any())
             {

@@ -6,8 +6,8 @@ import { getOrders } from "./getOrders";
 
 
 
-const Orders = () => {
-   return <OrdersBase getOrders={getOrders}/>
+const Orders = (props) => {
+   return <OrdersBase {...props} getOrders={getOrders}/>
 
 }
 export default Orders;

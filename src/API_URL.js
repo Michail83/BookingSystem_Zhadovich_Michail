@@ -1,5 +1,7 @@
 //  import store from "./Store/store";
 
+import { func } from "prop-types";
+
  const api_url = {
     base_api: process.env.NODE_ENV==="development"?'https://localhost:5001':'https://bookingsystem-zhadovichmichail.herokuapp.com',
     
@@ -67,6 +69,9 @@
     getOrders : function (){
         return this.base_api+ "/api/Order/GetAsync"
     }  ,
+    getOrder:function(id){
+        return this.base_api+ `/api/Order/${id}`
+    },
     login : function () {
         return this.base_api+ "/account/Login"
     }, 
@@ -87,6 +92,12 @@
     },
     getOrdersForAdmin: function(email){
         return `${this.base_api}/api/Order/GetOrdersForAdminAsync?email=${email}`;
+    }, 
+    createPaypalOrder: function(orderId){
+        return `${this.base_api}/api/Paypal/CreateOrder?orderId=${orderId}`;
+    },
+    capturePaypalOrder: function(Id){
+        return `${this.base_api}/api/Paypal/CaptureOrder?id=${Id}`;
     }
 }
 export default api_url

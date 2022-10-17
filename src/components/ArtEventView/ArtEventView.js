@@ -23,7 +23,8 @@ const MainArtEventView = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     flex: 0 1 100%;
-    align-items: stretch;   
+    align-items: stretch;  
+    background-color:white; 
 `;
 // const ArtEventViewImage = styled.div`
 //     width:320px;

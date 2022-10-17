@@ -4,11 +4,6 @@ import actionCreator from "../../../Store/ActionsCreators/actionCreator";
 import { BlueButton } from "../../StyledComponent/Button/BlueButton";
 
 const AddButton = ({ id,amountOfTickets, active, submitHandler }) => {
-    // console.log("id ==  "+id);
-
-    console.log(amountOfTickets);
-    // console.log(active);
-
 
     return (
         <BlueButton
