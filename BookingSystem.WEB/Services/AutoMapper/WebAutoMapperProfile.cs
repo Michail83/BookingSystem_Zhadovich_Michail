@@ -39,16 +39,16 @@ namespace BookingSystem.WEB.Services.AutoMapper
                 .ForMember(dest => dest.ListOfReservedEventTickets, sourse => sourse.MapFrom(src => src.ListOfReservedEventTickets));
 
 
-            CreateMap<IncomingBaseArtEventViewModel, ArtEventBL>().
+            CreateMap<IncomingBaseCreateArtEventViewModel, ArtEventBL>().
                 ForMember(dest => dest.Image, source => source.MapFrom(src => src.Image.ToByteArrayWithResize(640, 480)))
-                .Include<IncomingOpenAirArtEventViewModel, OpenAirBL>()
-                .Include<IncomingPartyArtEventViewModel, PartyBL>()
-                .Include<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>();
+                .Include<IncomingOpenAirCreateViewModel, OpenAirBL>()
+                .Include<IncomingPartyCreateViewModel, PartyBL>()
+                .Include<IncomingClassicMusicCreateViewModel, ClassicMusicBL>();
 
 
-            CreateMap<IncomingOpenAirArtEventViewModel, OpenAirBL>();
-            CreateMap<IncomingPartyArtEventViewModel, PartyBL>();
-            CreateMap<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>();
+            CreateMap<IncomingOpenAirCreateViewModel, OpenAirBL>();
+            CreateMap<IncomingPartyCreateViewModel, PartyBL>();
+            CreateMap<IncomingClassicMusicCreateViewModel, ClassicMusicBL>();
             CreateMap<User, UserViewModel>();
 
         }

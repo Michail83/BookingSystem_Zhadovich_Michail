@@ -82,6 +82,9 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             try
             {
+                var eventFromBase = await _openAirs.AsNoTracking().FirstAsync((openAir) => openAir.Id == artEvent.Id);
+                artEvent.Image = artEvent.Image.Length<1? eventFromBase.Image: artEvent.Image;
+
                 _openAirs.Update(artEvent);
                 await _dbContext.SaveChangesAsync();
             }

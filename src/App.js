@@ -20,6 +20,7 @@ import OrderPage from "./Pages/OrderPage/index";
 import HomeAdminPage from './Pages/Admins/Home/Index';
 import AdminDetailsPage from './Pages/Admins/Details/AdminDetailsPage';
 import UsersPage from './Pages/Admins/Users/UsersPage';
+import EditArtEventPage from './Pages/EditArtEvent/EditArtEventPage';
 
 import LockedUser from './Pages/LockedUser/LockedUser';
 
@@ -58,6 +59,7 @@ function App({ authData}) {
                     <Route path="/" element={<HomeAdminPage />}>      </Route>
                     <Route path="/Create" element={<CreateEvent />}>   </Route>
                     <Route path="/details/:eventid" element={<AdminDetailsPage />}>   </Route>
+                    <Route path="/edit/:eventid" element={<EditArtEventPage/>}>   </Route>
                     {/* <Route path="/test" element={<Testpageauth />}>     </Route> */}
                     <Route path="/users" element={<UsersPage/>} /> 
               

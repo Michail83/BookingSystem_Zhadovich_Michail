@@ -90,9 +90,9 @@ namespace BookingSystem.WEB
             services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
             services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<OrderBL, OrderViewModel>>();
 
-            services.AddScoped<IMapper<IncomingOpenAirArtEventViewModel,OpenAirBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingOpenAirArtEventViewModel, OpenAirBL>>();
-            services.AddScoped<IMapper<IncomingPartyArtEventViewModel, PartyBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingPartyArtEventViewModel, PartyBL>>();
-            services.AddScoped<IMapper< IncomingClassicMusicArtEventViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicArtEventViewModel, ClassicMusicBL>> ();
+            services.AddScoped<IMapper<IncomingOpenAirCreateViewModel,OpenAirBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingOpenAirCreateViewModel, OpenAirBL>>();
+            services.AddScoped<IMapper<IncomingPartyCreateViewModel, PartyBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingPartyCreateViewModel, PartyBL>>();
+            services.AddScoped<IMapper< IncomingClassicMusicCreateViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicCreateViewModel, ClassicMusicBL>> ();
             services.AddScoped<IMapper<User, UserViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<User, UserViewModel>>();
 
             services.AddSingleton<PayPalAuthService>();

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
-import OpenAirCreateForm from '../../components/CreateDifferentArtEvent/OpenAirCreateForm.js';
-import ClassicMusicCreateForm from '../../components/CreateDifferentArtEvent/ClassicMusicCreateForm';
-import PartyCreateForm from '../../components/CreateDifferentArtEvent/PartyCreateForm';
+import OpenAirCreateForm from '../../components/CreateDifferentArtEvent/CreateForm/OpenAirCreateForm';
+// import OpenAirCreateForm from '../../../components/CreateDifferentArtEvent/OpenAirCreateForm.js';
+// import ClassicMusicCreateForm from '../../components/CreateDifferentArtEvent/CreateForm/ClassicMusicCreateForm'; 
+// import PartyCreateForm from '../../components/CreateDifferentArtEvent/CreateForm/PartyCreateForm';
 
 import WrapWithSuccessHandler from '../../components/CreateDifferentArtEvent/WrapWithSuccessHandler.js';
 
@@ -61,12 +61,12 @@ function CreateEvent() {
 
     let Element;
     switch (currentTab) {
-        case 0: Element = <WrapWithSuccessHandler CreateForm={OpenAirCreateForm}/>;
+        case 0: Element = <WrapWithSuccessHandler Form={OpenAirCreateForm}/>;
             break;
-        case 1: Element = <WrapWithSuccessHandler CreateForm={PartyCreateForm}/>;
-            break;
-        case 2: Element = <WrapWithSuccessHandler CreateForm={ClassicMusicCreateForm}/>;
-            break;
+        // case 1: Element = <WrapWithSuccessHandler Form={PartyCreateForm}/>;
+        //     break;
+        // case 2: Element = <WrapWithSuccessHandler Form={ClassicMusicCreateForm}/>;
+        //     break;
         default:
             (
                 <p>...Loading</p>
@@ -82,13 +82,13 @@ function CreateEvent() {
                         <TabsItem onClick={() => setcurrentTab(0)}>Open Airs</TabsItem>
                         : <ActiveTabsItem onClick={() => setcurrentTab(0)}>Open Airs</ActiveTabsItem>}
 
-                    {currentTab !== 1 ?
+                    {/* {currentTab !== 1 ?
                         <TabsItem onClick={() => setcurrentTab(1)}>Parties</TabsItem>
                         : <ActiveTabsItem onClick={() => setcurrentTab(1)}>Parties</ActiveTabsItem>}
 
                     {currentTab !== 2 ?
                         <TabsItem onClick={() => setcurrentTab(2)}>Classic Music</TabsItem>
-                        : <ActiveTabsItem onClick={() => setcurrentTab(2)}>Classic Music</ActiveTabsItem>}
+                        : <ActiveTabsItem onClick={() => setcurrentTab(2)}>Classic Music</ActiveTabsItem>} */}
 
                 </TabBlock>
                 {Element}

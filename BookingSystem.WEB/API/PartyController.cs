@@ -16,9 +16,9 @@ namespace BookingSystem.WEB.API
     public class PartyController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<PartyBL> _partyService;
-        IMapper<IncomingPartyArtEventViewModel, PartyBL> _mapper;
+        IMapper<IncomingPartyCreateViewModel, PartyBL> _mapper;
 
-        public PartyController(IBusinessLayerCRUDServiceAsync<PartyBL> openAirService, IMapper<IncomingPartyArtEventViewModel, PartyBL> mapper)
+        public PartyController(IBusinessLayerCRUDServiceAsync<PartyBL> openAirService, IMapper<IncomingPartyCreateViewModel, PartyBL> mapper)
         {
             _partyService = openAirService;
             _mapper = mapper;
@@ -49,7 +49,7 @@ namespace BookingSystem.WEB.API
         
         [Authorize(Roles ="admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] IncomingPartyArtEventViewModel incoming)
+        public async Task<IActionResult> Post([FromForm] IncomingPartyCreateViewModel incoming)
         {
             try
             {

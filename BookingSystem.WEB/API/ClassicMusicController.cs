@@ -17,9 +17,9 @@ namespace BookingSystem.WEB.API
     public class ClassicMusicController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<ClassicMusicBL> _partyService;
-        IMapper<IncomingClassicMusicArtEventViewModel, ClassicMusicBL> _mapper;
+        IMapper<IncomingClassicMusicCreateViewModel, ClassicMusicBL> _mapper;
 
-        public ClassicMusicController(IBusinessLayerCRUDServiceAsync<ClassicMusicBL> openAirService, IMapper<IncomingClassicMusicArtEventViewModel, ClassicMusicBL> mapper)
+        public ClassicMusicController(IBusinessLayerCRUDServiceAsync<ClassicMusicBL> openAirService, IMapper<IncomingClassicMusicCreateViewModel, ClassicMusicBL> mapper)
         {
             _partyService = openAirService;
             _mapper=mapper;
@@ -51,7 +51,7 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] IncomingClassicMusicArtEventViewModel incoming)
+        public async Task<IActionResult> Post([FromForm] IncomingClassicMusicCreateViewModel incoming)
         {
             try
             {

@@ -5,13 +5,18 @@ import AddOrChangeValueButton_ReduxWrapped from "../Cart/cartButton/AddOrChangeV
 
 
 
-const ArtEventDetails = (props) => {    
 
-    let newProps = {...props, Buttons: AddOrChangeValueButton_ReduxWrapped};
+
+
+
+const ArtEventDetails = (props) => {  
+
+
+    let newProps = {...props, buttons:[AddOrChangeValueButton_ReduxWrapped] } ;
 
     return (
 
-        <BaseArtEventDetails_ReduxWrapped {...newProps }     />
+        <BaseArtEventDetails_ReduxWrapped {...newProps }/>
         )
 }
 

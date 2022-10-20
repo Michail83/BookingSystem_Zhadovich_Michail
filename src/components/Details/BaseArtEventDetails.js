@@ -34,7 +34,7 @@ const ButtonBlock = styled.div`
 `;
 
 
-const BaseArtEventDetails = ({ url, ConcreteIventData, Buttons }) => {    
+const BaseArtEventDetails = ({ url, ConcreteIventData, buttons }) => {    
     const [artEvent, setArtEvent] = useState();
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const BaseArtEventDetails = ({ url, ConcreteIventData, Buttons }) => {
                 </MapBlock>                   
                 
                 <ButtonBlock>
-                    <Buttons {...artEvent}/>                    
+                    {buttons.map((Button, index)=><Button key={index} {...artEvent} />)}                                     
                 </ButtonBlock>                
 
             </DetailsMain>

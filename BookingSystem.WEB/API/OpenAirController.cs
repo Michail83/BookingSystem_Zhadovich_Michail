@@ -17,10 +17,10 @@ namespace BookingSystem.WEB.API
     public class OpenAirController : ControllerBase
     {
         IBusinessLayerCRUDServiceAsync<OpenAirBL> _openAirService;
-        IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> _mapper;
+        IMapper<IncomingOpenAirCreateViewModel, OpenAirBL> _mapper;
         IRepositoryAsync<OpenAir> _repository;
 
-        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService, IMapper<IncomingOpenAirArtEventViewModel, OpenAirBL> mapper, IRepositoryAsync<OpenAir> repository)
+        public OpenAirController(IBusinessLayerCRUDServiceAsync<OpenAirBL> openAirService, IMapper<IncomingOpenAirCreateViewModel, OpenAirBL> mapper, IRepositoryAsync<OpenAir> repository)
         {
             _openAirService = openAirService;
             _mapper = mapper;
@@ -50,8 +50,9 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] IncomingOpenAirArtEventViewModel openAirBL)
-        {         
+        public async Task<IActionResult> Post([FromForm] IncomingOpenAirCreateViewModel openAirBL)
+        {
+            if (openAirBL.Image == null) return BadRequest("Image is required");
 
 
             try
@@ -70,11 +71,11 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [HttpPut]
-        public async Task<ActionResult> Put([FromForm] OpenAirBL openAirBL)
+        public async Task<ActionResult> Put([FromForm] IncomingOpenAirCreateViewModel openAirBL)
         {
             try
             {
-                await _openAirService.UpdateAsync(openAirBL);    // ToDo  validate
+                await _openAirService.UpdateAsync(_mapper.Map(openAirBL));    // ToDo  validate
                 return Ok();
             }
             catch (Exception ex)

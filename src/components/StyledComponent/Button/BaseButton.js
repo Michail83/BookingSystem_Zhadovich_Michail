@@ -4,6 +4,7 @@ export const BaseButton = styled.button`
     border: 0;    
     border-radius: 3px 3px;
     max-width:200px;
+    min-width:100px;
     cursor: pointer;
     box-sizing: border-box;
    
