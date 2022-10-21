@@ -3,19 +3,20 @@ import api_url from "../../../API_URL";
 import axios from "axios";
 
 
-import onSubmitOpenAirEditFunction from "../OnSubmitFunction/onSubmitOpenAirEditFunction";
-import OpenAirBaseForm from "../BaseForms/OpenAirBaseForm";
+import onSubmitPartyEditFunction from "../OnSubmitFunction/onSubmitPartyEditFunction"
 
-const OpenAirEditForm = ({setStatusOfCreating, id})=>{ 
+import PartyBaseForm from "../BaseForms/PartyBaseForm";
+
+const PartyEditForm = ({setStatusOfCreating, id})=>{ 
     const [values, setValues] = useState(); 
     useEffect(()=>{
-        loadOpenAir();
+        loadParty();
     },[]);
     
-    const loadOpenAir =async ()=>{
+    const loadParty =async ()=>{
 
         try {
-            let result = await axios.get(api_url.openairs(id))
+            let result = await axios.get(api_url.parties(id))
             setValues(result.data);
 
         } catch (error) {
@@ -34,14 +35,16 @@ const OpenAirEditForm = ({setStatusOfCreating, id})=>{
         amountOfTickets:false,
         place:true,
         price:false,
-        headliner:true,
+        ageLimitation:true,
         image:true    
     };
     options.image = {isRequired:false};
-    options.onSubmitFunction = onSubmitOpenAirEditFunction(setStatusOfCreating, values.id );
+    options.onSubmitFunction = onSubmitPartyEditFunction(setStatusOfCreating, values.id );
     options.submitName = "Update";
-        
-    return <OpenAirBaseForm options={options}/>  
+    
+
+    
+    return <PartyBaseForm options={options} />  
         } else return <div>loading...</div>
     }    
     return <>
@@ -49,4 +52,4 @@ const OpenAirEditForm = ({setStatusOfCreating, id})=>{
     </>    
 }
 
-export default OpenAirEditForm;
+export default PartyEditForm;

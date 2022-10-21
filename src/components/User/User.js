@@ -38,7 +38,7 @@ const UserNameDiv = styled(baseDiv)`
 const IsLockedDiv = styled(baseDiv)`
 
     /* flex: 0 0 5rem; */
-    width:5rem;
+    /* width:5rem; */
 `;
 const BlueButton = styled(BaseButton)`
     width:7rem;

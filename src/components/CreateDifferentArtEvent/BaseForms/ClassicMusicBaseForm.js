@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input, Form, Label, ErrorMessage, SubmitButton, MapHeader } from "../StyledComponentsForCreateEvents"
+import { Input, Form, Label, ErrorMessage, SubmitButton, Select,MapHeader } from "../StyledComponentsForCreateEvents"
 import { MapAbsoluteContainer } from "../../StyledComponent/Map/MapAbsoluteContainer";
 import YandMAP_CreateEvent from "../../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
+import { VoiseList } from "../../../CONST/VoiseList";
 
 // const MapHeader = styled.h3`
 //     text-align: center;
-//     `;
+// `;
 
-const OpenAirBaseForm = ({ options }) => {
+const ClassicMusicBaseForm = ({ options }) => {
     const [isMapShow, setIsMapShow] = useState(false);
 
     const {
@@ -54,38 +55,45 @@ const OpenAirBaseForm = ({ options }) => {
                 {errors.eventName?.type === "minLength" && <ErrorMessage>min length is 2</ErrorMessage>}
 
                 <Label> Date and Time</Label>
-                <Input disabled={options.disabledValues.date}  type={"datetime-local"} {...register("date", { required: true })} />
+                <Input disabled={options.disabledValues.date} type={"datetime-local"} {...register("date", { required: true })} />
                 {errors.date?.type === "required" && <ErrorMessage>Date is required</ErrorMessage>}
 
                 <Label> Amount Of Tickets</Label>
-                <Input disabled={options.disabledValues.amountOfTickets}  type={"number"} {...register("amountOfTickets", { required: true, min: 1 })} />
+                <Input disabled={options.disabledValues.amountOfTickets} type={"number"} {...register("amountOfTickets", { required: true, min: 1 })} />
                 {errors.amountOfTickets?.type === "required" && <ErrorMessage>quantity of tickets cannot be zero or lesser </ErrorMessage>}
                 {errors.amountOfTickets?.type === "min" && <ErrorMessage>quantity of tickets cannot be zero or lesser</ErrorMessage>}
 
                 <Label> Place</Label>
-                <Input disabled={options.disabledValues.place}  type={"text"}  {...register("place", { required: true })} onClick={(event)=>{onClickOnPlace(event); errors.place=""; }} placeholder={"click and choose place on the map"} />
+                <Input disabled={options.disabledValues.place} type={"text"} {...register("place", { required: true, minLength: 5 })} onClick={(event)=>{onClickOnPlace(event); errors.place=""; }} placeholder={"click and choose place on the map"} />
                 {errors.place?.type === "required" && <ErrorMessage>Place is required</ErrorMessage>}
 
                 <Label> Price</Label>
-                <Input disabled={options.disabledValues.price}  type={"number"} step={"any"}  defaultValue={undefined} {...register("price", { required: true , min:0})}   />
+                <Input disabled={options.disabledValues.price} type={"number"} step={"any"}  defaultValue={""} {...register("price", { required: true , min:0})}   />
                 {errors.price?.type === "required" && <ErrorMessage>Price is required</ErrorMessage>}
                 {errors.price?.type === "min" && <ErrorMessage>Price cannot be a negative number </ErrorMessage>}
 
-                <Input style={{position:"absolute", visibility:"hidden", width:"5%"}}  type={"number"} step={"any"} {...register("latitude", { required: true })} />
-                <Input style={{position:"absolute", visibility:"hidden", width:"5%"}}   type={"number"} step={"any"} {...register("longitude", { required: true })} />
+                <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("latitude", { required: true })} />
+                <Input style={{ position: "absolute", visibility: "hidden", width: "5%" }} step={"any"}  type={"number"} {...register("longitude", { required: true })} />
 
-                <Label> headliner</Label>
-                <Input disabled={options.disabledValues.headliner}  type={"text"} {...register("headLiner", { required: true, minLength: 2 })} />
-                {errors.headLiner?.type === "required" && <ErrorMessage>headliner is required</ErrorMessage>}
-                {errors.headLiner?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}                
 
-                <Label>Image </Label>   
-                <Input disabled={options.disabledValues.image}  type={"file"} accept={"image/png, image/jpeg"} {...register("image", { required: options.image.isRequired })} ></Input> 
-                {errors.image?.type === "required" && <ErrorMessage>Image is required</ErrorMessage>}     
+                <Label> Voice</Label>
+               
+                <Select disabled={options.disabledValues.voice}  {...register("voice", {required:true})  } >
+                    {VoiseList.map((voice)=><option key={voice.value} value={voice.value} selected={voice.selected}>{voice.name}</option>)}
+                </Select>
+                {errors.voice?.type === "required" && <ErrorMessage>Voice is required</ErrorMessage>}
+                
+                <Label> Concert Name</Label>
+                <Input disabled={options.disabledValues.concertName}  type={"text"} {...register("concertName", { required: true, minLength: 2 })} />
+                {errors.concertName?.type === "required" && <ErrorMessage>Concert Name is required</ErrorMessage>}
+                {errors.concertName?.type === "minLength" && <ErrorMessage>min length is 2 symbol's</ErrorMessage>}
 
-                <SubmitButton type={"submit"} >{options.submitName}</SubmitButton>       
+                <Label>Image </Label>
+                <Input disabled={options.disabledValues.image} type={"file"} accept={"image/png, image/jpeg"} {...register("image", { required: options.image.isRequired })} ></Input>
+                {errors.image?.type === "required" && <ErrorMessage>Image is required</ErrorMessage>}  
 
-            </Form>            
+                <SubmitButton type={"submit"} >{options.submitName}</SubmitButton>  
+            </Form>
             {isMapShow &&
                 <MapAbsoluteContainer>
                     <MapHeader>Choose place on the map and click confirm button</MapHeader>
@@ -95,4 +103,4 @@ const OpenAirBaseForm = ({ options }) => {
         </Fragment>
     )
 }
-export default OpenAirBaseForm;
+export default ClassicMusicBaseForm;

@@ -1,22 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
-// import { useForm } from "react-hook-form";
-// import API_URL from "../../API_URL";
-// import axios from "axios";
-// import { Input, Form, Label, ErrorMessage, SubmitButton } from "./StyledComponentsForCreateEvents"
-// import { MapAbsoluteContainer } from "../StyledComponent/Map/MapAbsoluteContainer";
+import React from "react";
+
 import { defaultValuesCreateArtEvent } from "../../../CONST/DefaultValuesCreateArtEvent";
-// import YandMAP_CreateEvent from "../YandMAP/YandMAP_CreateEvent";
-// import styled from "styled-components";
-// import { unAuthorizedHandler } from "../../function/unAuthorizedHandler";
-
-
-
 import onSubmitOpenAirCreateFunction from "../OnSubmitFunction/onSubmitOpenAirCreateFunction";
 import OpenAirBaseForm from "../BaseForms/OpenAirBaseForm";
-
-
-
-
 
 const OpenAirCreateForm = ({setStatusOfCreating})=>{
 
@@ -34,6 +20,7 @@ const OpenAirCreateForm = ({setStatusOfCreating})=>{
     };
     options.onSubmitFunction = onSubmitOpenAirCreateFunction(setStatusOfCreating);
     options.submitName = "Create";
+    options.image = {isRequired:true};
     
     return <OpenAirBaseForm options={options} />
 }

@@ -51,4 +51,6 @@ export const ErrorMessage= styled.h4`
 export const SubmitButton= styled.button`
   margin-top:13px;
 `;
-
+export const MapHeader = styled.h3`
+    text-align: center;
+`;

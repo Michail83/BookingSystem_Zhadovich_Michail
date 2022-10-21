@@ -1,5 +1,6 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -16,12 +17,12 @@ namespace BookingSystem.WEB.API
     [EnableCors("LocalForDevelopmentAllowAll")]
     public class ClassicMusicController : ControllerBase
     {
-        IBusinessLayerCRUDServiceAsync<ClassicMusicBL> _partyService;
+        IBusinessLayerCRUDServiceAsync<ClassicMusicBL> _classicMusicService;
         IMapper<IncomingClassicMusicCreateViewModel, ClassicMusicBL> _mapper;
 
         public ClassicMusicController(IBusinessLayerCRUDServiceAsync<ClassicMusicBL> openAirService, IMapper<IncomingClassicMusicCreateViewModel, ClassicMusicBL> mapper)
         {
-            _partyService = openAirService;
+            _classicMusicService = openAirService;
             _mapper=mapper;
         }
 
@@ -37,7 +38,7 @@ namespace BookingSystem.WEB.API
         {
             try
             {
-                var result = await _partyService.GetAsync(id);
+                var result = await _classicMusicService.GetAsync(id);
                 return Ok(result);
             }
 
@@ -53,9 +54,10 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IncomingClassicMusicCreateViewModel incoming)
         {
+            if (incoming.Image == null) return BadRequest("Image is required");
             try
             {
-                await _partyService.CreateAsync(_mapper.Map(incoming));   //ToDO  -  validate parameter,
+                await _classicMusicService.CreateAsync(_mapper.Map(incoming));   //ToDO  -  validate parameter,
                 return Ok();
             }
             catch (Exception ex)
@@ -67,10 +69,20 @@ namespace BookingSystem.WEB.API
         }
         [Authorize(Roles = "admin")]
         [HttpPut]
-        public async Task<ActionResult> Put([FromForm] ClassicMusicBL classicMusicBL)
+        public async Task<ActionResult> Put([FromForm] IncomingClassicMusicCreateViewModel classicMusicView)
         {
-            throw new NotImplementedException();
-           
+            try
+            {
+                var classicMusicBL = _mapper.Map(classicMusicView);
+                await _classicMusicService.UpdateAsync(classicMusicBL);    //ToDo  validate
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
+                return BadRequest("read debug");
+            }
+
         }
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]

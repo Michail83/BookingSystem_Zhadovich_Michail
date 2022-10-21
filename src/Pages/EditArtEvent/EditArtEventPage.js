@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import urls from '../../API_URL';
-
 import axios from "axios";
 
 import OpenAirEditForm from "../../components/CreateDifferentArtEvent/EditForm/OpenAirEditForm";
+import ClassicMusicEditForm from '../../components/CreateDifferentArtEvent/EditForm/ClassicMusicEditForm';
+import PartyEditForm from '../../components/CreateDifferentArtEvent/EditForm/PartyEditForm';
 
-import ArtEventDetails from '../../components/Details/ArteEventDetails';
 import WrapWithSuccessHandlerForEdit from '../../components/CreateDifferentArtEvent/EditForm/WrapWithSuccessHandlerForEdit';
 import { MainBlock } from '../StyledComponent/MainBlock';
-
-
-
-
 
 const EditArtEventPage = () => {
 
     const [artEvent, setArtEvent] = useState();
-    const [loading, setLoading ] = useState(true);
-    const [error, setError ] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
 
 
     let params = useParams();
@@ -26,49 +22,49 @@ const EditArtEventPage = () => {
     let url = new URL(urls.getArtEvents(id));
 
     useEffect(() => {
-        setElement(url);       
+        setElement(url);
 
     }, []);
-    const setForm =(artEvent)=>{
-       
-        switch (artEvent.typeOfArtEvent)   {
-            case "ClassicMusic":                                
-                // setArtEvent()
-                setLoading(false);                
+    const setForm = (artEvent) => {
+
+        switch (artEvent.typeOfArtEvent) {
+            case "ClassicMusic":
+                setArtEvent(<WrapWithSuccessHandlerForEdit Form={ClassicMusicEditForm} id={artEvent.id} />)
+                setLoading(false);
                 break
-            case "Party":                
-                // setArtEvent()
-                setLoading(false);                
+            case "Party":
+                setArtEvent(<WrapWithSuccessHandlerForEdit Form={PartyEditForm} id={artEvent.id} />)
+                setLoading(false);
                 break
-            case "OpenAir":                
+            case "OpenAir":
                 setArtEvent(<WrapWithSuccessHandlerForEdit Form={OpenAirEditForm} id={artEvent.id} />)
                 setLoading(false);
                 break
-            default:                
+            default:
                 setLoading(false);
                 setError(true);
         }
     }
 
-    const setElement = async(url)=>{
+    const setElement = async (url) => {
         try {
             let result = await axios.get(url);
-            setForm(result.data);   
+            setForm(result.data);
 
-        } catch (error) {            
+        } catch (error) {
             setError(true)
         }
     }
 
-    const createElement =()=>{
+    const createElement = () => {
         if (loading) {
             return <div>Loading...</div>
         } else if (error) {
             return <div>Error</div>
         }
-        return  <MainBlock>
+        return <MainBlock>
             {artEvent}
-        </MainBlock> 
+        </MainBlock>
     }
 
     return (

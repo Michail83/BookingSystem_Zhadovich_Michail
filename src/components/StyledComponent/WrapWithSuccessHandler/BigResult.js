@@ -8,3 +8,9 @@ export const BigSuccessful = styled.div`
     background-color: white;
     padding: 0.2rem;
 `;
+
+export const BigError = styled(BigSuccessful)`
+background-color: blue;
+color:red;
+font-size:large;
+`;
