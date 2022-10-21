@@ -1,5 +1,6 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.DataLayer.EntityModels;
 using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -31,7 +32,7 @@ namespace BookingSystem.WEB.API
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<OpenAirBL>> Get(int id)
+        public async Task<ActionResult<PartyBL>> Get(int id)
         {
             try
             {
@@ -51,6 +52,7 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IncomingPartyCreateViewModel incoming)
         {
+            if (incoming.Image == null) return BadRequest("Image is required");
             try
             {
                 await _partyService.CreateAsync(_mapper.Map(incoming));   //ToDO  -  validate parameter,
@@ -65,19 +67,20 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [HttpPut]
-        public async Task<ActionResult> Put([FromForm] PartyBL partyBL)
+        public async Task<ActionResult> Put([FromForm] IncomingPartyCreateViewModel viewParty)
         {
-            throw new NotImplementedException();
-            //try
-            //{
-            //    await _partyService.UpdateAsync(partyBL);    //ToDo  validate
-            //    return Ok();
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
-            //    return BadRequest("read debug");
-            //}
+            //throw new NotImplementedException();
+            try
+            {
+                var partyBL = _mapper.Map(viewParty);
+                await _partyService.UpdateAsync(partyBL);    //ToDo  validate
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(this.GetType() + ex.Message);   //ToDo  delete after
+                return BadRequest("read debug");
+            }
         }
         [Authorize(Roles = "admin")]
         [HttpDelete]

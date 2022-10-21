@@ -4,7 +4,7 @@ import api_url from "../../../API_URL";
 import { unAuthorizedHandler } from "../../../function/unAuthorizedHandler";
 import { createBaseFormData } from "./createBaseFormData";
 
-const onSubmitOpenAirEditFunction = (setStatusOfCreating, id) => {
+const onSubmitPartyEditFunction = (setStatusOfCreating, id) => {
     
     return async function createFunction(data, event){
         event.preventDefault();
@@ -15,7 +15,7 @@ const onSubmitOpenAirEditFunction = (setStatusOfCreating, id) => {
       };
       const formData = createBaseFormData(data);
     //   const formData = new FormData();    
-    //   
+    
 
     //   formData.append('EventName', data.eventName);
     //   formData.append('Date', data.date);
@@ -24,17 +24,27 @@ const onSubmitOpenAirEditFunction = (setStatusOfCreating, id) => {
     //   formData.append('Price', data.price);          
     //   formData.append('Latitude', data.latitude);
     //   formData.append('Longitude', data.longitude);
-    formData.append('Id', id);
-      formData.append('HeadLiner', data.headLiner);
-      formData.append('Image', data.image[0]??null)
+      formData.append('Id', id);
+      formData.append('AgeLimitation', data.ageLimitation);
+      formData.append('Image', data.image[0]??null) 
+      console.log(formData.entries())
+       
+
     try {
-        let result = await axios.put(api_url.openairs(), formData, config );
+        let result = await axios.put(api_url.parties(), formData, config );
         if (result.status == 200) {
-            setStatusOfCreating(true);            
+            setStatusOfCreating(true);
+            
         }
     } catch (error) {
         unAuthorizedHandler(error.response.status);
-        setStatusOfCreating(false);        
-    }}    
+        setStatusOfCreating(false);
+        
+        
+    }
+
+    }
+    
+    
 }
-export default onSubmitOpenAirEditFunction;
+export default onSubmitPartyEditFunction;

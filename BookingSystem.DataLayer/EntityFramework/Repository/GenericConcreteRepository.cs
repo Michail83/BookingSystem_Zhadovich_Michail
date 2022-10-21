@@ -13,17 +13,17 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
     public class GenericConcreteRepository<T> : IRepositoryAsync<T> where T : ArtEvent
     {
         DbContext _dbContext;
-        DbSet<T> _openAirs;
+        DbSet<T> _artEventSet;
         public GenericConcreteRepository(BookingSystemDBContext dbContext)
         {
             _dbContext = dbContext;
-            _openAirs = _dbContext.Set<T>();
+            _artEventSet = _dbContext.Set<T>();
         }
         public async Task CreateAsync(T artEvent)
         {
             try
             {
-                await _openAirs.AddAsync(artEvent);
+                await _artEventSet.AddAsync(artEvent);
                 await _dbContext.SaveChangesAsync();
             }
             catch (SqlException Ex)
@@ -41,8 +41,8 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             try
             {
-                var openAir = await _openAirs.FirstOrDefaultAsync(openAir => openAir.Id == ID);
-                _openAirs.Remove(openAir);
+                var openAir = await _artEventSet.FirstOrDefaultAsync(openAir => openAir.Id == ID);
+                _artEventSet.Remove(openAir);
                 await _dbContext.SaveChangesAsync();
 
             }
@@ -56,7 +56,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             try
             {
-                return _openAirs.AsNoTracking();
+                return _artEventSet.AsNoTracking();
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             try
             {
-                var result = await _openAirs.FirstOrDefaultAsync(openAir => openAir.Id == ID);
+                var result = await _artEventSet.FirstOrDefaultAsync(openAir => openAir.Id == ID);
                 if (result == null)
                 {
                     throw new EventNotFoundException();
@@ -89,7 +89,10 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             try
             {
-                _openAirs.Update(artEvent);
+                var eventFromBase = await _artEventSet.AsNoTracking().FirstAsync((artEvnt) => artEvnt.Id == artEvent.Id);
+                artEvent.Image = artEvent.Image.Length < 1 ? eventFromBase.Image : artEvent.Image;
+
+                _artEventSet.Update(artEvent);
                 await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)

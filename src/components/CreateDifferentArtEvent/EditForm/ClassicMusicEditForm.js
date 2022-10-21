@@ -1,21 +1,24 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api_url from "../../../API_URL";
 import axios from "axios";
 
 
-import onSubmitOpenAirEditFunction from "../OnSubmitFunction/onSubmitOpenAirEditFunction";
-import OpenAirBaseForm from "../BaseForms/OpenAirBaseForm";
+import onSubmitClassicMusicEditFunction from "../OnSubmitFunction/onSubmitClassicMusicEditFunction"
 
-const OpenAirEditForm = ({setStatusOfCreating, id})=>{ 
+
+
+import ClassicMusicBaseForm from "../BaseForms/ClassicMusicBaseForm";
+
+const ClassicMusicEditForm = ({setStatusOfCreating, id})=>{ 
     const [values, setValues] = useState(); 
     useEffect(()=>{
-        loadOpenAir();
+        loadClassicMusic();
     },[]);
     
-    const loadOpenAir =async ()=>{
+    const loadClassicMusic =async ()=>{
 
         try {
-            let result = await axios.get(api_url.openairs(id))
+            let result = await axios.get(api_url.classicmusics(id))
             setValues(result.data);
 
         } catch (error) {
@@ -34,14 +37,15 @@ const OpenAirEditForm = ({setStatusOfCreating, id})=>{
         amountOfTickets:false,
         place:true,
         price:false,
-        headliner:true,
+        voice:true,
+        concertName: true,
         image:true    
     };
-    options.image = {isRequired:false};
-    options.onSubmitFunction = onSubmitOpenAirEditFunction(setStatusOfCreating, values.id );
+    options.onSubmitFunction = onSubmitClassicMusicEditFunction(setStatusOfCreating, values.id );
     options.submitName = "Update";
-        
-    return <OpenAirBaseForm options={options}/>  
+    options.image = {isRequired:false};
+    
+    return <ClassicMusicBaseForm options={options} />  
         } else return <div>loading...</div>
     }    
     return <>
@@ -49,4 +53,4 @@ const OpenAirEditForm = ({setStatusOfCreating, id})=>{
     </>    
 }
 
-export default OpenAirEditForm;
+export default ClassicMusicEditForm;

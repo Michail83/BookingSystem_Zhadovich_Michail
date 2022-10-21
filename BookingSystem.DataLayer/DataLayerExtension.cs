@@ -23,7 +23,7 @@ namespace BookingSystem.DataLayer
 
             service.AddScoped<IRepositoryAsync<ArtEvent>, ArtEventRepository>();
 
-            service.AddScoped<IRepositoryAsync<OpenAir>, OpenAirRepository>();   // ToDo  Change to generic
+            service.AddScoped<IRepositoryAsync<OpenAir>, GenericConcreteRepository<OpenAir>>();   
 
             service.AddScoped<IRepositoryAsync<Party>, GenericConcreteRepository<Party>>();
 
