@@ -51,7 +51,7 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(true);
     const [result, setResult] = useState("");
-    const [isConfirmEnabled, SetIsConfirmEnabled] =useState(false);
+    const [isConfirmEnabled, SetIsConfirmEnabled] = useState(false);
 
 
     const LoginHadler = async (event) => {
@@ -64,16 +64,26 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
                 rememberMe: rememberMe
             });
             setResult(result.data);
-            
+
             if (result.status == 200) {
                 setNoActiveModalWindow();
                 tryLoadAuthData();
             }
         } catch (error) {
-            setPassword("");            
-            if (error.response.data.code ==="notconfirmed") {
-                SetIsConfirmEnabled(true);                
-            }else setResult(error.response.data.description);
+            setPassword("");
+            switch (error.response.data.code) {
+                case "notconfirmed":
+                    SetIsConfirmEnabled(true);
+                    break;
+
+                case "noPassword":
+                default:
+                    setResult(error.response.data.description)
+                    break;
+            }
+            if (error.response.data.code === "notconfirmed") {
+                SetIsConfirmEnabled(true);
+            } else setResult(error.response.data.description);
         }
     }
 
@@ -91,8 +101,8 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
                 <SubmitButton type="submit"  > Login</SubmitButton>
             </form>
             <div>
-                {result && <WrongDataP >{result}</WrongDataP>}                
-                {isConfirmEnabled && <p><CoutdownToRefreshConfirmation email={email} password={password}/></p>}
+                {result && <WrongDataP >{result}</WrongDataP>}
+                {isConfirmEnabled && <p><CoutdownToRefreshConfirmation email={email} password={password} /></p>}
 
             </div>
         </div>
@@ -100,7 +110,7 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
 }
 
 const mapStateToProps = state => ({
-    
+
 });
 const mapDispatchToProps = dispatch => (
     {

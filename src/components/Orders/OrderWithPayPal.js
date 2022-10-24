@@ -4,15 +4,11 @@ import api_url from "../../API_URL";
 import OrderBlock from "./OrderBlock";
 import PayPalButton from "./PayPal/PayPalButton"
 
-
-const OrderWithPayPal =({orderId, setOrderId})=>{
-    console.log("setorderId");
-    console.log(setOrderId);
+const OrderWithPayPal =({orderId, setOrderId})=>{   
 
 const [order, setOrder] = useState();
     useEffect(()=>{
-       loadData();
-       console.log("Load")
+       loadData();       
 
     },[]);
     const loadData = async ()=>{
@@ -24,7 +20,6 @@ const [order, setOrder] = useState();
             console.log("OrderWithPayPal  error =  " + error)
         }
     }
-
 return (
     <>
     {order && 
@@ -33,9 +28,7 @@ return (
         <PayPalButton orderId={orderId} style={{margin:"0, auto"}} setOrderId={setOrderId} />
     </> }
     </>
-)
-    
-
+) 
 
 }
 export default OrderWithPayPal;

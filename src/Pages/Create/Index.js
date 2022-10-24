@@ -8,18 +8,19 @@ import OpenAirCreateForm from "../../components/CreateDifferentArtEvent/CreateFo
 import { BigSuccessful } from '../../components/StyledComponent/WrapWithSuccessHandler/BigResult';
 import { BigError } from '../../components/StyledComponent/WrapWithSuccessHandler/BigResult';
 import { BlueButton } from '../../components/StyledComponent/Button/BlueButton';
+import { MainBlock } from '../../components/StyledComponent/MainBlock';
 
 const MainCreate = styled.div`
     background-color: whitesmoke;
     margin:-0.5rem;
 `;
-const MainBlock = styled.div`
-max-width: 600px;
-margin: 0rem auto 0 auto; 
-border: 1px solid lightskyblue;
-border-radius: 4px;
-background-color:lightskyblue;
-`;
+// const MainBlock = styled.div`
+// max-width: 600px;
+// margin: 0rem auto 0 auto; 
+// border: 1px solid lightskyblue;
+// border-radius: 4px;
+// background-color:lightskyblue;
+// `;
 const TabsItem = styled.div`
     display: inline-block;
     font-size: 16px;

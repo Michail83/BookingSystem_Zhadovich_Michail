@@ -1,7 +1,12 @@
-﻿using BookingSystem.WEB.Models;
+﻿using BookingSystem.Infrastructure.Models;
+using BookingSystem.WEB.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.Controllers
 {
@@ -9,30 +14,37 @@ namespace BookingSystem.WEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
-        [Route("index")]
-        public IActionResult Index()
+        [Route("resetpassword")]
+        [HttpGet]
+        
+        public async Task<IActionResult> ResetPassword(string token, string email)
         {
-            //var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //return Ok($"{result.Succeeded }+ {User.Identity.IsAuthenticated}  +{User.Identity.Name}");
-            ViewBag.name = HttpContext.User.Identity.Name;
-            return View();
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.NormalizedEmail == email.ToUpper());
+            if (user != null)
+            {
+                if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, UserManager<User>.ResetPasswordTokenPurpose, token))
+                {                    
+                    ViewBag.email = user.Email;
+                    return View();
+                }
+            }
+            return BadRequest();           
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
     }
 }

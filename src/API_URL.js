@@ -98,6 +98,12 @@ import { func } from "prop-types";
     },
     capturePaypalOrder: function(Id){
         return `${this.base_api}/api/Paypal/CaptureOrder?id=${Id}`;
+    }, 
+    resetPasswordByUser: function(email){
+        return `${this.base_api}/account/SendPasswordResetToken?email=${email}`;
+    }, 
+    removePasswordByAdmin: function(email){
+        return `${this.base_api}/account/RemovePassword?email=${email}`;
     }
 }
 export default api_url

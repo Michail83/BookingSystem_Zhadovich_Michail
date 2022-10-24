@@ -79,8 +79,6 @@ namespace BookingSystem.BusinessLogic.Services
             return _mapperOrderToOrderBL.Map(order);
         }
 
-       
-
         public async Task CreateAsync(OrderBL orderBL)
         {
             try
@@ -130,7 +128,6 @@ namespace BookingSystem.BusinessLogic.Services
             {
                 return;
             }
-
         }
 
         public async Task<bool> UpdateAsync(OrderBL order)

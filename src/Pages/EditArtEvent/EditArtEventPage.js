@@ -8,7 +8,7 @@ import ClassicMusicEditForm from '../../components/CreateDifferentArtEvent/EditF
 import PartyEditForm from '../../components/CreateDifferentArtEvent/EditForm/PartyEditForm';
 
 import WrapWithSuccessHandlerForEdit from '../../components/CreateDifferentArtEvent/EditForm/WrapWithSuccessHandlerForEdit';
-import { MainBlock } from '../StyledComponent/MainBlock';
+import { MainBlock } from "../../components/StyledComponent/MainBlock";
 
 const EditArtEventPage = () => {
 

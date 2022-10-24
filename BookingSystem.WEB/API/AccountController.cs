@@ -193,10 +193,15 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest(new { code = "notconfirmed", description = "This email is not confirmed" });
             }
-            else
+            else if (!(await _userManager.HasPasswordAsync(user)))
             {
-                return BadRequest(new { code = "wronglogin", description = "Email or password wrong" });
+                bool sendResult =  await CreateAndSendPasswordResetToken(user.Email);
+
+                return BadRequest(new { code = "noPassword", description = "Password was resetted. Email with link to recover page was sended" });
             }
+            
+            return BadRequest(new { code = "wronglogin", description = "Email or password wrong" });
+            
         }
 
         [HttpGet]
@@ -303,7 +308,6 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [Route("GetUsers")]
-
         public async Task<IActionResult> GetUsers()
         {
             var users = _userManager.Users.Where((user)=> user.NormalizedEmail != HttpContext.User.FindFirstValue(ClaimTypes.Email).ToUpper()).ToList();
@@ -314,6 +318,7 @@ namespace BookingSystem.WEB.API
             {
                 var userV = _mapper.Map(user);
                 userV.OrdersCount = await _orderBLService.GetOrdersCount(userV.Email);
+                userV.HasPassword = await _userManager.HasPasswordAsync(user);
 
                 userViewModels.Add(userV);
             }
@@ -334,6 +339,81 @@ namespace BookingSystem.WEB.API
            
             return Ok(_mapper.Map(user));
         }
+        [HttpGet]
+        [Route("SendPasswordResetToken")]
+        public async Task<IActionResult> SendPasswordResetToken(string email)
+        {
+           var result =   await CreateAndSendPasswordResetToken(email);
+            return Ok();
+        }
+        private async Task<bool> CreateAndSendPasswordResetToken(string email) 
+        {
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+
+            bool result=false;
+            if (user != null && !(await _userManager.IsInRoleAsync(user, "admin")))
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var passwordResetLink = Url.Action("ResetPassword", "Home", new { token, email = user.Email }, Request.Scheme);
+                var mailBody = $"<a href=\"{passwordResetLink} \"> Go to recover page</a>";
+
+                var mailRequest = new MailRequest { ToEmail = user.Email, Body = mailBody, Subject = "bookingsystem-zhadovichmichail.herokuapp.com" };
+
+                result = await _emailService.SendEmailAsync(mailRequest, true);
+            }
+
+            return result;
+        }
+
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        [Route("RemovePassword")]
+        public async Task<IActionResult> RemovePassword(string email)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            //var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
+            //var haspassword = await _userManager.HasPasswordAsync(user);
+
+            if (user != null && !(await _userManager.IsInRoleAsync(user, "admin")) && (await _userManager.HasPasswordAsync(user)))
+            {
+                var result =  await _userManager.RemovePasswordAsync(user);
+                var haspassword2 = await _userManager.HasPasswordAsync(user);
+                return Ok(result);
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("SetNewPasswordWithToken")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetNewPasswordWithToken([FromForm]ChangePasswordModel model)
+        {
+            if (model?.Email==null)
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email.ToUpper());
+            if (user==null)
+            {
+                return BadRequest();
+            }
+
+           var removeResult =  await _userManager.RemovePasswordAsync(user);
+
+            var addResult = await _userManager.AddPasswordAsync(user, model.NewPassword);
+
+            if (addResult.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, true);
+                return Redirect(_hostsUrl);
+            }
+            
+            return Ok();
+        }
+
+
 
         /// <summary>
         /// Create new  <see cref="MailRequest"/> with confirmation link for the specified user 

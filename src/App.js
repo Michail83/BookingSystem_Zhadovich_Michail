@@ -21,6 +21,7 @@ import HomeAdminPage from './Pages/Admins/Home/Index';
 import AdminDetailsPage from './Pages/Admins/Details/AdminDetailsPage';
 import UsersPage from './Pages/Admins/Users/UsersPage';
 import EditArtEventPage from './Pages/EditArtEvent/EditArtEventPage';
+import ResetPasswordPage from './Pages/ResetPassword/ResetPasswordPage';
 
 import LockedUser from './Pages/LockedUser/LockedUser';
 
@@ -92,7 +93,11 @@ function App({ authData}) {
                             <Route path="/cart" element={<CartPage />}> </Route>
                             <Route path="/orders" element={<OrderPage />}> </Route>
                             <Route path='registration' element={<Registration />} />
+                            <Route path='/recoverpassword' element={<ResetPasswordPage />} />
+
                             <Route path='*' element={<HomePage />}> </Route>
+
+                            result
                         </Routes>
                         </MainContent>
                     </Fragment>

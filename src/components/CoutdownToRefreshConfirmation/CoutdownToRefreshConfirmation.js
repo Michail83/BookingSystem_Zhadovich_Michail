@@ -21,10 +21,6 @@ const CoutdownToRefreshConfirmation = ({ email }) => {
         setResult(result);
     }
 
-    // useEffect(() => {
-    //     tryRefreshConfirmation();
-    // }, []);
-
     if (result) {
 
         if (result.data.success) {

@@ -49,25 +49,8 @@ namespace BookingSystem.WEB.Services.AutoMapper
             CreateMap<IncomingOpenAirCreateViewModel, OpenAirBL>();
             CreateMap<IncomingPartyCreateViewModel, PartyBL>();
             CreateMap<IncomingClassicMusicCreateViewModel, ClassicMusicBL>();
-            CreateMap<User, UserViewModel>();
+            CreateMap<User, UserViewModel>().ForMember(dest=>dest.HasPassword, sourse=>sourse.Ignore());
 
         }
-    }
-
-    //public static class IFormFileConverter
-    //{
-    //    public static byte[] ToByteArray(this IFormFile formFile) 
-    //    {
-    //        if (formFile == null)
-    //        {
-    //            return new byte[0];
-    //        }
-    //        byte[] imageData = null; 
-    //        var memoryStream = new System.IO.MemoryStream();
-    //        formFile.CopyTo(memoryStream);
-    //        imageData = memoryStream.ToArray();
-
-    //        return imageData;
-    //    }
-    //}
+    }  
 }
