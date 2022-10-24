@@ -25,8 +25,8 @@ html {
 body {  
   background-color: whitesmoke;
 	overflow: scroll;
-  @supports (scrollbar-gutter: stable) {
+  /* @supports (scrollbar-gutter: stable) {
   overflow: auto;    
   scrollbar-gutter: stable;  
-  }
+  } */
 }

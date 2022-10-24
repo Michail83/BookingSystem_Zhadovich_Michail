@@ -6,7 +6,8 @@ import { BaseButton } from "../StyledComponent/Button/BaseButton";
 import imageSelect from "../../icons/icons8-drop-down24.png";
 
 const OrderBlockDiv = styled.div`
-    border: 2px solid black;
+    border: 1px solid black;
+    border-collapse: collapse;
     /* margin: 0.7em; */
 `;
 const OrderHeader = styled.div`

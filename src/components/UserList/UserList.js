@@ -10,18 +10,12 @@ import styled from "styled-components";
 
 const MainUserList = styled.div`
     display:flex;
-    flex-flow: column nowrap;
-    /* justify-content: space-between; */
-
-
-    /* width: 45rem; */
+    flex-flow: column nowrap;    
     min-width:500px;
-    margin: 8rem auto 0 auto; 
+    margin: 1rem auto 0 auto; 
     border: 1px solid lightskyblue;
     box-sizing: border-box;
 `;
-
-
 const UserList = ({ userList, setUserList }) => {
    
     useEffect(() => {
@@ -32,20 +26,14 @@ const UserList = ({ userList, setUserList }) => {
             console.log(error);
         }
     }, []);
-
     const loadData = async () => {
         let users = await axios.get(api_url.getUsers()); 
-
         setUserList(users.data);
-
     };
-
-    const toRender = () => {       
-
+    const toRender = () => {
         if (userList.length===0) {
             return <div>Loading</div>
-        } else {  
-            
+        } else {              
             let result = userList.map((user) => (<User key={user.id}  {...user} loadData={loadData} />));
             return result;
         }
@@ -64,10 +52,5 @@ const mapDispatchToProps = dispatch => (
     {
         setUserList: (userList) => dispatch(actionsCreater.setUsersList(userList)),
     });
-
 var UserList_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(UserList);
 export default UserList_ReduxWrapped;
-
-
-// console.log(typeof(loadData));
-            // console.log(loadData);          

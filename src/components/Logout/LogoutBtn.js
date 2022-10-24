@@ -6,6 +6,7 @@ import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import { useNavigate } from 'react-router-dom';
 
 import { initialAuth } from '../../Store/initialState';
+import { unAuthorizedHandler } from '../../function/unAuthorizedHandler';
 
 function LogoutBtn({ setAuthFalse }) {
     const navigate = useNavigate(); 
@@ -13,12 +14,13 @@ function LogoutBtn({ setAuthFalse }) {
        try {
            const logoutresult = await axios.get(urls.logout());           
            if (logoutresult.status == 200) {
-               console.log(`logout status  ok`);
+               
                setAuthFalse();
                navigate("/");
            }           
        } catch (error) {
-           console.log(error)           
+            unAuthorizedHandler(error.response.status)
+                   
        }
     };
     return(
@@ -31,6 +33,7 @@ const mapDispatchToProps = dispatch => (
         setAuthFalse: () => {
             dispatch(actionCreator.setAuth(initialAuth));
             dispatch(actionCreator.clearAdmins());
+            dispatch(actionCreator.setFilteringDataToDefault());
         }
     });
 

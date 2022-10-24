@@ -22,6 +22,9 @@ const TestNoActive = styled.div`
     align-items:center;    
 `;
 
+const Span = styled.span`
+margin-right:1rem;
+`;
 const ModalContent = styled.div`
     display:flex;
     flex-direction:column;
@@ -29,7 +32,7 @@ const ModalContent = styled.div`
     border-radius: 6px;
     background-color:rgba(237, 237, 237,1);
     
-    width: 35%;
+    min-width: 350px;
     
     border: 1px solid rgba(237, 237, 237,1);
     box-sizing: border-box;
@@ -54,8 +57,12 @@ const ModalWindowForLogin = ({ isActive, setNoActive }) => {
                         {/* <ExternalLoginList /> */}
                         <OwnLogin />
                         <div>
-                            <Link to={"/Registration"} onClick={setNoActive}>Registration</Link>
+                            <Span> <Link to={"/Registration"} onClick={setNoActive}>Registration</Link> </Span>
+                            <Span> <Link to={"/recoverpassword"} onClick={setNoActive}>Forgot password?</Link></Span>
+                           
+                                                      
                         </div>
+                        
 
                     </ModalContent>
                 </ModalWindow>
