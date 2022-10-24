@@ -50,7 +50,7 @@ export const Navbar = styled.div`
     }
 `;
 export const UserNameField = styled.div`    
-    margin: 1vw 1vh;
+    margin: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: end;

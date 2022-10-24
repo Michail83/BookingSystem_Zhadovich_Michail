@@ -20,7 +20,7 @@ const ThisButton = styled(BaseButton)`
 `;
  const Input= styled.input`
     outline:1px solid whitesmoke;
-    border-radius:2px;
+    border:0;
     width:200px;
  `;
  const ThisForm = styled.form`

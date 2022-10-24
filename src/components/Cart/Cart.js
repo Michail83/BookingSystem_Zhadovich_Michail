@@ -14,6 +14,9 @@ const Flexblock = styled.div`
     display: flex;
     flex-flow: row wrap;   
 `;
+const BadResult = styled.div`
+    padding: 2rem;
+`;
 
 const AbsoluteMessage = styled.div`
     position: absolute;
@@ -92,14 +95,14 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
 
     //кошмар какой то 
     if (isLoading) {
-        elemenList = <div>Loading....</div>
+        elemenList = <BadResult>Loading....</BadResult>
     } else {
          if (    errorMessage   ) {
-        elemenList="fail";  
+        elemenList=<BadResult>"fail"</BadResult>;  
               
         } else{
             if (cartMap === undefined || cartMap.size=== 0) {    
-                elemenList = <div>Your cart is empty</div>    
+                elemenList = <BadResult>Your cart is empty</BadResult>    
             } else {
                 elemenList = fullCartArray.map((item) => (<CartArtEventView key={item.id} {...item}/>));
                 if (isAuthenticated) {

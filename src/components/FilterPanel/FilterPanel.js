@@ -30,7 +30,7 @@ const MainFilterPanel =styled.div`
     align-items: flex-start;
     border-bottom: 1px solid rgba(30, 117, 204, 0.877);    
     padding: 0.5rem;
-    margin: -2px auto 0 auto ;    
+    margin: 0px auto 0 auto ;    
     height: 45px;   
 
     & select,input[type="text"],button, div {
