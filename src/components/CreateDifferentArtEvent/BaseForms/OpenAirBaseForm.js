@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Input, Form, Label, ErrorMessage, SubmitButton, MapHeader } from "../StyledComponentsForCreateEvents"
 import { MapAbsoluteContainer } from "../../StyledComponent/Map/MapAbsoluteContainer";
 import YandMAP_CreateEvent from "../../YandMAP/YandMAP_CreateEvent";
-import styled from "styled-components";
 
 const OpenAirBaseForm = ({ options }) => {
     const [isMapShow, setIsMapShow] = useState(false);

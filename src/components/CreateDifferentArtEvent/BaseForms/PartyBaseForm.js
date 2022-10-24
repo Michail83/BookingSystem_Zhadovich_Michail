@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { Input, Form, Label, ErrorMessage, SubmitButton, MapHeader } from "../StyledComponentsForCreateEvents"
 import { MapAbsoluteContainer } from "../../StyledComponent/Map/MapAbsoluteContainer";
 import YandMAP_CreateEvent from "../../YandMAP/YandMAP_CreateEvent";

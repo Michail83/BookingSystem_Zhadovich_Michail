@@ -11,16 +11,10 @@ import { BlueButton } from '../../components/StyledComponent/Button/BlueButton';
 import { MainBlock } from '../../components/StyledComponent/MainBlock';
 
 const MainCreate = styled.div`
-    background-color: whitesmoke;
+    background-color: white;
     margin:-0.5rem;
 `;
-// const MainBlock = styled.div`
-// max-width: 600px;
-// margin: 0rem auto 0 auto; 
-// border: 1px solid lightskyblue;
-// border-radius: 4px;
-// background-color:lightskyblue;
-// `;
+
 const TabsItem = styled.div`
     display: inline-block;
     font-size: 16px;
@@ -41,7 +35,7 @@ const ActiveTabsItem = styled(TabsItem)`
     background-color: royalblue;    
 `;
 const TabBlock = styled.div`
-    /* width: 60vw; */
+   
     background-color: lightskyblue;
     margin: auto;    
 `;
