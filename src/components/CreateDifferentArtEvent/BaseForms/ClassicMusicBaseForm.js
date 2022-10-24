@@ -6,10 +6,6 @@ import YandMAP_CreateEvent from "../../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
 import { VoiseList } from "../../../CONST/VoiseList";
 
-// const MapHeader = styled.h3`
-//     text-align: center;
-// `;
-
 const ClassicMusicBaseForm = ({ options }) => {
     const [isMapShow, setIsMapShow] = useState(false);
 
@@ -27,7 +23,7 @@ const ClassicMusicBaseForm = ({ options }) => {
 
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({ ...defaultValues });
+            reset({ ...options.defaultValues });
         }
     }, [formState, reset]);
 

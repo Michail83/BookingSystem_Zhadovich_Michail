@@ -43,7 +43,7 @@ const ResetPasswordPage =()=>{
     return (
         <ThisMainBlock>
         <p>Please, enter your email and we will send email with link to recovering password</p>
-        <ThisForm onSubmit={(event)=>{onClickHandler(event),setEmail("") }}>
+        <ThisForm onSubmit={(event)=>{onClickHandler(event); setEmail("");}}>
         <Input type="email" required onChange={(event)=>setEmail(event.target.value)} />
         <button type="submit">Send</button>
         </ThisForm>

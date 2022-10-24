@@ -5,10 +5,6 @@ import { MapAbsoluteContainer } from "../../StyledComponent/Map/MapAbsoluteConta
 import YandMAP_CreateEvent from "../../YandMAP/YandMAP_CreateEvent";
 import styled from "styled-components";
 
-// const MapHeader = styled.h3`
-//     text-align: center;
-//     `;
-
 const OpenAirBaseForm = ({ options }) => {
     const [isMapShow, setIsMapShow] = useState(false);
 
@@ -26,7 +22,7 @@ const OpenAirBaseForm = ({ options }) => {
 
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({ ...defaultValues });
+            reset({ ...options.defaultValues });
         }
     }, [formState, reset]);
 

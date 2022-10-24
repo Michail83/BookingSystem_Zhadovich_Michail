@@ -22,7 +22,7 @@ const PartyBaseForm = ({ options }) => {
 
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({ ...defaultValues });
+            reset({ ...options.defaultValues });
         }
     }, [formState, reset]);
     
