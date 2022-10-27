@@ -4,7 +4,8 @@
 **для запуска в Visual studio необходимо:**
  * установить Node.js
  * в Visual studio сменить launch profile  с   IIS Express на  BookingSystem.WEB
-** особенности**
+
+ ####особенности
  * отключена внешняя аутентификация
  * UseInMemoryDatabase вместо UseSqlServer
  * отключены транзакции(не поддерживаются UseInMemoryDatabase)
