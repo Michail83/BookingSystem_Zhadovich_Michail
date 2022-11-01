@@ -21,7 +21,7 @@ const OrdersBase = ({ getOrders, email, orderIdForBuy }) => {
                 )
             })
         } else {
-            element = <div>NO ORDERS</div>
+            element = <div style={{"margin":"2rem"}}>NO ORDERS</div>
         }
         return element;
     }
