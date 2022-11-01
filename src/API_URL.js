@@ -6,6 +6,9 @@ import { func } from "prop-types";
     base_api: process.env.NODE_ENV==="development"?'https://localhost:5001':'https://bookingsystem-zhadovichmichail.herokuapp.com',
     
     account : '/account',
+    base_crud_url: function () {
+        return this.base_api +'/api'
+    },
     setid: (id)=>{
         if (!id) {
             id='';
@@ -19,26 +22,26 @@ import { func } from "prop-types";
         return this.base_api;
     },
     getArtEvents : function (id) {
-        return this.base_api+'/ArtEvents'+this.setid(id);        
+        return this.base_crud_url()+'/ArtEvents'+this.setid(id);        
     },
     getArtEventWithFilterQuery: function (filteringData){
         
-            return this.base_api+'/ArtEvents/?NameForFilter=' + filteringData.nameForFilter +
+            return this.base_crud_url() +'/ArtEvents/?NameForFilter=' + filteringData.nameForFilter +
             '&TypeForFilter=' + filteringData.typeForFilter +
             '&sortBy=' +filteringData.sortBy +
             '&PageNumber=' + filteringData.currentPage  +
             '&PageSize=' + filteringData.pageSize  
     },
     parties: function (id) {
-         return this.base_api+'/Parties'+this.setid(id);
+         return this.base_crud_url()+'/Parties'+this.setid(id);
         // return this.getArtEvents(id)
     },
     classicmusics: function (id) {
-         return this.base_api+'/classicMusic'+this.setid(id);
+         return this.base_crud_url()+'/classicMusic'+this.setid(id);
         // return this.getArtEvents(id)
     },
     openairs : function (id) {
-        return this.base_api+'/openAirs'+this.setid(id);
+        return this.base_crud_url()+'/openAirs'+this.setid(id);
         // return this.getArtEvents(id)
     },
     getExternalProviderName: function(){

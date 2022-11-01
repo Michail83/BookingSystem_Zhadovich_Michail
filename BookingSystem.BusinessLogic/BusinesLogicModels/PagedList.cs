@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 
 namespace BookingSystem.BusinessLogic.BusinesLogicModels
@@ -35,12 +36,12 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
-        public PagedList<Y> MapTo<Y>(IMapper<T, Y> mapper)
+        public PagedList<Y> MapTo<Y>(IMapper mapper)
         {
             var mappedsource = new List<Y>();
             foreach (var item in this)
             {
-                mappedsource.Add(mapper.Map(item));
+                mappedsource.Add(mapper.Map<Y>(item));
             }
             return new PagedList<Y>(mappedsource, TotalItemsCount, CurrentPage, PageSize);
         }

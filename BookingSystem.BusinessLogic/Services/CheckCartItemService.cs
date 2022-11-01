@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 
 
@@ -15,11 +16,11 @@ namespace BookingSystem.BusinessLogic.Services
     public class CheckCartItemService
     {
         IRepositoryAsync<ArtEvent> _repository;
-        IMapper<ArtEvent, ArtEventBL> _mapperToBL;
-        public CheckCartItemService(IRepositoryAsync<ArtEvent> artEventRepository, IMapper<ArtEvent, ArtEventBL> mapper)
+        IMapper _mapper;
+        public CheckCartItemService(IRepositoryAsync<ArtEvent> artEventRepository, IMapper mapper)
         {
             _repository = artEventRepository;
-            _mapperToBL = mapper;
+            _mapper = mapper;
         }
 
         public async Task<CheckCartResult> CheckCartItem(CartItem cartItem)
@@ -44,7 +45,7 @@ namespace BookingSystem.BusinessLogic.Services
             List<ArtEventBL> artEventListBL = new();
             foreach (var item in artEventList)
             {
-                artEventListBL.Add(_mapperToBL.Map(item));
+                artEventListBL.Add(_mapper.Map<ArtEventBL>(item));
             }
             return artEventListBL;
         }

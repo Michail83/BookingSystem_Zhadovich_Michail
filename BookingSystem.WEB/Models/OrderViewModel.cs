@@ -8,9 +8,7 @@ namespace BookingSystem.WEB.Models
         public int Id { get; set; }
         public string UserEmail { get; set; }
         public DateTime TimeOfCreation { get; set; }
-        public bool IsPaid { get; set; }
-        //[Newtonsoft.Json.JsonIgnore]
-        //public string PaidOrder { get; set; }
+        public bool IsPaid { get; set; }       
         public List<CartWithQuantityViewModel> ListOfReservedEventTickets { get; set; }
     }
 }

@@ -10,34 +10,28 @@ using System.Data;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BookingSystem.WEB.API
 {
-    [Route("ArtEvents")]
-    [ApiController]
-    [EnableCors("LocalForDevelopmentAllowAll")]
-    public class ArtEventsController : ControllerBase
+    
+    public class ArtEventsController : BaseCRUDController<ArtEventBL, IncomingBaseCreateArtEventViewModel>
     {
-        IBusinessLayerCRUDServiceAsync<ArtEventBL> _artEventBLService;
-        IMapper<ArtEventBL, ArtEventViewModel> _mapperToViewModel;
-        public ArtEventsController(IBusinessLayerCRUDServiceAsync<ArtEventBL> artEventBLService, IMapper<ArtEventBL, ArtEventViewModel> mapperToViewModel)
+        public ArtEventsController(IBusinessLayerCRUDServiceAsync<ArtEventBL> CRUDService, IMapper mapper) : base(CRUDService, mapper)
         {
-            _artEventBLService = artEventBLService;
-            _mapperToViewModel = mapperToViewModel;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ArtEventViewModel>> Get([FromQuery] PagesState pageStatus = null)
+        public override async Task<ActionResult> Get([FromQuery] PagesState pageStatus = null)
         {
             try
-            {
-                PagesState _artEventBLPagesStatus = pageStatus ?? new PagesState();
-                var QueryResult = await _artEventBLService.GetAllAsync(_artEventBLPagesStatus);
+            {                
+                var QueryResult = await _CRUDService.GetAllAsync(pageStatus);
 
                 List<ArtEventViewModel> response = new();
                 foreach (var item in QueryResult)
                 {
-                    response.Add(_mapperToViewModel.Map(item));    //  add method to mapper???
+                    response.Add(_mapper.Map<ArtEventViewModel>(item));    //  add method to mapper???
                 }
                 #region AddPageStateInfoToHeader
                 var pageInfo = new
@@ -61,11 +55,11 @@ namespace BookingSystem.WEB.API
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ArtEventViewModel>> Get(int id)
+        public override async Task<ActionResult> Get(int id)
         {
             try
             {
-                return Ok(_mapperToViewModel.Map(await _artEventBLService.GetAsync(id)));
+                return Ok(_mapper.Map<ArtEventViewModel>(await _CRUDService.GetAsync(id)));
             }
 
             catch (Exception ex)
@@ -77,11 +71,11 @@ namespace BookingSystem.WEB.API
 
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public override async Task<ActionResult> Delete(int id)
         {
             try
             {
-                await _artEventBLService.DeleteAsync(id);
+                await _CRUDService.DeleteAsync(id);
                 return Ok(id);
             }
 
@@ -90,6 +84,20 @@ namespace BookingSystem.WEB.API
                 Debug.WriteLine(GetType() + ex.Message);//ToDo     change Exception
                 return BadRequest(ex.Message);
             }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public override async Task<IActionResult> Post([FromForm] IncomingBaseCreateArtEventViewModel incomingViewModel)
+        {
+            return BadRequest();
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut]
+        public override async Task<ActionResult> Put([FromForm] IncomingBaseCreateArtEventViewModel incomingViewModel)
+        {
+            return BadRequest();
         }
     }
 }

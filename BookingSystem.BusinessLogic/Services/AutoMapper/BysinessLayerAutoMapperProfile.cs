@@ -13,6 +13,10 @@ namespace BookingSystem.BusinessLogic.Services.AutoMapper
                 .Include<OpenAir, OpenAirBL>()
                 .Include<Party, PartyBL>()
                 .Include<ClassicMusic, ClassicMusicBL>().ReverseMap();
+            CreateMap<ArtEventBL, ArtEvent>()
+                .Include<OpenAirBL, OpenAir>()
+                .Include<PartyBL, Party>()
+                .Include<ClassicMusicBL, ClassicMusic>();
 
             CreateMap<OpenAir, OpenAirBL>().ReverseMap();
             CreateMap<Party, PartyBL>().ReverseMap();
@@ -29,11 +33,6 @@ namespace BookingSystem.BusinessLogic.Services.AutoMapper
 
             CreateMap<Order, OrderBL>()
                 .ForMember(dest => dest.ListOfReservedEventTickets, sourse => sourse.MapFrom(src => src.OrderAndArtEvents)).ReverseMap();
-
-
-
-
         }
-
     }
 }
