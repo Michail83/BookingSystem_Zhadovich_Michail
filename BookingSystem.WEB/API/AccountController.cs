@@ -38,7 +38,7 @@ namespace BookingSystem.WEB.API
                                  IEmailService emailService,
                                  IWebHostEnvironment env,
                                  OrderBLService orderBLService,
-                                 IMapper<User, UserViewModel> mapper
+                                 IMapper mapper
             )
         {
             _signInManager = signInManager;
@@ -63,7 +63,7 @@ namespace BookingSystem.WEB.API
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly string _hostsUrl;
-        private readonly IMapper<User, UserViewModel> _mapper;
+        private readonly IMapper _mapper;
         private readonly OrderBLService _orderBLService;
 
 
@@ -316,7 +316,7 @@ namespace BookingSystem.WEB.API
 
             foreach (var user in users)
             {
-                var userV = _mapper.Map(user);
+                var userV = _mapper.Map<UserViewModel>(user);
                 userV.OrdersCount = await _orderBLService.GetOrdersCount(userV.Email);
                 userV.HasPassword = await _userManager.HasPasswordAsync(user);
 
@@ -337,7 +337,7 @@ namespace BookingSystem.WEB.API
             user.IsLocked = !user.IsLocked;
             await _userManager.UpdateAsync(user);
            
-            return Ok(_mapper.Map(user));
+            return Ok(_mapper.Map<UserViewModel>(user));
         }
         [HttpGet]
         [Route("SendPasswordResetToken")]

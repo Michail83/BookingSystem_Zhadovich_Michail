@@ -1,12 +1,10 @@
-﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.BusinessLogic.Interfaces;
+﻿using AutoMapper;
+using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Services;
 using BookingSystem.WEB.Models;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -19,27 +17,23 @@ namespace BookingSystem.WEB.API
     [ApiController]
     public class OrderController : ControllerBase
     {
-        OrderBLService _orderBLService;        
-        IMapper<OrderBL, OrderViewModel> _mapperOrderBLtoViewModel;
-
+        OrderBLService _orderBLService;
+        IMapper _mapper;
 
         public OrderController(
-            OrderBLService orderBLService,            
-            IMapper<OrderBL, OrderViewModel> orderToViewModelMapper
+            OrderBLService orderBLService,
+            IMapper order
             )
         {
             _orderBLService = orderBLService;
-            _mapperOrderBLtoViewModel = orderToViewModelMapper;
-
-
-
+            _mapper = order;
         }
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
             var orderBl = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
-            var result = _mapperOrderBLtoViewModel.Map(orderBl);
+            var result = _mapper.Map<OrderViewModel>(orderBl);
             return Ok(result);
         }
         [Authorize]
@@ -50,7 +44,7 @@ namespace BookingSystem.WEB.API
             var resultViewModel = await GetOrdersAsync(GetCurrentUserEmail());
             return Ok(resultViewModel);
         }
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         [Route("GetOrdersForAdminAsync")]
         [HttpGet]
         public async Task<IActionResult> GetOrdersForAdminAsync(string email)
@@ -62,7 +56,7 @@ namespace BookingSystem.WEB.API
         [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IEnumerable<IncomingOrderViewModel> orderData)
-        {            
+        {
             if (!orderData.Any())
             {
                 return BadRequest("No orderData");
@@ -81,14 +75,14 @@ namespace BookingSystem.WEB.API
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.Email);
         }
-        private async Task<List<OrderViewModel>> GetOrdersAsync(string email) 
+        private async Task<List<OrderViewModel>> GetOrdersAsync(string email)
         {
             var resultBL = await _orderBLService.GetAllAsync(email);
             var resultViewModel = new List<OrderViewModel>();
 
             foreach (var item in resultBL)
             {
-                resultViewModel.Add(_mapperOrderBLtoViewModel.Map(item));
+                resultViewModel.Add(_mapper.Map<OrderViewModel>(item));
             }
             return resultViewModel;
         }

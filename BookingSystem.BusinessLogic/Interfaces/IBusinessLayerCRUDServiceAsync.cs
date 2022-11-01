@@ -7,8 +7,8 @@ namespace BookingSystem.BusinessLogic.Interfaces
     {
         public Task<PagedList<T>> GetAllAsync(PagesState pagesStatus);
         public Task<T> GetAsync(int id);
-        public Task UpdateAsync(T artEvevnt);
-        public Task CreateAsync(T artEvevnt);
+        public Task UpdateAsync(T artEvent);
+        public Task CreateAsync(T artEvent);
         public Task DeleteAsync(int id);
 
     }

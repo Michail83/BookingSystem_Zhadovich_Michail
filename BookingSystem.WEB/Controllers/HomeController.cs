@@ -1,11 +1,8 @@
 ﻿using BookingSystem.Infrastructure.Models;
-using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.Controllers
@@ -24,7 +21,7 @@ namespace BookingSystem.WEB.Controllers
 
         [Route("resetpassword")]
         [HttpGet]
-        
+
         public async Task<IActionResult> ResetPassword(string token, string email)
         {
 
@@ -32,19 +29,12 @@ namespace BookingSystem.WEB.Controllers
             if (user != null)
             {
                 if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, UserManager<User>.ResetPasswordTokenPurpose, token))
-                {                    
+                {
                     ViewBag.email = user.Email;
                     return View();
                 }
             }
-            return BadRequest();           
+            return BadRequest();
         }
-
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }

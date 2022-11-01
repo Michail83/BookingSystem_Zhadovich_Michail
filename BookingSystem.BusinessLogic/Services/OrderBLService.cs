@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BookingSystem.BusinessLogic.Services
 {
@@ -16,8 +17,8 @@ namespace BookingSystem.BusinessLogic.Services
     {
         IRepositoryAsync<ArtEvent> _artEventRepository;
         IOrderRepositoryAsync _orderRepository;
-        IMapper<Order, OrderBL> _mapperOrderToOrderBL;
-        IMapper<OrderBL, Order> _mapperOrderBL_toOrder;
+        IMapper _mapper;
+        //IMapper<OrderBL, Order> _mapperOrderBL_toOrder;
         IEmailService _mailService;
 
 
@@ -25,15 +26,15 @@ namespace BookingSystem.BusinessLogic.Services
             (
             IOrderRepositoryAsync repository,
             IRepositoryAsync<ArtEvent> artEventRepository,
-            IMapper<Order, OrderBL> mapperOrderToOrderBL,
-            IMapper<OrderBL, Order> mapperOrderBL_toOrder,
+            IMapper mapper,
+            //IMapper<OrderBL, Order> mapperOrderBL_toOrder,
             IEmailService mailService
             )
         {
             _orderRepository = repository;
             _artEventRepository = artEventRepository;
-            _mapperOrderToOrderBL = mapperOrderToOrderBL;
-            _mapperOrderBL_toOrder = mapperOrderBL_toOrder;
+            _mapper = mapper;
+            //_mapperOrderBL_toOrder = mapperOrderBL_toOrder;
             _mailService = mailService;
         }
 
@@ -56,7 +57,7 @@ namespace BookingSystem.BusinessLogic.Services
                 }
                 else
                 {
-                    orderBL = _mapperOrderToOrderBL.Map(order);
+                    orderBL = _mapper.Map<OrderBL>(order);
                 }                
                 orderBLs.Add(orderBL);
             }
@@ -76,14 +77,14 @@ namespace BookingSystem.BusinessLogic.Services
             {
                 return null;
             }                       
-            return _mapperOrderToOrderBL.Map(order);
+            return _mapper.Map<OrderBL>(order);
         }
 
         public async Task CreateAsync(OrderBL orderBL)
         {
             try
             {
-                var order = _mapperOrderToOrderBL.Map(await _orderRepository.CreateAsync(_mapperOrderBL_toOrder.Map(orderBL)));
+                var order = _mapper.Map<OrderBL>(await _orderRepository.CreateAsync(_mapper.Map<Order>(orderBL)));
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendLine($"<h2> User {orderBL.UserEmail} created order<h2>");
@@ -130,11 +131,11 @@ namespace BookingSystem.BusinessLogic.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(OrderBL order)
+        public async Task<bool> UpdateAsync(OrderBL orderBL)
         {
             try
             {
-                await _orderRepository.UpdateAsync(_mapperOrderBL_toOrder.Map(order));
+                await _orderRepository.UpdateAsync(_mapper.Map<Order>(orderBL));
             }
             catch (Exception)
             {

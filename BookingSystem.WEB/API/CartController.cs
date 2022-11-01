@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BookingSystem.WEB.API
 {
@@ -15,14 +16,13 @@ namespace BookingSystem.WEB.API
     public class CartController : ControllerBase
     {
         CheckCartItemService _checkCartItemService;
-        IMapper<ArtEventBL, ArtEventViewModel> _mapperToViewModel;
-        public CartController(CheckCartItemService checkCartItemService, IMapper<ArtEventBL, ArtEventViewModel> mapperToViewModel)
+        IMapper _mapper;
+        public CartController(CheckCartItemService checkCartItemService, IMapper mapper)
         {
             _checkCartItemService = checkCartItemService;
-            _mapperToViewModel = mapperToViewModel;
+            _mapper = mapper;
         }
-
-        //[Route("CheckCartItem")]
+        
         [HttpGet]
         public async Task<ActionResult<CheckCartResult>> CheckCartItem([FromQuery] CartItem cartItem)
         {
@@ -35,12 +35,11 @@ namespace BookingSystem.WEB.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery] IEnumerable<int> id)
         {
-
             var listOfArtEvents = await _checkCartItemService.GetListOfArtEventsForReactCart(id);
             List<ArtEventViewModel> listOfArtEventsForReactCart = new();
             foreach (var artEventBL in listOfArtEvents)
             {
-                listOfArtEventsForReactCart.Add(_mapperToViewModel.Map(artEventBL));
+                listOfArtEventsForReactCart.Add(_mapper.Map<ArtEventViewModel>(artEventBL));
 
             }
             return Ok(listOfArtEventsForReactCart);

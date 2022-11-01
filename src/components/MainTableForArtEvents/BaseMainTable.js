@@ -43,6 +43,7 @@ const BaseMainTable = ({
         try {
             setLoading(true); 
             let artEventsUrl = urls.getArtEventWithFilterQuery(filteringData);
+            console.log(artEventsUrl);
             let result = await axios.get(artEventsUrl);
             let paginationData = JSON.parse(result.headers["pagestateinfo"]);
             

@@ -86,18 +86,9 @@ namespace BookingSystem.WEB
             services.AddControllersWithViews();
 
             services.AddBusinessLayerAndDataLayerServices(Configuration);
-
-            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<ArtEventBL, ArtEventViewModel>>();
-            services.AddScoped<IMapper<OrderBL, OrderViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<OrderBL, OrderViewModel>>();
-
-            services.AddScoped<IMapper<IncomingOpenAirCreateViewModel,OpenAirBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingOpenAirCreateViewModel, OpenAirBL>>();
-            services.AddScoped<IMapper<IncomingPartyCreateViewModel, PartyBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingPartyCreateViewModel, PartyBL>>();
-            services.AddScoped<IMapper< IncomingClassicMusicCreateViewModel, ClassicMusicBL>, AutoMapperBetweenArtEventBLAndArtEventViewModel<IncomingClassicMusicCreateViewModel, ClassicMusicBL>> ();
-            services.AddScoped<IMapper<User, UserViewModel>, AutoMapperBetweenArtEventBLAndArtEventViewModel<User, UserViewModel>>();
-
+            
             services.AddSingleton<PayPalAuthService>();
-            services.AddScoped<PayPalService>();
-           
+            services.AddScoped<PayPalService>();           
 
             services.AddMemoryCache();
 
@@ -121,18 +112,7 @@ namespace BookingSystem.WEB
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            //app.Use(async (context, next) => {
-            //    if (!context.Request.IsHttps)
-            //    {
-            //        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            //        await context.Response.WriteAsync("HTTPS required!");
-            //    }
-            //    else
-            //    {
-            //        await next();
-            //    }
-            //});
+        {           
             
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
