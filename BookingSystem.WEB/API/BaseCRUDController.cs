@@ -62,7 +62,7 @@ namespace BookingSystem.WEB.API
             }
             catch (Exception ex)
             {
-                return BadRequest($"No error handling...");
+                return BadRequest();
             }
         }
 
@@ -72,12 +72,12 @@ namespace BookingSystem.WEB.API
         {
             try
             {
-                await _CRUDService.UpdateAsync(_mapper.Map<TypeOfService>(incomingViewModel));    // ToDo  validate
+                await _CRUDService.UpdateAsync(_mapper.Map<TypeOfService>(incomingViewModel));   
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest("read debug");
+                return BadRequest();
             }
         }
         [Authorize(Roles = "admin")]

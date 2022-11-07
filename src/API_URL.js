@@ -61,9 +61,9 @@ import { func } from "prop-types";
             if (index===0) {
                 return current+item;              
             } else{
-                return current+ "&id="+ item;
+                return current+ "&ids="+ item;
             }    
-        },"?id=");
+        },"?ids=");
         return this.base_api +"/checkcartitem/GetCurrentListOfArtEvent"+queryString
     },
     createOrder: function (){

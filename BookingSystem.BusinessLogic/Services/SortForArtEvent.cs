@@ -1,4 +1,5 @@
-﻿using BookingSystem.BusinessLogic.Interfaces;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
+using BookingSystem.BusinessLogic.Interfaces;
 using BookingSystem.DataLayer.EntityModels;
 using System;
 using System.Linq;
@@ -10,15 +11,15 @@ namespace BookingSystem.BusinessLogic.Services
 {
     public class SortForArtEvent<T> : IArtEventSort<T> where T : ArtEvent
     {
-        public IQueryable<T> SortBy(IQueryable<T> source, string sortBy)
+        public IQueryable<T> SortBy(IQueryable<T> source, PagesState pageState)
         {
             IQueryable<T> result;
-            if (string.IsNullOrWhiteSpace(sortBy))
+            if (string.IsNullOrWhiteSpace(pageState.SortBy))
             {
                 return result = source.OrderBy("Id");
             }
 
-            var artEventParams = sortBy.Trim().Split(',');
+            var artEventParams = pageState.SortBy.Trim().Split(',');
             var propertiesInfo = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var artEventsQueryBuilder = new StringBuilder();
 
@@ -35,7 +36,7 @@ namespace BookingSystem.BusinessLogic.Services
 
                 var sortingOrder = param.EndsWith(" desc") ? "descending" : "ascending";
 
-                artEventsQueryBuilder.Append($"{objectProperty.Name.ToString()} {sortingOrder}, ");
+                artEventsQueryBuilder.Append($"{objectProperty.Name} {sortingOrder}, ");
             }
 
             var orderQuery = artEventsQueryBuilder.ToString().TrimEnd(',', ' ');

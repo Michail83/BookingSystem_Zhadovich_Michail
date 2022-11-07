@@ -22,39 +22,12 @@ namespace BookingSystem.BusinessLogic.Services.MailService
 
         public async Task<bool> SendEmailAsync(MailRequest mailRequest)
         {
-            try
-            {
-                var email = new MimeMessage();
-
-                email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-                email.From.Add(MailboxAddress.Parse(_mailSettings.Mail));
-                email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-                email.Subject = mailRequest.Subject;
-
-                var builder = new BodyBuilder();
-                builder.TextBody = mailRequest.Body;
-                email.Body = builder.ToMessageBody();
-
-
-                using var smtp = new SmtpClient();
-                smtp.ServerCertificateValidationCallback = (sender, certificate, chain, sslpolisyError) => true;
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.SslOnConnect);
-                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-                await smtp.SendAsync(email);
-                smtp.Disconnect(true);
-
-            }
-            catch (Exception ex)
-            {
-
-                return false;
-            }
-            return true;
+            var result = await SendEmailAsync(mailRequest, false);
+            return result;           
         }
 
         public async Task<bool> SendEmailAsync(MailRequest mailRequest, bool isHtmlBody)
         {
-
             try
             {
                 var email = new MimeMessage();
@@ -65,7 +38,14 @@ namespace BookingSystem.BusinessLogic.Services.MailService
                 email.Subject = mailRequest.Subject;
 
                 var builder = new BodyBuilder();
-                builder.HtmlBody = mailRequest.Body;
+                if (isHtmlBody)
+                {
+                    builder.HtmlBody = mailRequest.Body;
+                }
+                else 
+                {
+                    builder.TextBody = mailRequest.Body;
+                }                
                 email.Body = builder.ToMessageBody();
 
 
@@ -84,8 +64,5 @@ namespace BookingSystem.BusinessLogic.Services.MailService
             }
             return true;
         }
-
-
-
     }
 }

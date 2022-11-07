@@ -70,8 +70,11 @@ const Cart = ({setIsSuccess, cartMap, fullCartArray, setFullCartArray,isAuthenti
                 return;
             }
             setIsLoading(true);
-            let arrayOfKeys = Array.from(cartMap.keys(), (key) => key);            
-            const result = await axios.get(urls.getFullCheckedListForCart(arrayOfKeys));
+            let arrayOfKeys = Array.from(cartMap.keys(), (key) => key); 
+            console.log(arrayOfKeys)  ;  
+            let url =  urls.getFullCheckedListForCart(arrayOfKeys)   ;   
+            console.log(url)  ;
+            const result = await axios.get(url);
             if (result.status === 200) {
                 setFullCartArray(result.data); 
                 

@@ -1,7 +1,7 @@
 ﻿
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.Infrastructure.Interfaces;
+
 using BookingSystem.Infrastructure.Models;
 using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -31,8 +31,7 @@ namespace BookingSystem.WEB.API
 
     public class AccountController : ControllerBase
     {
-        public AccountController([FromServices] IJWTTokenProvider jwtTokenProvider,
-                                 [FromServices] IConfiguration configuration,
+        public AccountController([FromServices] IConfiguration configuration,
                                  SignInManager<User> signInManager,
                                  UserManager<User> userManager,
                                  IEmailService emailService,
@@ -101,7 +100,7 @@ namespace BookingSystem.WEB.API
                 return BadRequest(ModelState.Values);
             }
 
-            User user = new User { UserName = regModel.UserName, Email = regModel.Email };
+            User user = new() { UserName = regModel.UserName, Email = regModel.Email };
 
 
             var creationResult = await _userManager.CreateAsync(user, regModel.Password);
@@ -234,7 +233,7 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest("GetExternalLoginInfoAsync  ERROR");
             }
-            //true
+           
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: false);
             if (signInResult.Succeeded)
             {
@@ -278,7 +277,7 @@ namespace BookingSystem.WEB.API
                         }
                     }
                 }
-                return BadRequest("ExternalLoginCallback  =  last else");
+                return BadRequest("ExternalLoginCallback");
             }
         }
 
@@ -373,13 +372,11 @@ namespace BookingSystem.WEB.API
         public async Task<IActionResult> RemovePassword(string email)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
-            //var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
-            //var haspassword = await _userManager.HasPasswordAsync(user);
-
+           
             if (user != null && !(await _userManager.IsInRoleAsync(user, "admin")) && (await _userManager.HasPasswordAsync(user)))
             {
                 var result =  await _userManager.RemovePasswordAsync(user);
-                var haspassword2 = await _userManager.HasPasswordAsync(user);
+
                 return Ok(result);
             }
             return Ok();

@@ -15,26 +15,25 @@ namespace BookingSystem.BusinessLogic.Services
 {
     public class OrderBLService
     {
-        IRepositoryAsync<ArtEvent> _artEventRepository;
-        IOrderRepositoryAsync _orderRepository;
-        IMapper _mapper;
-        //IMapper<OrderBL, Order> _mapperOrderBL_toOrder;
-        IEmailService _mailService;
+        
+        readonly IRepositoryAsync<ArtEvent> _artEventRepository;
+        readonly IOrderRepositoryAsync _orderRepository;
+        readonly IMapper _mapper;
+        
+        readonly IEmailService _mailService;
 
 
         public OrderBLService
             (
             IOrderRepositoryAsync repository,
             IRepositoryAsync<ArtEvent> artEventRepository,
-            IMapper mapper,
-            //IMapper<OrderBL, Order> mapperOrderBL_toOrder,
+            IMapper mapper,            
             IEmailService mailService
             )
         {
             _orderRepository = repository;
             _artEventRepository = artEventRepository;
-            _mapper = mapper;
-            //_mapperOrderBL_toOrder = mapperOrderBL_toOrder;
+            _mapper = mapper;           
             _mailService = mailService;
         }
 
@@ -85,10 +84,15 @@ namespace BookingSystem.BusinessLogic.Services
             try
             {
                 var order = _mapper.Map<OrderBL>(await _orderRepository.CreateAsync(_mapper.Map<Order>(orderBL)));
-                StringBuilder sb = new StringBuilder();
+
+
+
+
+
+                StringBuilder sb = new();
 
                 sb.AppendLine($"<h2> User {orderBL.UserEmail} created order<h2>");
-                sb.Append(@"<table>");
+                sb.Append("<table style=\"border: 1px solid black;padding:1px \">");
 
                 sb.Append(@"<thead>
                                 <th> Title </th>
@@ -114,7 +118,7 @@ namespace BookingSystem.BusinessLogic.Services
                 sb.Append(@"<h6>Thank you for you order</h6.");
 
 
-                MailRequest mailRequest = new MailRequest
+                MailRequest mailRequest = new()
                 {
                     ToEmail = orderBL.UserEmail,
 

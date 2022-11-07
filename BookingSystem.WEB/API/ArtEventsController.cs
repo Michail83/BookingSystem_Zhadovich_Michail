@@ -29,10 +29,8 @@ namespace BookingSystem.WEB.API
                 var QueryResult = await _CRUDService.GetAllAsync(pageStatus);
 
                 List<ArtEventViewModel> response = new();
-                foreach (var item in QueryResult)
-                {
-                    response.Add(_mapper.Map<ArtEventViewModel>(item));    //  add method to mapper???
-                }
+                response.AddRange(_mapper.Map<IEnumerable<ArtEventViewModel>>(QueryResult));
+                
                 #region AddPageStateInfoToHeader
                 var pageInfo = new
                 {
@@ -64,8 +62,8 @@ namespace BookingSystem.WEB.API
 
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message); //   ToDo       - delete after
-                return BadRequest(ex.Message);
+                Debug.WriteLine(ex.Message);
+                return BadRequest();
             }
         }
 
@@ -81,7 +79,7 @@ namespace BookingSystem.WEB.API
 
             catch (Exception ex)
             {
-                Debug.WriteLine(GetType() + ex.Message);//ToDo     change Exception
+                Debug.WriteLine(GetType() + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

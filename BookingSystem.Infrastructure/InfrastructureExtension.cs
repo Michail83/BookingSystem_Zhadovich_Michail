@@ -1,9 +1,6 @@
 ﻿
 using BookingSystem.Infrastructure.IdentityDBContext;
-using BookingSystem.Infrastructure.Interfaces;
 using BookingSystem.Infrastructure.Models;
-using BookingSystem.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,14 +35,14 @@ namespace BookingSystem.Infrastructure
                     .AddDefaultTokenProviders();
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
-                options.TokenLifespan = TimeSpan.FromHours(12); 
+                options.TokenLifespan = TimeSpan.FromHours(12);
             });
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
-                
-                options.SlidingExpiration = true;                
+
+                options.SlidingExpiration = true;
 
                 options.Events.OnRedirectToLogin = context =>
                 {
@@ -54,10 +51,6 @@ namespace BookingSystem.Infrastructure
                 };
 
             });
-
-
-            services.AddScoped<IJWTTokenProvider, JwtService>();
-
             return services;
         }
 
