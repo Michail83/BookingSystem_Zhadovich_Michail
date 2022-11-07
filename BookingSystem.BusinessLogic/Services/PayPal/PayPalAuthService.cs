@@ -25,18 +25,12 @@ namespace  BookingSystem.BusinessLogic.Services.Paypal
                 {
                   await GetAccessTokenFromPayPalAsync();
                 }
-                return accessToken; 
-            
+                return accessToken;             
         }
-
-
-
-
         private async Task GetAccessTokenFromPayPalAsync()
         {
 
             string url = $"{_basePath}/v1/oauth2/token";
-
             var httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(url)
@@ -70,11 +64,9 @@ namespace  BookingSystem.BusinessLogic.Services.Paypal
         public string App_id { get; set; }
         public long Expires_in { get; set; }
         public string Nonce { get; set; }
-
     }
     internal class ClientCred
     {
-
         public string Client_id { get; set; } = string.Empty;
         public string Client_secret { get; set; } = string.Empty;
     }

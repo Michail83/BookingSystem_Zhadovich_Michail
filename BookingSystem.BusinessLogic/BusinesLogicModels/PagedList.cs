@@ -19,7 +19,7 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
         public bool HasPrevious => CurrentPage > 1;
         public bool HasNext => CurrentPage < TotalPages;
 
-        public PagedList(List<T> items, int totalItemsCount, int pageNumber, int pageSize)
+        private PagedList(List<T> items, int totalItemsCount, int pageNumber, int pageSize)
         {
             this.TotalItemsCount = totalItemsCount;
             PageSize = pageSize;
@@ -28,23 +28,20 @@ namespace BookingSystem.BusinessLogic.BusinesLogicModels
 
             this.AddRange(items);
         }
-        public static async Task<PagedList<T>> TakePagedListAsync(IQueryable<T> source, int pageNumber, int pageSize)
+        public static async Task<PagedList<T>> TakePagedListAsync(IQueryable<T> source, PagesState pagesState)
         {
             var count = await source.CountAsync();
-            pageNumber = pageNumber > 0 && pageNumber <= count ? pageNumber : 1;
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var pageNumber = pagesState.PageNumber <= count ? pagesState.PageNumber : 1;
+            var items = await source.Skip((pageNumber - 1) * pagesState.PageSize).Take(pagesState.PageSize).ToListAsync();
 
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            return new PagedList<T>(items, count, pageNumber, pagesState.PageSize);
         }
         public PagedList<Y> MapTo<Y>(IMapper mapper)
         {
-            var mappedsource = new List<Y>();
-            foreach (var item in this)
-            {
-                mappedsource.Add(mapper.Map<Y>(item));
-            }
+            List<Y> mappedsource = new ();         
+            mappedsource.AddRange(mapper.Map<IEnumerable<Y>>(this));
+            
             return new PagedList<Y>(mappedsource, TotalItemsCount, CurrentPage, PageSize);
         }
-
     }
 }

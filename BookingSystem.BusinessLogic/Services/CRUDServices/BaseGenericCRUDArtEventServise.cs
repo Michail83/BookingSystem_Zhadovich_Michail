@@ -40,7 +40,7 @@ namespace BookingSystem.BusinessLogic.Services.CRUDServices
             PagesState _pagesStatus;
             _pagesStatus = pagesStatus ?? new PagesState();
 
-            var pagedResult = await PagedList<TYPE_DAL>.TakePagedListAsync(_repository.GetAll(), pagesStatus.PageNumber, pagesStatus.PageSize);
+            var pagedResult = await PagedList<TYPE_DAL>.TakePagedListAsync(_repository.GetAll(), pagesStatus);
             return pagedResult.MapTo<TYPE_BL>(_mapper);
         }
 

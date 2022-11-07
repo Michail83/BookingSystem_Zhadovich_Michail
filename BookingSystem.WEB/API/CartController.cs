@@ -23,25 +23,22 @@ namespace BookingSystem.WEB.API
             _mapper = mapper;
         }
         
-        [HttpGet]
-        public async Task<ActionResult<CheckCartResult>> CheckCartItem([FromQuery] CartItem cartItem)
-        {
-            var result = await _checkCartItemService.CheckCartItem(cartItem);
-            return Ok(result);
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<CheckCartResult>> CheckCartItem([FromQuery] CartItem cartItem)
+        //{
+        //    var result = await _checkCartItemService.CheckCartItem(cartItem);
+        //    return Ok(result);
+        //}
 
 
         [Route(nameof(GetCurrentListOfArtEvent))]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery] IEnumerable<int> id)
+        public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery] IEnumerable<int> ids)
         {
-            var listOfArtEvents = await _checkCartItemService.GetListOfArtEventsForReactCart(id);
-            List<ArtEventViewModel> listOfArtEventsForReactCart = new();
-            foreach (var artEventBL in listOfArtEvents)
-            {
-                listOfArtEventsForReactCart.Add(_mapper.Map<ArtEventViewModel>(artEventBL));
-
-            }
+            var listOfArtEvents = await _checkCartItemService.GetListOfArtEventsForReactCart(ids);
+            
+            IEnumerable<ArtEventViewModel> listOfArtEventsForReactCart = _mapper.Map<IEnumerable<ArtEventViewModel>>(listOfArtEvents);
+            
             return Ok(listOfArtEventsForReactCart);
         }
     }

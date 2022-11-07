@@ -61,12 +61,14 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest("No orderData");
             }
+
             List<CartWithQuantityBL> cartWithQuantityBLs = new();
             foreach (var ord in orderData)
             {
                 cartWithQuantityBLs.Add(new CartWithQuantityBL { Quantity = ord.Quantity, ArtEventBL = new ArtEventBL { Id = ord.EventId } });
             }
             OrderBL orderBL = new OrderBL { UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation = System.DateTime.Now };
+           
             await _orderBLService.CreateAsync(orderBL);
 
             return Ok();
@@ -79,11 +81,8 @@ namespace BookingSystem.WEB.API
         {
             var resultBL = await _orderBLService.GetAllAsync(email);
             var resultViewModel = new List<OrderViewModel>();
-
-            foreach (var item in resultBL)
-            {
-                resultViewModel.Add(_mapper.Map<OrderViewModel>(item));
-            }
+            resultViewModel.AddRange(_mapper.Map<IEnumerable<OrderViewModel>>(resultBL));
+           
             return resultViewModel;
         }
     }

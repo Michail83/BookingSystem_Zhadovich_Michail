@@ -20,7 +20,7 @@ namespace BookingSystem.WEB.API
         [HttpPost]
         public async Task<string> CreateOrder([FromQuery] int orderId)
         {
-            var response = await _payPalService.CreateOrderAsync(orderId, GetCurrentUserEmail());
+            var response = await _payPalService.CreatePaymentAsync(orderId, GetCurrentUserEmail());
 
             return response;
         }

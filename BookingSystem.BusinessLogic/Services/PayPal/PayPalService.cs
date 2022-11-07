@@ -1,17 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels.PayPalModels;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Reflection.Metadata;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Text.Encodings;
-using BookingSystem.BusinessLogic.BusinesLogicModels.PayPalModels;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Linq;
-using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 
 namespace BookingSystem.BusinessLogic.Services.Paypal
 {
@@ -33,13 +28,13 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
             };
         }
 
-        public async Task<string> CreateOrderAsync(int orderId, string currentUser)
+        public async Task<string> CreatePaymentAsync(int orderId, string currentUser)
         {
             var accesToken = await _payPalAuthService.AccessTokenAsync();
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accesToken);
             var body = await CreatePayPalRequest(orderId, currentUser);
 
-            var jsonPaypalRequest = JsonConvert.SerializeObject(body, Formatting.Indented, new JsonSerializerSettings {ContractResolver= new CamelCasePropertyNamesContractResolver() });
+            var jsonPaypalRequest = JsonConvert.SerializeObject(body, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
             var content = new StringContent(jsonPaypalRequest, System.Text.Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("/v2/checkout/orders", content);
@@ -58,19 +53,16 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
                 var content = new StringContent("", System.Text.Encoding.UTF8, "application/json");
                 var response = await _client.PostAsync($"/v2/checkout/orders/{orderId}/capture", content);
                 var message = await response.Content.ReadAsStringAsync();
-                //Debug.WriteLine(message);
-                
-
 
                 var json = (JObject)JsonConvert.DeserializeObject(message);
                 var jtokenCaptures = json["purchase_units"][0]["payments"]["captures"][0];
 
-                var success = String.Equals(jtokenCaptures["status"].Value<string>(), "COMPLETED") ;
-                
-                if (success) 
+                var success = String.Equals(jtokenCaptures["status"].Value<string>(), "COMPLETED");
+
+                if (success)
                 {
-                  var internalOrderId = jtokenCaptures["custom_id"].Value<int>();
-                  var order = await _orderBLService.GetAsync(internalOrderId, user);
+                    var internalOrderId = jtokenCaptures["custom_id"].Value<int>();
+                    var order = await _orderBLService.GetAsync(internalOrderId, user);
                     order.IsPaid = true;
                     order.PaidOrder = JsonConvert.SerializeObject(order);
                     await _orderBLService.UpdateAsync(order);
@@ -85,8 +77,8 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
                 Debug.WriteLine(ex.Message);
                 return false;
             }
-            
-            
+
+
         }
         private async Task<PayPal_CreatedRequest> CreatePayPalRequest(int orderId, string currentUser)
         {
@@ -95,7 +87,7 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
 
             PayPal_CreatedRequest request = new();
             request.Intent = "CAPTURE";
-             PayPal_Purchase_unit purchase_Unit = new();
+            PayPal_Purchase_unit purchase_Unit = new();
             purchase_Unit.Amount.Currency_code = currency_code;
             purchase_Unit.Amount.Breakdown.Item_total.Currency_code = currency_code;
             purchase_Unit.Custom_id = order.Id.ToString();
@@ -103,11 +95,13 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
             foreach (var ivent in order.ListOfReservedEventTickets)
             {
 
-                purchase_Unit.Items.Add(new PayPal_Item { 
-                    Name = "ticket(s)", 
+                purchase_Unit.Items.Add(new PayPal_Item
+                {
+                    Name = "ticket(s)",
                     Description = ivent.ArtEventBL.EventName,
-                    Quantity=ivent.Quantity,
-                    Unit_amount= new PayPal_Unit_amount() {
+                    Quantity = ivent.Quantity,
+                    Unit_amount = new PayPal_Unit_amount()
+                    {
                         Currency_code = currency_code,
                         Value = ivent.ArtEventBL.Price
                     }
@@ -121,40 +115,3 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
         }
     }
 }
-
-//var body = new
-//{
-//    intent = "CAPTURE",
-//    purchase_units = new[]
-//               {
-//                    new{
-//                        items = new[]{
-//                            new {
-//                                name = "nameTest",
-//                                description = "Test good 1",
-//                                quantity= 2,
-//                                unit_amount = new { currency_code ="USD", value=25 }
-//                            },
-//                            new {
-//                                name = "NAME Test 2",
-//                                description = "Test good 2",
-//                                quantity= 2,
-//                                unit_amount = new { currency_code ="USD", value=25 }
-//                            }
-//                        },
-//                        amount = new {
-//                            currency_code="USD",
-//                            value = 100,
-
-//                            breakdown = new {
-//                                item_total = new{
-//                                    currency_code="USD",
-//                                    value=100
-//                                }
-//                            }
-//                        }
-//                    }
-
-
-//                }
-//};
