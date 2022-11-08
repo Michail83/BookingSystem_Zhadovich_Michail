@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace BookingSystem.DataLayer
 {
     public static class DataLayerExtension
@@ -20,22 +19,15 @@ namespace BookingSystem.DataLayer
             option.UseInMemoryDatabase("defaultLocalConnection"));
 
 
-
             service.AddScoped<IRepositoryAsync<ArtEvent>, ArtEventRepository>();
 
-            service.AddScoped<IRepositoryAsync<OpenAir>, GenericConcreteRepository<OpenAir>>();   
-
+            service.AddScoped<IRepositoryAsync<OpenAir>, GenericConcreteRepository<OpenAir>>();
             service.AddScoped<IRepositoryAsync<Party>, GenericConcreteRepository<Party>>();
-
             service.AddScoped<IRepositoryAsync<ClassicMusic>, GenericConcreteRepository<ClassicMusic>>();
 
             service.AddScoped<IOrderRepositoryAsync, OrderRepositoryInMemory>();
 
-
-
-
             return service;
         }
-
     }
 }

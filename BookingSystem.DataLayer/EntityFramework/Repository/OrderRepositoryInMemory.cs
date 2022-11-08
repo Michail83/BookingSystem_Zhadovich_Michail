@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BookingSystem.Infrastructure.Models.Result;
 //using Microsoft.Extensions.Logging;
 //using System.Diagnostics;
 
@@ -12,11 +13,9 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
 {
     public class OrderRepositoryInMemory : IOrderRepositoryAsync
     {
-        DbContext _dbContext;
-        DbSet<Order> _orders;
-        DbSet<ArtEvent> _artEvents;
-
-
+        readonly DbContext _dbContext;
+        readonly DbSet<Order> _orders;
+        readonly DbSet<ArtEvent> _artEvents;
 
         public OrderRepositoryInMemory(BookingSystemDBContext dbContext)
         {
@@ -26,9 +25,8 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         }
 
         //   неожиданное поведение??  -   ИЗМЕНЯЕТ ДАННЫЕ в  ArtEvents
-        public async Task<Order> CreateAsync(Order order)
+        public async Task<Result<Order>> CreateAsync(Order order)
         {
-
             try
             {
                 await _orders.AddAsync(order);
@@ -38,55 +36,82 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                     var artEventToChange = _artEvents.First(artEvent => artEvent.Id == orderAndArtEvent.ArtEventId);
                     artEventToChange.AmountOfTickets -= orderAndArtEvent.NumberOfBookedTicket;
                     if (artEventToChange.AmountOfTickets < 0)
-                    {
-                        _dbContext.Dispose();
+                    {                        
                         throw new Exception();
                     }
                 }
                 await _dbContext.SaveChangesAsync();
-
+                return new SuccessResult<Order>(order);
             }
             catch (Exception ex)
-            {
-                throw new ArgumentException("artEventToChange.AmountOfTickets<0", innerException: ex);
-
+            {                    
+                return new ErrorResult<Order>(Messages.NoErrorHandle);
             }
-            return order;
-
         }
 
-        public async Task DeleteAsync(int ID)
+        public async Task<Result> DeleteAsync(int ID)
         {
-            var orderToRemove = await _orders.FirstOrDefaultAsync(order => order.Id == ID);
-            _orders.Remove(orderToRemove);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                var orderToRemove = await _orders.FirstOrDefaultAsync(order => order.Id == ID);
+                _orders.Remove(orderToRemove);
+                await _dbContext.SaveChangesAsync();
+                return new SuccessResult();
+            }
+            catch (Exception)
+            {
+
+                return new ErrorResult(Messages.NoErrorHandle);
+            }            
         }
 
-        public IQueryable<Order> GetAll(string email)
+        public Result<IQueryable<Order>> GetAll(string email)
         {
-            var queryResult = _orders.Where(order => String.Equals(order.UserEmail, email))
+            try
+            {
+                var queryResult = _orders.Where(order => String.Equals(order.UserEmail, email))
                 .Include(c => c.OrderAndArtEvents)
                 .ThenInclude(rel => rel.ArtEvent)
                 .AsNoTracking();
-            return queryResult;
+                return new SuccessResult<IQueryable<Order>>(queryResult) ;
+            }
+            catch (Exception)
+            {
+
+                return new ErrorResult<IQueryable<Order>>(Messages.NoErrorHandle);
+            }            
         }
 
-        public async Task<Order> GetAsync(int ID, string email)
+        public async Task<Result<Order>> GetAsync(int ID, string email)
         {
-            var order = await _orders.AsNoTracking().FirstOrDefaultAsync(order => order.Id == ID && order.UserEmail == email);
-            return order;
+            try
+            {
+                var order = await _orders
+                    .Include(c => c.OrderAndArtEvents)
+                    .ThenInclude(rel => rel.ArtEvent)
+                    .AsNoTracking().FirstAsync(order => order.Id == ID && order.UserEmail == email);
+                return new SuccessResult<Order> (order);
+            }
+            catch (Exception)
+            {
+                return new ErrorResult<Order>(Messages.NoErrorHandle);
+            }
         }
 
-        public async Task<Order> UpdateAsync(Order order)
+        public async Task<Result<Order>> UpdateAsync(Order order)
         {
-            var _order = await _orders.FirstOrDefaultAsync((ord) => ord.Id == order.Id);
-            _order.IsPaid = order.IsPaid;
-            _order.PaidOrder = order.PaidOrder;
-            await _dbContext.SaveChangesAsync();
-            return order;
-            //_orders.Update(order);
-            //await _dbContext.SaveChangesAsync();
-            //return order;
+            try
+            {
+                var _order = await _orders.FirstOrDefaultAsync((ord) => ord.Id == order.Id);
+                _order.IsPaid = order.IsPaid;
+                _order.PaidOrder = order.PaidOrder;
+                await _dbContext.SaveChangesAsync();
+                return new SuccessResult<Order>(_order);
+            }
+            catch (Exception)
+            {
+                return new ErrorResult<Order>(Messages.NoErrorHandle);
+            }           
         }
     }
 }

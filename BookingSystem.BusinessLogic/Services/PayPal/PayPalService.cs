@@ -1,4 +1,5 @@
 ﻿using BookingSystem.BusinessLogic.BusinesLogicModels.PayPalModels;
+using BookingSystem.DataLayer.EntityModels;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -51,23 +52,31 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
                 var accesToken = await _payPalAuthService.AccessTokenAsync();
                 _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accesToken);
                 var content = new StringContent("", System.Text.Encoding.UTF8, "application/json");
+
                 var response = await _client.PostAsync($"/v2/checkout/orders/{orderId}/capture", content);
                 var message = await response.Content.ReadAsStringAsync();
 
                 var json = (JObject)JsonConvert.DeserializeObject(message);
                 var jtokenCaptures = json["purchase_units"][0]["payments"]["captures"][0];
 
-                var success = String.Equals(jtokenCaptures["status"].Value<string>(), "COMPLETED");
+                var IsStatusCompleted = String.Equals(jtokenCaptures["status"].Value<string>(), "COMPLETED");
 
-                if (success)
+                if (IsStatusCompleted)
                 {
                     var internalOrderId = jtokenCaptures["custom_id"].Value<int>();
-                    var order = await _orderBLService.GetAsync(internalOrderId, user);
-                    order.IsPaid = true;
-                    order.PaidOrder = JsonConvert.SerializeObject(order);
-                    await _orderBLService.UpdateAsync(order);
+                    var orderResult = await _orderBLService.GetAsync(internalOrderId, user);
+                    if (orderResult.Success)
+                    {
+                        var order = orderResult.Data;
+                        order.IsPaid = true;
+                        order.PaidOrder = JsonConvert.SerializeObject(order);
 
-                    return true;
+                        await _orderBLService.UpdateAsync(order);
+
+                        return true;
+
+                    }
+                    
                 }
 
                 return false;
@@ -83,35 +92,43 @@ namespace BookingSystem.BusinessLogic.Services.Paypal
         private async Task<PayPal_CreatedRequest> CreatePayPalRequest(int orderId, string currentUser)
         {
             var currency_code = "USD";
-            var order = await _orderBLService.GetAsync(orderId, currentUser);
+            var orderResult = await _orderBLService.GetAsync(orderId, currentUser);
 
-            PayPal_CreatedRequest request = new();
-            request.Intent = "CAPTURE";
-            PayPal_Purchase_unit purchase_Unit = new();
-            purchase_Unit.Amount.Currency_code = currency_code;
-            purchase_Unit.Amount.Breakdown.Item_total.Currency_code = currency_code;
-            purchase_Unit.Custom_id = order.Id.ToString();
-
-            foreach (var ivent in order.ListOfReservedEventTickets)
+            if (orderResult.Success)
             {
+                var order = orderResult.Data;
 
-                purchase_Unit.Items.Add(new PayPal_Item
+                PayPal_CreatedRequest request = new();
+                request.Intent = "CAPTURE";
+                PayPal_Purchase_unit purchase_Unit = new();
+                purchase_Unit.Amount.Currency_code = currency_code;
+                purchase_Unit.Amount.Breakdown.Item_total.Currency_code = currency_code;
+                purchase_Unit.Custom_id = order.Id.ToString();
+
+                foreach (var ivent in order.ListOfReservedEventTickets)
                 {
-                    Name = "ticket(s)",
-                    Description = ivent.ArtEventBL.EventName,
-                    Quantity = ivent.Quantity,
-                    Unit_amount = new PayPal_Unit_amount()
+
+                    purchase_Unit.Items.Add(new PayPal_Item
                     {
-                        Currency_code = currency_code,
-                        Value = ivent.ArtEventBL.Price
-                    }
-                });
-                var currentTotal = ivent.Quantity * ivent.ArtEventBL.Price;
-                purchase_Unit.Amount.Value += currentTotal;
-                purchase_Unit.Amount.Breakdown.Item_total.Value += currentTotal;
+                        Name = "ticket(s)",
+                        Description = ivent.ArtEventBL.EventName,
+                        Quantity = ivent.Quantity,
+                        Unit_amount = new PayPal_Unit_amount()
+                        {
+                            Currency_code = currency_code,
+                            Value = ivent.ArtEventBL.Price
+                        }
+                    });
+                    var currentTotal = ivent.Quantity * ivent.ArtEventBL.Price;
+                    purchase_Unit.Amount.Value += currentTotal;
+                    purchase_Unit.Amount.Breakdown.Item_total.Value += currentTotal;
+                }
+                request.Purchase_units.Add(purchase_Unit);
+                return request;
+
             }
-            request.Purchase_units.Add(purchase_Unit);
-            return request;
+            else return null;
+            
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Services;
+using BookingSystem.Infrastructure.Models.Result;
 using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,22 +29,31 @@ namespace BookingSystem.WEB.API
             _orderBLService = orderBLService;
             _mapper = order;
         }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var orderBl = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
-            var result = _mapper.Map<OrderViewModel>(orderBl);
-            return Ok(result);
+            var result = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
+            if (result.Success)
+            {
+                var orderViewModel = _mapper.Map<OrderViewModel>(result.Data);
+                return Ok(orderViewModel);
+            }            
+            
+            return BadRequest(((ErrorResult<OrderBL>)result).Errors);
         }
+
         [Authorize]
         [Route("GetAsync")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
+
             var resultViewModel = await GetOrdersAsync(GetCurrentUserEmail());
             return Ok(resultViewModel);
         }
+
         [Authorize(Roles = "admin")]
         [Route("GetOrdersForAdminAsync")]
         [HttpGet]
@@ -51,7 +61,8 @@ namespace BookingSystem.WEB.API
         {
             var resultViewModel = await GetOrdersAsync(email);
             return Ok(resultViewModel);
-        }
+        } 
+
         [Authorize]
         [Route("Create")]
         [HttpPost]
@@ -61,7 +72,6 @@ namespace BookingSystem.WEB.API
             {
                 return BadRequest("No orderData");
             }
-
             List<CartWithQuantityBL> cartWithQuantityBLs = new();
             foreach (var ord in orderData)
             {
@@ -69,21 +79,29 @@ namespace BookingSystem.WEB.API
             }
             OrderBL orderBL = new OrderBL { UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation = System.DateTime.Now };
            
-            await _orderBLService.CreateAsync(orderBL);
-
-            return Ok();
+            var result =  await _orderBLService.CreateAsync(orderBL);
+            if (result.Success)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
+
         private string GetCurrentUserEmail()
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.Email);
         }
+
         private async Task<List<OrderViewModel>> GetOrdersAsync(string email)
         {
             var resultBL = await _orderBLService.GetAllAsync(email);
-            var resultViewModel = new List<OrderViewModel>();
-            resultViewModel.AddRange(_mapper.Map<IEnumerable<OrderViewModel>>(resultBL));
-           
-            return resultViewModel;
+            if (resultBL.Success)
+            {
+                var resultViewModel = new List<OrderViewModel>();
+                resultViewModel.AddRange(_mapper.Map<IEnumerable<OrderViewModel>>(resultBL.Data));
+                return resultViewModel;
+            }
+            return null;
         }
     }
 }
