@@ -316,7 +316,10 @@ namespace BookingSystem.WEB.API
             foreach (var user in users)
             {
                 var userV = _mapper.Map<UserViewModel>(user);
-                userV.OrdersCount = await _orderBLService.GetOrdersCount(userV.Email);
+
+                var orderCountResult = await _orderBLService.GetOrdersCount(userV.Email);
+                userV.OrdersCount = orderCountResult.Success ? orderCountResult.Data : 0;
+
                 userV.HasPassword = await _userManager.HasPasswordAsync(user);
 
                 userViewModels.Add(userV);
