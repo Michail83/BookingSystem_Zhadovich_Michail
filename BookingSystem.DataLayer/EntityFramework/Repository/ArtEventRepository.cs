@@ -18,37 +18,11 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             _dBContext = dBContext;
             _dbSet = _dBContext.Set<ArtEvent>();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="artEvent"></param>
-        /// <returns></returns>
-        /// <exception cref="EFCoreDbException"></exception>
+        }        
         public Task CreateAsync(ArtEvent artEvent)
         {
             throw new NotImplementedException("Not supported  -  ArtEventRepository : IRepositoryAsync<ArtEvent>==  CreateAsync ");
-            //try
-            //{
-            //    await _dbSet.AddAsync(artEvent);
-
-            //}
-            //catch (SqlException sqlEx)
-            //{
-            //    throw new EFCoreDbException(sqlEx.Message);                
-            //}
-
-        }
-        #region SummuryDeleteAsync
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        /// <exception cref="EventNotFoundException"></exception>
-        /// <exception cref="EFCoreDbException"></exception>
-        #endregion SummuryDeleteAsync
+        }   
         public async Task DeleteAsync(int ID)
         {
             try
@@ -62,11 +36,10 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                 _dbSet.Remove(artEventForRemove);
                 await _dBContext.SaveChangesAsync();
             }
-            catch (SqlException sqlEx)
+            catch (Exception Ex)
             {
-
-                throw new EFCoreDbException(sqlEx.Message);
-                // реализовать исключение потому что дольше не надо знать sqlException
+                throw new EFCoreDbException(Ex.Message);
+               
             }
         }
 
@@ -74,7 +47,6 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         {
             return _dbSet.AsNoTracking();
         }
-
 
         public async Task<ArtEvent> GetAsync(int ID)
         {
@@ -86,13 +58,8 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
                     throw new EventNotFoundException("Событие не найдено");
                 }
                 return queryResult;
-
             }
-            //catch (ArgumentNullException Ex)     //!!!!!!!!    Ловить в контроллере?!?
-            //{
-
-            //    throw new EFCoreDbException(Ex.Message+ "Not Found");
-            //}
+            
             catch (SqlException sqlEx)
             {
                 throw new EFCoreDbException(sqlEx.Message);
@@ -102,7 +69,5 @@ namespace BookingSystem.DataLayer.EntityFramework.Repository
         public Task UpdateAsync(ArtEvent artEvent)
         {
             throw new NotImplementedException("Not Supported - ArtEventRepository : IRepositoryAsync<ArtEvent>  == UpdateAsync");
-
         }
-    }
-}
+    }}
