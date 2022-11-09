@@ -65,8 +65,7 @@ const MyChevron = styled.div`
 
 const OrderBlock = (props) => {
     const [showOrders, setShowOrders] = useState(false);
-    const showOrdersHandler = () => setShowOrders(!showOrders)
-     // console.log(props);
+    const showOrdersHandler = () => setShowOrders(!showOrders)     
         
     const getTotalSum =()=> props.listOfReservedEventTickets.reduce((sum, current) => {
         sum = sum + current.quantity * current.artEventViewModel.price;
@@ -79,7 +78,6 @@ const OrderBlock = (props) => {
         }  else if (props.setOrderIdForBuy) {
             return <BuyButton onClick={(event)=>{event.stopPropagation();   props.setOrderIdForBuy(props.id)}}>Buy Now</BuyButton>
         }         
-        
     }
     return (
         <OrderBlockDiv key={props.id} >

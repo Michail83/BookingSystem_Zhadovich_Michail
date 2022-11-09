@@ -2,9 +2,8 @@
 import {connect} from "react-redux";
 import styled from "styled-components";
 
-
 const WrapForDiv = styled.div`
-    margin:0 0.5rem
+    margin:0 0.5rem;
 
 `;
 function DisplayUserName({auth })

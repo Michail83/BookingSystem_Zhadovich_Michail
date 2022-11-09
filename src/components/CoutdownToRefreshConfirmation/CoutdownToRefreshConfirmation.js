@@ -1,23 +1,16 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState } from "react";
 import Countdown from "react-countdown";
-
 import { BlueButton } from "../StyledComponent/Button/BlueButton";
-
 import api_url from "../../API_URL";
 import axios from "axios";
-////////////////////////////////////////////////////////////////////////////////
+
 const CoutdownToRefreshConfirmation = ({ email }) => {
     const [result, setResult] = useState("");
 
     let toRender;
 
-    const tryRefreshConfirmation = async () => {
-        console.log(email);
-
-        let result = await axios.get(api_url.refreshConfirmationEmail(email));
-
-        console.log(result);
-
+    const tryRefreshConfirmation = async () => { 
+        let result = await axios.get(api_url.refreshConfirmationEmail(email)); 
         setResult(result);
     }
 
@@ -36,17 +29,11 @@ const CoutdownToRefreshConfirmation = ({ email }) => {
         toRender = <Fragment>
             <p>This account is not confirmed</p>
             <p>Do you want to send another email with confirmation link?<BlueButton onClick={tryRefreshConfirmation}>Yes</BlueButton></p>;
-        </Fragment> 
-        
+        </Fragment>         
     }
 
-/////////////////////////////////////////////////////////////////////
-
-
-    return (
-        // <div>test</div>
-        <Fragment>{toRender}</Fragment>
-
+    return (       
+        <>{toRender}</>
     )
 }
 export default CoutdownToRefreshConfirmation;

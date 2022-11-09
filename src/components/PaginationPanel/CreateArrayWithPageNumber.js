@@ -57,8 +57,4 @@ const createArrayWithPageNumber = (totalPages, currentPage, pageNeighbours) => {
     return range(1, totalPages);
 }
 
-
-
-
-
 export default createArrayWithPageNumber;

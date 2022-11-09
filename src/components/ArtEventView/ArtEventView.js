@@ -1,8 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { NoImageavailable } from "../../CONST/NoImageAvailable";
-// import { StyledSpan } from "./StyledSpan";
-// import { AddititionalInfoRender } from "./AddititionalInfoRender";
 import ArtEventDataBlock from "./PartOfArtEventView/ArtEventDataBlock";
 import ArtEventImageBlock from "./PartOfArtEventView/ArtEventImageBlock";
 
@@ -26,28 +23,12 @@ const MainArtEventView = styled.div`
     align-items: stretch;  
     background-color:white; 
 `;
-// const ArtEventViewImage = styled.div`
-//     width:320px;
-//     display:flex;
-//     align-items: center;
-//     justify-content: center;
-    
-// `;
-
-// 
 
 function ArtEventView(props) { 
     return(
         <MainArtEventView >
             <ArtEventImageBlock {...props}/>
-
-{/* 
-            <ArtEventViewImage>
-                <IMAGE src={props.image? `data:image/jpeg;base64,${props.image}`:NoImageavailable} width={"320px"} alt={NoImageavailable} title="image"/>
-            </ArtEventViewImage> */}
-
-            <ArtEventDataBlock {...props}/>
-            
+            <ArtEventDataBlock {...props}/>            
             <ButtonBlock>
                 {<props.buttonBlock {...props}/>}
             </ButtonBlock>

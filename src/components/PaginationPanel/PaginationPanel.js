@@ -25,8 +25,7 @@ const LiPage = styled.li`
 const LiPageActive=styled(LiPage)`
   z-index: 1;
   color: #fff;
-  background-color: lightgray;
-  /* border-color: #007bff; */
+  background-color: lightgray;  
   border: 1px solid #007bff;
 `;
 const ApageLink = styled.a`
@@ -35,27 +34,19 @@ const ApageLink = styled.a`
     padding: 0.5rem 0.75rem;
     margin-left: -1px;
     line-height: 1.25;
-    color: #007bff;
-    /* background-color: #fff; */
+    color: #007bff;    
     border: 1px solid #dee2e6;
     cursor: pointer;
     :hover{
         z-index: 2;
         color: #0056b3;
         text-decoration: none;
-        background-color: lightgray;
-        /* background-color: #e9ecef; */
+        background-color: lightgray;        
         border-color: #dee2e6;
-    }
-    
+    }    
 `;
 
 const PaginationPanel =({totalPages, currentPage, pageNeighbours, setCurrentPage})=>{
-    // console.log("PaginationPanel");
-    // console.log("totalPages "+totalPages );
-    // console.log("currentPage "+ currentPage);
-
-
 
     if (totalPages<2) {
         return null;
@@ -109,11 +100,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
     {
-        setCurrentPage:(number)=> dispatch(actionCreator.setCurrentPage (number)), 
-        // setfilteringDataToDefault:()=>dispatch(actionsCreator.setFilteringDataToDefault())     
+        setCurrentPage:(number)=> dispatch(actionCreator.setCurrentPage (number))        
     });
-
-
 
 var PaginationPanel_ReduxWrapped = connect(mapStateToProps, mapDispatchToProps)(PaginationPanel);
 

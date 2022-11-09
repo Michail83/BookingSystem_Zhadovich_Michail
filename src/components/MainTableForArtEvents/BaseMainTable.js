@@ -1,7 +1,5 @@
 import React, { useEffect, Fragment } from "react";
 import { useStateIfMounted } from "use-state-if-mounted";
-
-// import HomeArtEventView from '../HomeArtEventView/HomeArtEventView';
 import urls from '../../API_URL'
 import axios from "axios";
 import { connect } from "react-redux";
@@ -41,14 +39,14 @@ const BaseMainTable = ({
 
     const loadArtEvents = async (filteringData) => {
         try {
-            setLoading(true); 
-            let artEventsUrl = urls.getArtEventWithFilterQuery(filteringData);         
+            setLoading(true);
+            let artEventsUrl = urls.getArtEventWithFilterQuery(filteringData);
             let result = await axios.get(artEventsUrl);
             let paginationData = JSON.parse(result.headers["pagestateinfo"]);
-            
+
             setPaginationData(paginationData);
             setArtEventItems(result.data);
-            
+
         } catch (err) {
             console.log("error in MainTableForArtEvents => loadArtEvents  " + err);
             setError(err);
@@ -59,8 +57,8 @@ const BaseMainTable = ({
     }
 
     useEffect(() => {
-        loadArtEvents({ sortBy, nameForFilter, typeForFilter,currentPage, pageSize });
-    }, [sortBy, nameForFilter, typeForFilter,currentPage, pageSize]);
+        loadArtEvents({ sortBy, nameForFilter, typeForFilter, currentPage, pageSize });
+    }, [sortBy, nameForFilter, typeForFilter, currentPage, pageSize]);
 
     const createComponent = () => {
         let content = <NoResult>Error when loading art event</NoResult>;
@@ -88,28 +86,26 @@ const BaseMainTable = ({
         <Fragment>
             <FilterPanel_ReduxWrapped />
             <Flexblock>
-                {createComponent()}
-                {/* <PaginationPanel_ReduxWrapped /> */}
+                {createComponent()}                
             </Flexblock>
         </Fragment>
     )
 }
 
 const mapStateToProps = state => ({
-    artEventItems: state.state.artEventItems,   
+    artEventItems: state.state.artEventItems,
 
     sortBy: state.state.filteringData.sortBy,
     nameForFilter: state.state.filteringData.nameForFilter,
     typeForFilter: state.state.filteringData.typeForFilter,
 
     currentPage: state.state.filteringData.currentPage,
-    pageSize: state.state.filteringData.pageSize, 
+    pageSize: state.state.filteringData.pageSize,
 });
 
 const mapDispatchToProps = dispatch => (
     {
         setArtEventItems: (artItems) => dispatch(actionCreator.SetArtEventItems(artItems)),
-
         setPaginationData: (paginationData) => dispatch(actionCreator.setPaginationData(paginationData))
     });
 

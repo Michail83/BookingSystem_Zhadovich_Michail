@@ -16,8 +16,7 @@ const OrdersBase = ({ getOrders, email, orderIdForBuy }) => {
                
                 let newProps = {...order, email:email, setOrderIdForBuy:orderIdForBuy }
                 return (
-                    <OrderBlock key={order.id} {...newProps}   />
-                    
+                    <OrderBlock key={order.id} {...newProps}   />                    
                 )
             })
         } else {
