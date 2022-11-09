@@ -4,8 +4,6 @@ import api_url from "../../API_URL";
 import { connect } from "react-redux";
 import actionsCreater from "../../Store/ActionsCreators/actionCreator";
 import User from "../User/User";
-
-
 import styled from "styled-components";
 
 const MainUserList = styled.div`
@@ -27,8 +25,10 @@ const UserList = ({ userList, setUserList }) => {
         }
     }, []);
     const loadData = async () => {
+
         let users = await axios.get(api_url.getUsers()); 
         setUserList(users.data);
+        
     };
     const toRender = () => {
         if (userList.length===0) {

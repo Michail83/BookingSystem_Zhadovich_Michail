@@ -5,9 +5,7 @@ import "./ModalWindowForLogin.css";
 import ExternalLoginList from "../ExternalLogin/ExternalLoginList";
 import { Link } from "react-router-dom";
 import OwnLogin from "../OwnLogin/OwnLogin";
-
 import { CSSTransition } from 'react-transition-group';
-
 import styled from "styled-components";
 
 const TestNoActive = styled.div`
@@ -43,8 +41,7 @@ const ModalWindowForLogin = ({ isActive, setNoActive }) => {
     let nodeRef = React.useRef(null);
     let ModalWindow = TestNoActive;
 
-    return (
-        
+    return (        
             <CSSTransition
                 in={isActive}
                 timeout={300}
@@ -58,16 +55,11 @@ const ModalWindowForLogin = ({ isActive, setNoActive }) => {
                         <OwnLogin />
                         <div>
                             <Span> <Link to={"/Registration"} onClick={setNoActive}>Registration</Link> </Span>
-                            <Span> <Link to={"/recoverpassword"} onClick={setNoActive}>Forgot password?</Link></Span>
-                           
-                                                      
+                            <Span> <Link to={"/recoverpassword"} onClick={setNoActive}>Forgot password?</Link></Span>  
                         </div>
-                        
-
                     </ModalContent>
                 </ModalWindow>
-            </CSSTransition>
-       
+            </CSSTransition>       
     )
 }
 

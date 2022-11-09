@@ -42,8 +42,7 @@ const PayPalButton = ({orderId, setOrderId}) => {
                     }
                 }
                 showSpinner ={true}
-                style ={{color:"blue"}}
-                
+                style ={{color:"blue"}}                
                 >
             </PayPalButtons>
         </PayPalScriptProvider>

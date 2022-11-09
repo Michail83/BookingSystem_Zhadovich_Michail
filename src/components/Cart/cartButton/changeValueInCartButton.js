@@ -29,7 +29,7 @@ const FormForButton = styled.form`
         width: 25px;
     }
 `;
-const PriceWrap =styled.div`
+const PriceWrap = styled.div`
     margin: 0.5rem;
 `;
 const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, price, amountOfTickets, deleteFromCart, deleteFromCartArray }) => {
@@ -45,29 +45,19 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, p
         }
     }, []);
 
-    function onFormClick(event, id) {
-        switch (event.target.id) {
-            case "increment": {
-                if (curentReduxValue < amountOfTickets) {
-                    setCurrentReduxValue(id, curentReduxValue + 1)
-                }
-            }
-                break;
-            case "decrement": {
-                if (curentReduxValue > 1) {
-                    setCurrentReduxValue(id, curentReduxValue - 1)
-                }
-            }
-                break;
-            case "input":
-                break;
-
-            default:
-                break;
+    const decrementValue = ()=>{
+        if (curentReduxValue > 1) {
+            setCurrentReduxValue(id, curentReduxValue - 1)
         }
     }
 
-    function onInputHandler(event, id, input) {
+    const incrementValue = ()=>{
+        if (curentReduxValue < amountOfTickets) {
+            setCurrentReduxValue(id, curentReduxValue + 1)
+        }
+    }
+
+    const onInputHandler=(event, id, input)=> {
         let newValue = Number.parseInt(event.target.value, 10);
 
         if (Number.isNaN(newValue) || newValue < 1) {
@@ -82,13 +72,12 @@ const ChangeValueInCartButton = ({ curentReduxValue, setCurrentReduxValue, id, p
 
     return (
         <>
-            <FormForButton id="ChangeValueInCartButton" onClick={(event) => onFormClick(event, id)}>
-                <button id="decrement" disabled={curentReduxValue < 2} type="button">-</button>
-                <input id="input" onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
-                <button id="increment" disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
+            <FormForButton id="ChangeValueInCartButton" >
+                <button  onClick={decrementValue} disabled={curentReduxValue < 2} type="button">-</button>
+                <input  onInput={(event) => onInputHandler(event, id)} onFocus={(event) => event.target.select()} type="text" min='1' max='100' value={curentReduxValue} />
+                <button  onClick={incrementValue} disabled={curentReduxValue >= amountOfTickets} type="button">+</button>
             </FormForButton>
-            <PriceWrap>Total cost: {curentReduxValue*price} USD</PriceWrap>
-            
+            <PriceWrap>Total cost: {curentReduxValue * price} USD</PriceWrap>
         </>
     )
 }

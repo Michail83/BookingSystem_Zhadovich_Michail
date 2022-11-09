@@ -34,7 +34,6 @@ const AdminHeader = ({cartMap, isAuth }) => {
 const mapStateToProps = state => ({    
     cartMap: state.cart.cartMap,
     isAuth: state.auth.isAuthenticated
-
 });
 
 var AdminHeader_ReduxWrapped = connect(mapStateToProps, null)(AdminHeader);

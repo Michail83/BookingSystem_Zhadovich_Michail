@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { YandMap } from "../YandMAP/YandMAP";
 import loadData from './Functions/LoadData';
 
-
 import ArtEventDataBlock from "../ArtEventView/PartOfArtEventView/ArtEventDataBlock";
 import ArtEventImageBlock from "../ArtEventView/PartOfArtEventView/ArtEventImageBlock";
 
@@ -17,15 +16,13 @@ const DetailsMain = styled.div`
 `;
 
 const MapBlock = styled.div`
-    width: auto;    
-    /* border: 1px solid whitesmoke; */
+    width: auto; 
     border-radius: 1px;  
 `;
 
 const ButtonBlock = styled.div`
     box-sizing: border-box;
-    border: 1px solid whitesmoke;
-    /* border: 0;     */
+    border: 1px solid whitesmoke;    
     width: 100%;
     padding:0;
     display:flex;
@@ -33,17 +30,15 @@ const ButtonBlock = styled.div`
     justify-content: center;    
 `;
 
-
 const BaseArtEventDetails = ({ url, ConcreteIventData, buttons }) => {    
     const [artEvent, setArtEvent] = useState();
 
     useEffect(() => {
         loadData(url, setArtEvent);
-    }, []
-    );
+    }, []);
+
     if (artEvent) {        
         return (
-
             <DetailsMain>
                 <ArtEventImageBlock {...artEvent}/> 
                 <ArtEventDataBlock {...artEvent} currentMinWidth={"450px"}/>                 
