@@ -8,5 +8,4 @@ padding:0.5rem;
 position:relative;
 background-color: white;
 min-height: 87vh;
-
 `;

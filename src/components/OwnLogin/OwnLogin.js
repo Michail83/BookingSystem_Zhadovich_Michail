@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-
 import axios from "axios";
 import { connect } from "react-redux";
 import urls from "../../API_URL";
 import actionCreator from "../../Store/ActionsCreators/actionCreator";
 import { tryLoadAuthData } from "../../function/tryLoadAuthData";
 import CoutdownToRefreshConfirmation from "../CoutdownToRefreshConfirmation/CoutdownToRefreshConfirmation";
-
 import styled from "styled-components";
 
-const LabelBlock = styled.div`
-    
+const LabelBlock = styled.div`    
     margin-bottom: 0.3rem;
     align-self:center;
 `;
@@ -19,7 +16,6 @@ const FlexForm = styled.div`
     display:flex;
     flex-direction:column;
     padding: 0.2rem;
-
 `;
 
 const Input = styled.input`    
@@ -81,9 +77,9 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
                     setResult(error.response.data.description)
                     break;
             }
-            if (error.response.data.code === "notconfirmed") {
-                SetIsConfirmEnabled(true);
-            } else setResult(error.response.data.description);
+            // if (error.response.data.code === "notconfirmed") {
+            //     SetIsConfirmEnabled(true);
+            // } else setResult(error.response.data.description);
         }
     }
 
@@ -109,9 +105,6 @@ const OwnLogin = ({ setNoActiveModalWindow }) => {
     )
 }
 
-const mapStateToProps = state => ({
-
-});
 const mapDispatchToProps = dispatch => (
     {
         setNoActiveModalWindow: () => dispatch(actionCreator.setModalWindowForLoginActive(false))

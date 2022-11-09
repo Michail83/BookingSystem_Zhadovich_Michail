@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 import api_url from "../../../API_URL";
 import { unAuthorizedHandler } from "../../../function/unAuthorizedHandler";
@@ -14,21 +13,11 @@ const onSubmitPartyEditFunction = (setStatusOfCreating, id) => {
         },
       };
       const formData = createBaseFormData(data);
-    //   const formData = new FormData();    
     
-
-    //   formData.append('EventName', data.eventName);
-    //   formData.append('Date', data.date);
-    //   formData.append('AmountOfTickets', data.amountOfTickets);
-    //   formData.append('Place', data.place);
-    //   formData.append('Price', data.price);          
-    //   formData.append('Latitude', data.latitude);
-    //   formData.append('Longitude', data.longitude);
       formData.append('Id', id);
       formData.append('AgeLimitation', data.ageLimitation);
       formData.append('Image', data.image[0]??null) 
-      console.log(formData.entries())
-       
+      console.log(formData.entries())       
 
     try {
         let result = await axios.put(api_url.parties(), formData, config );
@@ -39,12 +28,7 @@ const onSubmitPartyEditFunction = (setStatusOfCreating, id) => {
     } catch (error) {
         unAuthorizedHandler(error.response.status);
         setStatusOfCreating(false);
-        
-        
     }
-
-    }
-    
-    
+    }  
 }
 export default onSubmitPartyEditFunction;

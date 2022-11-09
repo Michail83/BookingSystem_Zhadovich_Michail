@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
 
 export const Input = styled.input`
   display: block;
@@ -24,8 +23,6 @@ export const Select = styled.select`
 
 
 export const Form = styled.form`
-  /* background: #0e101c; */
-  /* max-width: 400px; */
   margin: 0 auto;
   width: 500px;  
 `;
@@ -36,7 +33,6 @@ export const Label=styled.label`
   display: block;
   margin-bottom: 5px;
   margin-top: 20px;
-  /* color: white; */
   font-size: 14px;
   font-weight: 200;
 
@@ -46,8 +42,7 @@ export const ErrorMessage= styled.h4`
     margin-top: -8px;
     color: red;
     position: absolute ;
-    /* z-index: 100; */
-`;
+    `;
 export const SubmitButton= styled.button`
   margin-top:13px;
 `;

@@ -16,8 +16,7 @@ const AddButton = ({ id,amountOfTickets, active, submitHandler }) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    active: state.cart.cartMap.has(ownProps.id),
-    // amountOfTickets:state.cart.cartMap.get(ownProps.id)
+    active: state.cart.cartMap.has(ownProps.id),    
 });
 const mapDispatchToProps = dispatch => (
     {

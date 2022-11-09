@@ -1,9 +1,7 @@
 import store from "../Store/store";
 import actionsCreator from "../Store/ActionsCreators/actionCreator";
 
-export const getCurrentLocation =  () => {
-    
+export const getCurrentLocation = () => {
     let location = window.location.origin;
-    
-        store.dispatch(actionsCreator.setOriginLocation(location));    
+    store.dispatch(actionsCreator.setOriginLocation(location));
 }

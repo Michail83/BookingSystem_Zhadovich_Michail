@@ -3,9 +3,7 @@ import React from "react";
 import ArtEventView from "../ArtEventView/ArtEventView";
 import AdminArtEventButtonBlock from "./AdminArtEventButtonBlock"; 
 
-
-function AdminArtEventView(props) { 
-    
+function AdminArtEventView(props) {     
     let newProps ={...props,buttonBlock: AdminArtEventButtonBlock } 
 
     return (

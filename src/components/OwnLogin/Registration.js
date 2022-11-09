@@ -5,8 +5,7 @@ import axios from "axios";
 import urls from "../../API_URL"
 import styled from "styled-components";
 
-const LabelBlock = styled.div`
-    
+const LabelBlock = styled.div`    
     margin-bottom: 0.3rem;
     align-self:center;
 `;
@@ -23,17 +22,12 @@ const MainBlock = styled.div`
     border: 1px solid lightskyblue;
     border-radius: 3px;
     padding:1vh;
-
 `;
 
 const Input = styled.input`    
     display: block;
     width: 100%;
-    box-sizing: border-box;
-    &:hover{
-        /* box-shadow: 0px 0px 4px 2px rgba(34, 60, 80, 0.43); */
-    }
-    
+    box-sizing: border-box; 
 
 `;
 const Label = styled.label`
@@ -41,15 +35,11 @@ const Label = styled.label`
     width:100%;
 `;
 
-
 const Registration = () => {
-
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");    
+    const [password, setPassword] = useState("");
     const [resultMessage, SetResultMessage] = useState([]);
-
-    let navigate = useNavigate();
 
     const clearForm = () => {
         setUserName("");
@@ -57,11 +47,9 @@ const Registration = () => {
         setPassword("");
     }
 
-
     const submitHandler = async (event) => {
         event.preventDefault();
         try {
-
             let result = await axios.post(urls.register(), {
                 userName: userName,
                 email: email,
@@ -69,7 +57,6 @@ const Registration = () => {
             });
             SetResultMessage(<li> Confirmation link was sended to your email. Please, go and click it </li>);
             clearForm();
-            // navigate("/");
 
         } catch (error) {
 
@@ -78,7 +65,6 @@ const Registration = () => {
                     setPassword("");
 
                     let data = error.response.data;
-
                     let errorsList = data.map((item, index) => {
                         return (<li key={index}>{item.description} </li>)
                     });
@@ -96,23 +82,21 @@ const Registration = () => {
     return (
         <MainBlock>
             <form onSubmit={submitHandler}>
-                <LabelBlock>                   
-                        <Label>Name</Label>
-                        <Input type="text" required value={userName} onChange={(event) => setUserName(event.target.value)} />
-                    </LabelBlock>
+                <LabelBlock>
+                    <Label>Name</Label>
+                    <Input type="text" required value={userName} onChange={(event) => setUserName(event.target.value)} />
+                </LabelBlock>
+
+                <LabelBlock>
+                    <Label>Email</Label>
+                    <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
+                </LabelBlock>
+
+                <LabelBlock>
+                    <Label>Password</Label>
+                    <Input type="password" id="password" value={password} required minLength={4} onChange={(event) => setPassword(event.target.value)} />
+                </LabelBlock>
                 
-
-                <LabelBlock>                    
-                        <Label>Email</Label>
-                        <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
-                    
-                </LabelBlock>
-
-                <LabelBlock>                    
-                        <Label>Password</Label>
-                        <Input type="password" id="password" value={password} required minLength={4} onChange={(event) => setPassword(event.target.value)} />
-                   
-                </LabelBlock>
                 <button type="submit"> Register</button>
             </form>
             <ul>

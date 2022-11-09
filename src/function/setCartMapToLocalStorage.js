@@ -7,8 +7,4 @@ export const setCartMapToLocalStorage = (cartMap) => {
     } else {
         localStorage.removeItem(keys.localStorage_cartMap);
     }
-
-    
-
 }
- 

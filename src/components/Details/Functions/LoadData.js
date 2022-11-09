@@ -7,7 +7,7 @@ const loadData = async (url, setStateValue)=>{
     } catch (error) {
         console.log(error);
     } finally {
-        // tnd jf loading7
+        
     }
 };
 export default loadData;

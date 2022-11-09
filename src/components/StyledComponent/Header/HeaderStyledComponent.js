@@ -4,10 +4,8 @@ export const BaseNavBarItem = styled.div`
     margin: 5px;
     padding: 2px;
     border: 0px solid black;
-    border-radius: 3px;
-    
+    border-radius: 3px;    
 `;
-
 export const NavBarItem = styled(BaseNavBarItem)`
     width: 13%;
     cursor: pointer; 

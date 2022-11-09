@@ -4,7 +4,6 @@ import axios from "axios";
 import actionsCreator from "../Store/ActionsCreators/actionCreator"; 
 import {initialAuth} from "../Store/initialState"
 
-
 export const tryLoadAuthData = async () => {
     let auth;
     try {
