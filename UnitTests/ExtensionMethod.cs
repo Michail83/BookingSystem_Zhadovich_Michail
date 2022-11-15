@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BookingSystem.BusinessLogic.Services;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.DataLayer.EntityModels;
-using BookingSystem.BusinessLogic.Interfaces;
-
 using BookingSystem.WEB.Models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -18,6 +13,15 @@ namespace UnitTests
 
         public static bool IsEqual(this ArtEventBL artEventBL, ArtEventBL anotherArtEventBL)
         {
+            if (artEventBL == null && anotherArtEventBL == null)
+            {
+                return true;
+            }
+            if (artEventBL == null || anotherArtEventBL == null)
+            {
+                return false;
+            }
+
             if (artEventBL.GetType().ToString().Equals(anotherArtEventBL.GetType().ToString()) &&
                 artEventBL.Id == anotherArtEventBL.Id &&
                 artEventBL.EventName == anotherArtEventBL.EventName &&
@@ -47,7 +51,15 @@ namespace UnitTests
         }
         public static bool IsEqual(this ArtEventViewModel artEventBL, ArtEventViewModel anotherArtEvent)
         {
-            if (artEventBL.TypeOfArtEvent== anotherArtEvent.TypeOfArtEvent &&
+            if (artEventBL == null && anotherArtEvent == null)
+            {
+                return true;
+            }
+            if (artEventBL == null || anotherArtEvent == null)
+            {
+                return false;
+            }
+            if (artEventBL.TypeOfArtEvent == anotherArtEvent.TypeOfArtEvent &&
                 artEventBL.Id == anotherArtEvent.Id &&
                 artEventBL.EventName == anotherArtEvent.EventName &&
                 artEventBL.AmountOfTickets == anotherArtEvent.AmountOfTickets &&
@@ -55,7 +67,7 @@ namespace UnitTests
                 artEventBL.EventName == anotherArtEvent.EventName &&
                 artEventBL.Latitude == anotherArtEvent.Latitude &&
                 artEventBL.Longitude == anotherArtEvent.Longitude &&
-                artEventBL.Place == anotherArtEvent.Place&&
+                artEventBL.Place == anotherArtEvent.Place &&
                 artEventBL.AdditionalInfo.SequenceEqual(anotherArtEvent.AdditionalInfo)
                  )
             {
@@ -66,6 +78,16 @@ namespace UnitTests
 
         public static bool IsEqual(this ArtEvent artEventBL, ArtEvent anotherArtEvent)
         {
+            if (artEventBL == null && anotherArtEvent == null)
+            {
+                return true;
+            }
+            if (artEventBL == null || anotherArtEvent == null)
+            {
+                return false;
+            }
+
+
             if (artEventBL.GetType().ToString().Equals(anotherArtEvent.GetType().ToString()) &&
                 artEventBL.Id == anotherArtEvent.Id &&
                 artEventBL.EventName == anotherArtEvent.EventName &&
@@ -94,5 +116,145 @@ namespace UnitTests
             return false;
         }
 
+        public static bool IsEqual(this CartWithQuantityBL cartWithQuantityBL, CartWithQuantityBL anotherCartWithQuantityBL)
+        {
+            if (cartWithQuantityBL.Quantity == anotherCartWithQuantityBL.Quantity &&
+                cartWithQuantityBL.ArtEventBL.IsEqual(anotherCartWithQuantityBL.ArtEventBL)
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool IsEqual(this OrderBL orderBl, OrderBL anotherOrderBL)
+        {
+            if (orderBl == null && anotherOrderBL == null)
+            {
+                return true;
+            }
+            if (orderBl == null || anotherOrderBL == null)
+            {
+                return false;
+            }
+            if (
+                orderBl.Id == anotherOrderBL.Id
+                && orderBl.ListOfReservedEventTickets.SequenceEqual(anotherOrderBL.ListOfReservedEventTickets, new CartWithQuantityComparer())
+                && orderBl.TimeOfCreation == anotherOrderBL.TimeOfCreation
+                && orderBl.UserEmail == anotherOrderBL.UserEmail
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool IsEqual(this OrderViewModel orderViewModel, OrderViewModel anotherOrderViewModel)
+        {
+            if (orderViewModel == null && anotherOrderViewModel == null)
+            {
+                return true;
+            }
+            if (orderViewModel == null || anotherOrderViewModel == null)
+            {
+                return false;
+            }
+            if (
+                orderViewModel.Id == anotherOrderViewModel.Id
+                && orderViewModel.ListOfReservedEventTickets.SequenceEqual(anotherOrderViewModel.ListOfReservedEventTickets, new OrderViewModelComparer())
+                && orderViewModel.TimeOfCreation == anotherOrderViewModel.TimeOfCreation
+                && orderViewModel.UserEmail == anotherOrderViewModel.UserEmail
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool IsEqual(this Order order, Order anotherOrder)
+        {
+            if (order == null && anotherOrder == null)
+            {
+                return true;
+            }
+            if (order == null || anotherOrder == null)
+            {
+                return false;
+            }
+            if (
+                order.Id == anotherOrder.Id
+                && order.TimeOfCreation == anotherOrder.TimeOfCreation
+                && order.UserEmail == anotherOrder.UserEmail
+                && order.OrderAndArtEvents.SequenceEqual(anotherOrder.OrderAndArtEvents, new OrderAndArtEventComparer())
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool IsEqual(this OrderAndArtEvent orderAndArtEvent, OrderAndArtEvent anotherOrderAndArtEvent)
+        {
+            if (orderAndArtEvent == null && anotherOrderAndArtEvent == null)
+            {
+                return true;
+            }
+            if (orderAndArtEvent == null || anotherOrderAndArtEvent == null)
+            {
+                return false;
+            }
+            if (
+                orderAndArtEvent.NumberOfBookedTicket == anotherOrderAndArtEvent.NumberOfBookedTicket
+                && orderAndArtEvent.ArtEvent.IsEqual(anotherOrderAndArtEvent.ArtEvent)
+                && orderAndArtEvent.OrderId == anotherOrderAndArtEvent.OrderId
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool IsEqual(this CartWithQuantityViewModel cartWithQuantityViewModel,
+            CartWithQuantityViewModel anothercartWithQuantityViewModel)
+        {
+            if (cartWithQuantityViewModel.Quantity == anothercartWithQuantityViewModel.Quantity &&
+                cartWithQuantityViewModel.ArtEventViewModel.IsEqual(anothercartWithQuantityViewModel.ArtEventViewModel)
+                )
+            {
+                return true;
+            }
+            return false;
+        }
     }
+    public class CartWithQuantityComparer : IEqualityComparer<CartWithQuantityBL>
+    {
+        public bool Equals(CartWithQuantityBL x, CartWithQuantityBL y)
+        {
+            return x.IsEqual(y);
+        }
+        public int GetHashCode([DisallowNull] CartWithQuantityBL obj)
+        {
+            return obj.Quantity.GetHashCode();
+        }
+    }
+    public class OrderAndArtEventComparer : IEqualityComparer<OrderAndArtEvent>
+    {
+        public bool Equals(OrderAndArtEvent x, OrderAndArtEvent y)
+        {
+            return x.IsEqual(y);
+        }
+        public int GetHashCode([DisallowNull] OrderAndArtEvent obj)
+        {
+            return obj.NumberOfBookedTicket.GetHashCode();
+        }
+    }
+    public class OrderViewModelComparer : IEqualityComparer<CartWithQuantityViewModel>
+    {
+        public bool Equals(CartWithQuantityViewModel x, CartWithQuantityViewModel y)
+        {
+
+            return x.IsEqual(y);
+        }
+        public int GetHashCode([DisallowNull] CartWithQuantityViewModel obj)
+        {
+            return obj.Quantity.GetHashCode();
+        }
+    }
+
+
 }

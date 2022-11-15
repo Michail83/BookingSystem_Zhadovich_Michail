@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using BookingSystem.Infrastructure.IdentityDBContext;
+using BookingSystem.Infrastructure.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-
-
-using Microsoft.AspNetCore.Authentication.Google;
-using BookingSystem.Infrastructure.Models;
-using BookingSystem.Infrastructure.Interfaces;
-using BookingSystem.Infrastructure.Services;
-using BookingSystem.Infrastructure.IdentityDBContext;
+using System;
+using System.Threading.Tasks;
 
 namespace BookingSystem.Infrastructure
 {
@@ -24,7 +17,8 @@ namespace BookingSystem.Infrastructure
         {
 
 
-            services.AddDbContext<AppIdentityContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("identityLocalConnection")));
+            //services.AddDbContext<AppIdentityContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("identityLocalConnection")));
+            services.AddDbContext<AppIdentityContext>(opt => opt.UseInMemoryDatabase("identityLocalConnection"));
 
             services.AddIdentity<User, IdentityRole>(options =>
                     {
@@ -35,24 +29,28 @@ namespace BookingSystem.Infrastructure
 
                         options.SignIn.RequireConfirmedEmail = true;
                         options.User.RequireUniqueEmail = true;
+                        options.User.AllowedUserNameCharacters = null;
                     })
                     .AddEntityFrameworkStores<AppIdentityContext>()
                     .AddDefaultTokenProviders();
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromHours(12);
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
 
+                options.SlidingExpiration = true;
 
-            //services.AddAuthentication(options =>
-            //    {
-            //        options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
-            //        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            //    })
-            //    .AddGoogle(options =>
-            //    {
-            //        options.ClientId = "888637803632-1f5fpip1a2dpfimfdj0nfaojeb20m4rd.apps.googleusercontent.com";
-            //        options.ClientSecret = "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";
-            //    });
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
 
-            services.AddScoped<IJWTTokenProvider, JwtService>();
-
+            });
             return services;
         }
 

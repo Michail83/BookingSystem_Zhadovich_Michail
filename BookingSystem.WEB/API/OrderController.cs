@@ -1,13 +1,11 @@
-﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.BusinessLogic.Interfaces;
+﻿using AutoMapper;
+using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Services;
+using BookingSystem.Infrastructure.Models.Result;
 using BookingSystem.WEB.Models;
-using BookingSystem.WEB.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -21,36 +19,56 @@ namespace BookingSystem.WEB.API
     public class OrderController : ControllerBase
     {
         OrderBLService _orderBLService;
-        //string currentUsersEmail;
-        MapperOrderBLtoViewModel mapperOrderBLtoViewModel;
+        IMapper _mapper;
 
-        public OrderController(OrderBLService orderBLService, IMapper<ArtEventBL, ArtEventViewModel> artMapper)
+        public OrderController(
+            OrderBLService orderBLService,
+            IMapper order
+            )
         {
             _orderBLService = orderBLService;
-            mapperOrderBLtoViewModel = new MapperOrderBLtoViewModel(artMapper);
+            _mapper = order;
         }
+
+        [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromQuery] int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
-            var orderBl = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
-            return Ok(orderBl);
+            var result = await _orderBLService.GetAsync(id, GetCurrentUserEmail());
+            if (result.Success)
+            {
+                var orderViewModel = _mapper.Map<OrderViewModel>(result.Data);
+                return Ok(orderViewModel);
+            }            
+            
+            return BadRequest(((ErrorResult<OrderBL>)result).Errors);
         }
+
+        [Authorize]
         [Route("GetAsync")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var resultBL = await _orderBLService.GetAllAsync(GetCurrentUserEmail());
-            var resultViewModel = mapperOrderBLtoViewModel.Map(resultBL);
+
+            var resultViewModel = await GetOrdersAsync(GetCurrentUserEmail());
             return Ok(resultViewModel);
         }
 
+        [Authorize(Roles = "admin")]
+        [Route("GetOrdersForAdminAsync")]
+        [HttpGet]
+        public async Task<IActionResult> GetOrdersForAdminAsync(string email)
+        {
+            var resultViewModel = await GetOrdersAsync(email);
+            return Ok(resultViewModel);
+        } 
 
+        [Authorize]
         [Route("Create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] IEnumerable<OrderData> orderData)
+        public async Task<IActionResult> Create([FromBody] IEnumerable<IncomingOrderViewModel> orderData)
         {
-            //string currentUsersEmail = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-            if (orderData.Count() == 0)
+            if (!orderData.Any())
             {
                 return BadRequest("No orderData");
             }
@@ -60,13 +78,30 @@ namespace BookingSystem.WEB.API
                 cartWithQuantityBLs.Add(new CartWithQuantityBL { Quantity = ord.Quantity, ArtEventBL = new ArtEventBL { Id = ord.EventId } });
             }
             OrderBL orderBL = new OrderBL { UserEmail = GetCurrentUserEmail(), ListOfReservedEventTickets = cartWithQuantityBLs, TimeOfCreation = System.DateTime.Now };
-            await _orderBLService.CreateAsync(orderBL);
-
-            return Ok();
+           
+            var result =  await _orderBLService.CreateAsync(orderBL);
+            if (result.Success)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
+
         private string GetCurrentUserEmail()
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.Email);
+        }
+
+        private async Task<List<OrderViewModel>> GetOrdersAsync(string email)
+        {
+            var resultBL = await _orderBLService.GetAllAsync(email);
+            if (resultBL.Success)
+            {
+                var resultViewModel = new List<OrderViewModel>();
+                resultViewModel.AddRange(_mapper.Map<IEnumerable<OrderViewModel>>(resultBL.Data));
+                return resultViewModel;
+            }
+            return null;
         }
     }
 }

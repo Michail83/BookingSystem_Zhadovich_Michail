@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using BookingSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using BookingSystem.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingSystem.Infrastructure.IdentityDBContext
@@ -14,5 +8,9 @@ namespace BookingSystem.Infrastructure.IdentityDBContext
     {
         public AppIdentityContext(DbContextOptions<AppIdentityContext> options) : base(options)
         { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

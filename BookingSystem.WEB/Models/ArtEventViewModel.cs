@@ -7,11 +7,13 @@ namespace BookingSystem.WEB.Models
         public int Id { get; set; }
         public string EventName { get; set; }
         public int AmountOfTickets { get; set; }
+        public decimal Price { get; set; }
         public DateTime Date { get; set; }
         public string Place { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public string TypeOfArtEvent { get; set; }
-        public string[] AdditionalInfo { get; set; }
+        public string[] AdditionalInfo { get; set; }        
+        public string Image { get; set; }
     }
 }

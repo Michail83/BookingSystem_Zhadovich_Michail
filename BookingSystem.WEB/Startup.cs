@@ -1,28 +1,29 @@
-
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SpaServices;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.IdentityModel.Tokens;
-
 using BookingSystem.BusinessLogic;
 using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.WEB.Services;
-using BookingSystem.WEB.Models;
+using BookingSystem.BusinessLogic.Services.AutoMapper;
+using BookingSystem.BusinessLogic.Services.Paypal;
 
-using BookingSystem.Infrastructure.JWT;
 using BookingSystem.Infrastructure;
+using BookingSystem.Infrastructure.Models;
+using BookingSystem.WEB.Models;
+using BookingSystem.WEB.Services;
+using BookingSystem.WEB.Services.AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB
 {
@@ -34,91 +35,117 @@ namespace BookingSystem.WEB
         }
 
         public IConfiguration Configuration { get; }
-                
+        private Task MakeHttps(RedirectContext<OAuthOptions> arg)
+        {
+            if (!arg.RedirectUri.Contains("redirect_uri=https", StringComparison.OrdinalIgnoreCase))
+            {
+                arg.RedirectUri = arg.RedirectUri.Replace("redirect_uri=http", "redirect_uri=https", StringComparison.OrdinalIgnoreCase);
+            }
+
+            arg.HttpContext.Response.Redirect(arg.RedirectUri);
+
+            return Task.CompletedTask;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(BysinessLayerAutoMapperProfile), typeof(WebAutoMapperProfile));
             services.Configure<BusinessLogic.Services.MailService.MailSettings>(Configuration.GetSection("MailSettings"));
 
-            services.ADDInfrastructureServices(Configuration);            
-            services.AddAuthentication()
-                .AddGoogle("google",options => 
-                {
-                    var authData = Configuration.GetSection("Authentication:Google");
+            services.Configure<RequestLocalizationOptions>((options) => 
+            {
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") };
+            });
 
-                    options.ClientId = authData ["ClientId"];
-                    options.ClientSecret = authData["ClientSecret"];
-                    options.SignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddFacebook("facebook", options=>
+            services.ADDInfrastructureServices(Configuration);
+            
+            services.AddAuthentication()
+                .AddGoogle("google", options =>
+                 {
+                     var authData = Configuration.GetSection("Authentication:Google");
+
+                     options.ClientId = authData["ClientId"];
+                     options.ClientSecret = authData["ClientSecret"];
+                     options.SignInScheme = IdentityConstants.ExternalScheme;
+                     options.CallbackPath = new PathString("/signin-rnuto45");
+
+                     //options.Events.OnRedirectToAuthorizationEndpoint = MakeHttps;
+                     
+                 })
+                .AddFacebook("facebook", options =>
                 {
                     var authData = Configuration.GetSection("Authentication:Facebook");
 
                     options.ClientId = authData["ClientId"];
                     options.ClientSecret = authData["ClientSecret"];
-                    options.SignInScheme = IdentityConstants.ExternalScheme;                             
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                    options.CallbackPath = new PathString("/signin-hfuema");
                 });
 
             services.AddControllersWithViews();
 
-            services.AddBusinessLayerAndDataLayerServices(Configuration);            
-
-            services.AddScoped<IMapper<ArtEventBL, ArtEventViewModel>, MapperFromArtEventBLToArtEventViewModel>();
+            services.AddBusinessLayerAndDataLayerServices(Configuration);
+            
+            services.AddSingleton<PayPalAuthService>();
+            services.AddScoped<PayPalService>();           
 
             services.AddMemoryCache();
 
-            services.AddCors(options => 
+            services.AddCors(options =>
             {
-                options.AddPolicy("LocalForDevelopment", builder =>
-                {
-                    builder.WithOrigins("https://localhost:44324");
-                });                
+                //options.AddPolicy("LocalForDevelopment", builder =>
+                //{
+                //    builder.WithOrigins("https://localhost:44324");
+                //});
                 options.AddPolicy("LocalForDevelopmentAllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()  /* WithOrigins("http://localhost:3000")   */   
-                    //.AllowCredentials()
+                    builder.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
-                    });
+                });
             });
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "../build";
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {           
+            
+            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //app.UseExceptionHandler("/Home/Error");
+
                 app.UseHsts();
             }
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "../";
 
                 if (env.IsDevelopment())
                 {
@@ -128,3 +155,4 @@ namespace BookingSystem.WEB
         }
     }
 }
+

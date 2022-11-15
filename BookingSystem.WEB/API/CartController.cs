@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
-using BookingSystem.BusinessLogic.Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
+using BookingSystem.BusinessLogic.Services;
 using BookingSystem.WEB.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BookingSystem.WEB.API
 {
@@ -16,34 +16,29 @@ namespace BookingSystem.WEB.API
     public class CartController : ControllerBase
     {
         CheckCartItemService _checkCartItemService;
-        IMapper<ArtEventBL, ArtEventViewModel> _mapperToViewModel;
-        public CartController(CheckCartItemService checkCartItemService, IMapper<ArtEventBL, ArtEventViewModel> mapperToViewModel )
+        IMapper _mapper;
+        public CartController(CheckCartItemService checkCartItemService, IMapper mapper)
         {
             _checkCartItemService = checkCartItemService;
-            _mapperToViewModel = mapperToViewModel;
+            _mapper = mapper;
         }
-
-        //[Route("CheckCartItem")]
-        [HttpGet]
-        public async Task<ActionResult<CheckCartResult>> CheckCartItem([FromQuery]CartItem cartItem) 
-        {
-            var result = await _checkCartItemService.CheckCartItem(cartItem);
-            return Ok(result);
-        }
+        
+        //[HttpGet]
+        //public async Task<ActionResult<CheckCartResult>> CheckCartItem([FromQuery] CartItem cartItem)
+        //{
+        //    var result = await _checkCartItemService.CheckCartItem(cartItem);
+        //    return Ok(result);
+        //}
 
 
         [Route(nameof(GetCurrentListOfArtEvent))]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery]IEnumerable<int> id) 
+        public async Task<ActionResult<IEnumerable<ArtEventViewModel>>> GetCurrentListOfArtEvent([FromQuery] IEnumerable<int> ids)
         {
-
-            var listOfArtEvents = await _checkCartItemService.GetListOfArtEventsForReactCart(id);
-            List<ArtEventViewModel> listOfArtEventsForReactCart = new();
-            foreach (var artEventBL in listOfArtEvents)
-            {
-                listOfArtEventsForReactCart.Add(_mapperToViewModel.Map(artEventBL));
-
-            }
+            var listOfArtEvents = await _checkCartItemService.GetListOfArtEventsForReactCart(ids);
+            
+            IEnumerable<ArtEventViewModel> listOfArtEventsForReactCart = _mapper.Map<IEnumerable<ArtEventViewModel>>(listOfArtEvents);
+            
             return Ok(listOfArtEventsForReactCart);
         }
     }

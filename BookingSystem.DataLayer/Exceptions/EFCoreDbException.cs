@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookingSystem.DataLayer.Exceptions
 {
     [Serializable]
-    public  class  EFCoreDbException : Exception
+    public class EFCoreDbException : Exception
     {
         public EFCoreDbException() { }
         public EFCoreDbException(string message) : base(message) { }

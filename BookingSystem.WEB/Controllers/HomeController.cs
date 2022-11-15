@@ -1,16 +1,9 @@
-﻿using BookingSystem.WEB.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookingSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BookingSystem.WEB.Controllers
 {
@@ -18,30 +11,30 @@ namespace BookingSystem.WEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
-        [Route("index")]
-        public  IActionResult Index()
-        {
-            //var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //return Ok($"{result.Succeeded }+ {User.Identity.IsAuthenticated}  +{User.Identity.Name}");
-            ViewBag.name = HttpContext.User.Identity.Name;
-            return View();
-        }
+        [Route("resetpassword")]
+        [HttpGet]
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> ResetPassword(string token, string email)
         {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.NormalizedEmail == email.ToUpper());
+            if (user != null)
+            {
+                if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, UserManager<User>.ResetPasswordTokenPurpose, token))
+                {
+                    ViewBag.email = user.Email;
+                    return View();
+                }
+            }
+            return BadRequest();
         }
     }
 }

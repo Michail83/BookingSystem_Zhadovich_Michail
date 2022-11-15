@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.BusinessLogic.Interfaces;
-using BookingSystem.BusinessLogic.BusinesLogicModels;
 using BookingSystem.DataLayer.EntityModels;
+using System;
+using System.Linq;
 
 namespace BookingSystem.BusinessLogic.Services
 {
@@ -19,7 +16,7 @@ namespace BookingSystem.BusinessLogic.Services
             switch (filter)
             {
                 case "classicmusic":
-                    result= result.OfType<ClassicMusic>();
+                    result = result.OfType<ClassicMusic>();
                     break;
                 case "openair":
                     result = result.OfType<OpenAir>();
@@ -32,7 +29,7 @@ namespace BookingSystem.BusinessLogic.Services
             }
             if (!String.IsNullOrEmpty(pagesState?.NameForFilter))
             {
-                result = result.Where(artEvent => artEvent.EventName.Contains(pagesState.NameForFilter));
+                result = result.Where(artEvent => artEvent.EventName.Contains(pagesState.NameForFilter.Trim(), StringComparison.InvariantCultureIgnoreCase));
             }
             return result;
         }
