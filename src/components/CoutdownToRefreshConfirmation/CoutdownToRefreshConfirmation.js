@@ -26,10 +26,10 @@ const CoutdownToRefreshConfirmation = ({ email }) => {
             toRender = <span>error... </span>
         }
     } else {
-        toRender = <Fragment>
+        toRender = <>
             <p>This account is not confirmed</p>
             <p>Do you want to send another email with confirmation link?<BlueButton onClick={tryRefreshConfirmation}>Yes</BlueButton></p>;
-        </Fragment>         
+        </>         
     }
 
     return (       
